@@ -1,5 +1,5 @@
 {
-  "tokenizer_fixture": "tokenization.json",
+  "tokenizer_cases": "tests/fixtures/cases/tokenizer_cases.json",
   "documents": {
     "r001": ["great", "pizza", "friendly", "service"],
     "r002": ["bad", "service", "cold", "burger"],

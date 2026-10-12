@@ -32,13 +32,13 @@
   <rect width="1600" height="1320" fill="#F4F1EA"/>
   <rect width="1600" height="1320" fill="url(#grid)"/>
 
-  <text x="80" y="64" class="sans eyebrow muted">AI6122 · DEPENDENCY MAP · SEPTEMBER 2026</text>
+  <text x="80" y="64" class="sans eyebrow muted">AI6122 · DEPENDENCY MAP</text>
   <text x="80" y="131" class="serif title ink">Parallel, but contract-led.</text>
   <text x="80" y="169" class="sans subtitle muted">One shared data contract lets three pairs move independently without creating a serial hand-off.</text>
 
   <rect x="80" y="205" width="1440" height="92" fill="#1E1E1B"/>
   <text x="112" y="239" class="mono node-id" fill="#F4F1EA">00 / SHARED START</text>
-  <text x="112" y="272" class="sans node-title" fill="#FFFFFF">Freeze schema, fixture, configuration keys, artifact names and acceptance checks</text>
+  <text x="112" y="272" class="sans node-title" fill="#FFFFFF">Confirm schema, fixture, configuration keys, artifact names and acceptance checks</text>
   <text x="1488" y="260" text-anchor="end" class="mono ref" fill="#BDB8AF">UNBLOCKS ALL GROUPS</text>
 
   <path d="M800 297 V329 H455 V352" class="line"/>

@@ -1,52 +1,46 @@
 # Synthetic test fixtures
 
-Everything in this directory is invented for this project. No record or text was
-copied from Yelp. These small files are safe to commit and are intended to let
-the three responsibility groups develop in parallel before the full pipeline is
-available.
+Everything in this directory is invented for development and testing. It does
+not contain Yelp review text.
 
 ## Layout
 
 ```text
 fixtures/
 ├── fixture.toml
-├── raw/
-│   ├── businesses.jsonl
-│   └── reviews.jsonl
-└── expected/
-    ├── prepared_reviews.jsonl
-    ├── tokenization.json
-    ├── postings.json
-    ├── ranking_cases.json
-    ├── sentiment_cases.json
-    ├── pmi_cases.json
-    └── comparison_cases.json
+├── raw/          # Small source inputs
+├── handoffs/     # Schema-valid stand-ins for an unfinished upstream module
+├── oracles/      # Exact results that can be calculated by hand
+└── cases/        # Required edge cases or manually assigned labels
 ```
 
-The raw files deliberately resemble only the subset of Yelp fields used by the
-project. They contain five businesses, twenty valid reviews, and one review
-(`r999`) whose business does not exist. Preparation should report and exclude
-that orphan. Business `review_count` values describe the valid synthetic reviews.
+## What each kind of fixture means
 
-`prepared_reviews.jsonl` is the expected inner join. Category normalization for
-this fixture means splitting the raw comma-separated value, trimming whitespace,
-and preserving category spelling and case.
+- `raw/` contains the smallest input dataset needed to exercise the pipeline.
+- `handoffs/prepared_reviews.jsonl` is a virtual implementation of Group A's
+  prepared-review output. It lets downstream groups start early, but it is not
+  ground truth and does not describe every behavior of the real pipeline.
+- `oracles/` contains exact expectations for fixed mathematics and invariants:
+  postings, TF-IDF/BM25 ranking, and PMI. These values should be independently
+  hand-checkable.
+- `cases/` contains selected behavior examples. Tokenizer cases define required
+  edge behavior; sentiment and comparison cases are small manually labeled
+  sanity checks. They are not evidence for corpus-level conclusions.
 
-## Fixed policies for expected outputs
+## Fixed oracle policies
 
-- The tokenizer lowercases text, preserves contractions and emoji, splits
-  hyphenated words, drops punctuation, and retains Unicode words and numbers.
-- `postings.json` indexes reviews `r001` through `r004`; positions are zero-based.
+- Posting positions are zero-based.
 - TF-IDF uses raw term frequency, `ln(N / df)`, and cosine similarity.
-- BM25 uses `k1 = 1.5`, `b = 0.75`, and
-  `ln(1 + (N - df + 0.5) / (df + 0.5))`.
-- PMI uses natural logarithms and binary term presence within one document:
-  `ln(cooccurrence * N / (df(target) * df(term)))`.
-- Sentiment fixtures assert only clear positive/negative/neutral labels because
-  exact VADER floating-point scores are library-data dependent.
-- Comparison labels distinguish cross-business comparisons from changes over
-  time at the same business.
+- BM25 uses the `k1` and `b` values in `fixture.toml`.
+- PMI uses natural logarithms and binary document-level co-occurrence.
 
-If the team intentionally changes one of these policies, update the relevant
-fixture, its tests, and `docs/TEAM_WORKFLOW.md` in the same pull request. Do not
-quietly change expected values just to make a failing implementation pass.
+## Rules of use
+
+Use fixtures to verify interfaces, formulas, invariants, and failure handling.
+Do not tune empirical decisions such as stopwords, stemming, phrase rules,
+frequency thresholds, or visualization scales against this tiny corpus. Those
+choices must be checked on a reproducible sample of the real Yelp data.
+
+When the real provider is ready, consumers should only switch configuration
+from the handoff path to the produced-data path. They should not need to change
+function signatures or duplicate upstream logic.

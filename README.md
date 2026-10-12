@@ -54,8 +54,8 @@ tests. Unit tests should call domain functions directly with `pytest`; CLI
 integration tests should invoke these real command paths rather than a
 test-specific entry point. Full runs use `configs/full.toml` instead.
 
-The fixture schema, policies, and hand-calculated expected outputs are described
-in `tests/fixtures/README.md`.
+Fixture handoffs, mathematical oracles, and labeled cases are described in
+`tests/fixtures/README.md`.
 
 ## Notebooks
 

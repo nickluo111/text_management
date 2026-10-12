@@ -1,4 +1,4 @@
-"""Validate the synthetic cross-team fixtures and hand-calculated outputs."""
+"""Validate synthetic handoffs, mathematical oracles, and labeled cases."""
 
 from __future__ import annotations
 
@@ -15,7 +15,9 @@ import pytest
 
 FIXTURES = Path(__file__).parent / "fixtures"
 RAW = FIXTURES / "raw"
-EXPECTED = FIXTURES / "expected"
+HANDOFFS = FIXTURES / "handoffs"
+ORACLES = FIXTURES / "oracles"
+CASES = FIXTURES / "cases"
 
 
 def load_json(path: Path) -> dict:
@@ -44,7 +46,7 @@ def test_fixture_configuration_points_to_committed_inputs() -> None:
 def test_raw_and_prepared_fixture_contract() -> None:
     businesses = load_jsonl(RAW / "businesses.jsonl")
     reviews = load_jsonl(RAW / "reviews.jsonl")
-    prepared = load_jsonl(EXPECTED / "prepared_reviews.jsonl")
+    prepared = load_jsonl(HANDOFFS / "prepared_reviews.jsonl")
 
     assert len(businesses) == 5
     assert len(reviews) == 21
@@ -76,7 +78,7 @@ def test_raw_and_prepared_fixture_contract() -> None:
 
 
 def test_tokenizer_fixture_has_unique_cases() -> None:
-    fixture = load_json(EXPECTED / "tokenization.json")
+    fixture = load_json(CASES / "tokenizer_cases.json")
     cases = fixture["cases"]
     assert len({case["id"] for case in cases}) == len(cases)
     assert all(isinstance(case["text"], str) for case in cases)
@@ -91,7 +93,7 @@ def test_tokenizer_fixture_has_unique_cases() -> None:
 
 
 def test_postings_are_consistent_with_fixture_documents() -> None:
-    fixture = load_json(EXPECTED / "postings.json")
+    fixture = load_json(ORACLES / "postings.json")
     documents = fixture["documents"]
     lengths = {doc_id: len(tokens) for doc_id, tokens in documents.items()}
 
@@ -124,8 +126,8 @@ def test_postings_are_consistent_with_fixture_documents() -> None:
 
 
 def test_hand_calculated_ranking_scores() -> None:
-    corpus = load_json(EXPECTED / "postings.json")
-    fixture = load_json(EXPECTED / "ranking_cases.json")
+    corpus = load_json(ORACLES / "postings.json")
+    fixture = load_json(ORACLES / "ranking_cases.json")
     documents = corpus["documents"]
     query_terms = fixture["query"]["tokens"]
     document_count = corpus["document_count"]
@@ -192,7 +194,7 @@ def test_hand_calculated_ranking_scores() -> None:
 
 
 def test_hand_calculated_pmi_values() -> None:
-    fixture = load_json(EXPECTED / "pmi_cases.json")
+    fixture = load_json(ORACLES / "pmi_cases.json")
     target = fixture["target_term"]
     for period in fixture["periods"].values():
         documents = [set(tokens) for tokens in period["documents"]]
@@ -200,23 +202,23 @@ def test_hand_calculated_pmi_values() -> None:
         assert period["document_count"] == len(documents)
         assert period["target_document_frequency"] == target_df
 
-        for term, expected in period["associations"].items():
+        for term, oracle in period["associations"].items():
             term_df = sum(term in document for document in documents)
             cooccurrence = sum(
                 target in document and term in document for document in documents
             )
             pmi = math.log(cooccurrence * len(documents) / (target_df * term_df))
-            assert expected["term_document_frequency"] == term_df
-            assert expected["cooccurrence_count"] == cooccurrence
-            assert expected["pmi"] == pytest.approx(pmi)
+            assert oracle["term_document_frequency"] == term_df
+            assert oracle["cooccurrence_count"] == cooccurrence
+            assert oracle["pmi"] == pytest.approx(pmi)
 
 
 def test_labeled_cases_reference_the_raw_reviews() -> None:
     reviews = {
         item["review_id"]: item for item in load_jsonl(RAW / "reviews.jsonl")
     }
-    sentiment = load_json(EXPECTED / "sentiment_cases.json")["cases"]
-    comparisons = load_json(EXPECTED / "comparison_cases.json")["cases"]
+    sentiment = load_json(CASES / "sentiment_cases.json")["cases"]
+    comparisons = load_json(CASES / "comparison_cases.json")["cases"]
 
     for case in sentiment:
         assert reviews[case["review_id"]]["text"] == case["text"]
