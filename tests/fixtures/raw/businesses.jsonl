@@ -1,0 +1,5 @@
+{"business_id":"b_italian","name":"Pasta Point","city":"Fixtureville","state":"TS","stars":4.5,"review_count":4,"is_open":1,"categories":"Italian, Restaurants"}
+{"business_id":"b_fast","name":"Quick Burger","city":"Fixtureville","state":"TS","stars":3.0,"review_count":4,"is_open":1,"categories":"Burgers, Fast Food, Restaurants"}
+{"business_id":"b_cafe","name":"Moon Cafe","city":"Sampletown","state":"TS","stars":4.0,"review_count":4,"is_open":1,"categories":"Cafes, Coffee & Tea, Restaurants"}
+{"business_id":"b_fusion","name":"Olive Express","city":"Sampletown","state":"TS","stars":3.5,"review_count":4,"is_open":1,"categories":"Italian, Fast Food, Restaurants"}
+{"business_id":"b_books","name":"Quiet Books","city":"Fixtureville","state":"TS","stars":4.0,"review_count":4,"is_open":0,"categories":"Books, Shopping"}

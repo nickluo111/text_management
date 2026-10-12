@@ -1,0 +1,21 @@
+{"review_id":"r001","user_id":"u01","business_id":"b_italian","stars":5.0,"useful":1,"funny":0,"cool":1,"text":"Great pizza, friendly service!","date":"2021-01-15 12:00:00"}
+{"review_id":"r002","user_id":"u02","business_id":"b_fast","stars":1.0,"useful":2,"funny":0,"cool":0,"text":"Bad service; cold burger.","date":"2021-02-10 18:30:00"}
+{"review_id":"r003","user_id":"u03","business_id":"b_cafe","stars":5.0,"useful":0,"funny":0,"cool":1,"text":"Great coffee and quick service.","date":"2021-03-05 09:15:00"}
+{"review_id":"r004","user_id":"u04","business_id":"b_fusion","stars":2.0,"useful":1,"funny":0,"cool":0,"text":"Pizza pizza, but slow service.","date":"2021-04-20 13:45:00"}
+{"review_id":"r005","user_id":"u05","business_id":"b_italian","stars":4.0,"useful":1,"funny":0,"cool":1,"text":"I can't resist the kid-friendly menu 😊.","date":"2022-01-08 19:00:00"}
+{"review_id":"r006","user_id":"u06","business_id":"b_fast","stars":4.0,"useful":3,"funny":1,"cool":0,"text":"Quick Burger is cheaper than Pasta Point.","date":"2022-02-14 12:10:00"}
+{"review_id":"r007","user_id":"u07","business_id":"b_cafe","stars":3.0,"useful":1,"funny":0,"cool":0,"text":"Unlike Moon Cafe, the cafe next door is quieter.","date":"2022-03-18 10:20:00"}
+{"review_id":"r008","user_id":"u08","business_id":"b_fusion","stars":5.0,"useful":2,"funny":0,"cool":1,"text":"Olive Express is better than Quick Burger for lunch.","date":"2022-04-22 12:30:00"}
+{"review_id":"r009","user_id":"u09","business_id":"b_books","stars":3.0,"useful":0,"funny":0,"cool":0,"text":"The bookstore is on Main Street.","date":"2021-05-01 11:00:00"}
+{"review_id":"r010","user_id":"u10","business_id":"b_books","stars":5.0,"useful":1,"funny":0,"cool":1,"text":"Helpful staff and a calm reading room.","date":"2022-05-11 15:40:00"}
+{"review_id":"r011","user_id":"u11","business_id":"b_italian","stars":1.0,"useful":2,"funny":0,"cool":0,"text":"The pasta was awful and disappointing.","date":"2021-06-09 20:15:00"}
+{"review_id":"r012","user_id":"u12","business_id":"b_fast","stars":5.0,"useful":1,"funny":0,"cool":1,"text":"Fresh fries and fast, friendly service.","date":"2021-07-17 17:20:00"}
+{"review_id":"r013","user_id":"u13","business_id":"b_cafe","stars":5.0,"useful":1,"funny":0,"cool":1,"text":"I absolutely love the warm coffee and kind staff.","date":"2021-08-21 08:45:00"}
+{"review_id":"r014","user_id":"u14","business_id":"b_fusion","stars":1.0,"useful":1,"funny":0,"cool":0,"text":"Terrible wait and rude service.","date":"2021-09-13 14:00:00"}
+{"review_id":"r015","user_id":"u15","business_id":"b_books","stars":4.0,"useful":0,"funny":0,"cool":0,"text":"Café guides, travel books, and maps are upstairs.","date":"2021-10-30 16:25:00"}
+{"review_id":"r016","user_id":"u16","business_id":"b_italian","stars":4.0,"useful":0,"funny":0,"cool":0,"text":"The pizza was better today.","date":"2022-06-12 18:50:00"}
+{"review_id":"r017","user_id":"u17","business_id":"b_fast","stars":3.0,"useful":1,"funny":0,"cool":0,"text":"Service improved from last year.","date":"2022-07-04 13:10:00"}
+{"review_id":"r018","user_id":"u18","business_id":"b_cafe","stars":4.0,"useful":0,"funny":1,"cool":1,"text":"Room 101 costs $12.50, and the latte is good ☕.","date":"2022-08-19 09:30:00"}
+{"review_id":"r019","user_id":"u19","business_id":"b_fusion","stars":3.0,"useful":2,"funny":0,"cool":0,"text":"Good food but terrible service.","date":"2022-09-25 19:35:00"}
+{"review_id":"r020","user_id":"u20","business_id":"b_books","stars":4.0,"useful":0,"funny":0,"cool":0,"text":"Books, books, and more books.","date":"2022-10-07 14:55:00"}
+{"review_id":"r999","user_id":"u99","business_id":"b_missing","stars":2.0,"useful":0,"funny":0,"cool":0,"text":"This review has no matching business.","date":"2022-12-31 23:59:00"}

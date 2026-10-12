@@ -1,0 +1,31 @@
+{
+  "corpus_fixture": "postings.json",
+  "query": {
+    "text": "great pizza",
+    "tokens": ["great", "pizza"]
+  },
+  "tfidf": {
+    "tf": "raw_count",
+    "idf": "ln(N / df)",
+    "similarity": "cosine",
+    "scores": {
+      "r001": 0.5773502691896257,
+      "r002": 0.0,
+      "r003": 0.19611613513818407,
+      "r004": 0.40824829046386296
+    },
+    "ranked_nonzero_review_ids": ["r001", "r004", "r003"]
+  },
+  "bm25": {
+    "k1": 1.5,
+    "b": 0.75,
+    "idf": "ln(1 + (N - df + 0.5) / (df + 0.5))",
+    "scores": {
+      "r001": 1.4592572222314637,
+      "r002": 0.0,
+      "r003": 0.6601401719618526,
+      "r004": 0.9560650766344073
+    },
+    "ranked_nonzero_review_ids": ["r001", "r004", "r003"]
+  }
+}

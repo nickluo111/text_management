@@ -1,0 +1,40 @@
+{
+  "cases": [
+    {
+      "review_id": "r006",
+      "is_cross_business_comparison": true,
+      "cue": "cheaper than",
+      "rationale": "Names two businesses and contains an explicit comparative construction."
+    },
+    {
+      "review_id": "r007",
+      "is_cross_business_comparison": true,
+      "cue": "unlike",
+      "rationale": "Contrasts the reviewed cafe with another cafe."
+    },
+    {
+      "review_id": "r008",
+      "is_cross_business_comparison": true,
+      "cue": "better than",
+      "rationale": "Names two businesses and contains an explicit comparative construction."
+    },
+    {
+      "review_id": "r016",
+      "is_cross_business_comparison": false,
+      "cue": "better",
+      "rationale": "Compares the same pizza across time, not two businesses."
+    },
+    {
+      "review_id": "r017",
+      "is_cross_business_comparison": false,
+      "cue": "from last year",
+      "rationale": "Describes temporal improvement at one business."
+    },
+    {
+      "review_id": "r009",
+      "is_cross_business_comparison": false,
+      "cue": null,
+      "rationale": "Contains no comparison."
+    }
+  ]
+}

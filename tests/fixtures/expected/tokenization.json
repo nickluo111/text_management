@@ -1,0 +1,36 @@
+{
+  "policy": {
+    "lowercase": true,
+    "preserve_contractions": true,
+    "preserve_emojis": true,
+    "split_hyphenated_words": true,
+    "discard_punctuation": true
+  },
+  "cases": [
+    {
+      "id": "case_and_emoji",
+      "text": "AMAZING service!!! 😊",
+      "tokens": ["amazing", "service", "😊"]
+    },
+    {
+      "id": "contraction_and_hyphen",
+      "text": "I can't recommend the kid-friendly menu.",
+      "tokens": ["i", "can't", "recommend", "the", "kid", "friendly", "menu"]
+    },
+    {
+      "id": "numbers_and_currency",
+      "text": "Room 101 costs $12.50.",
+      "tokens": ["room", "101", "costs", "12", "50"]
+    },
+    {
+      "id": "unicode_words",
+      "text": "Café déjà-vu — 很好!",
+      "tokens": ["café", "déjà", "vu", "很好"]
+    },
+    {
+      "id": "empty_text",
+      "text": "",
+      "tokens": []
+    }
+  ]
+}

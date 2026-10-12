@@ -104,9 +104,9 @@ the full dataset automatically.
 
 ## Shared fixtures unblock parallel work
 
-Create and commit a tiny artificial fixture under `tests/fixtures/` before
-full-data implementation. It should contain a small business file and review
-file with:
+The committed artificial fixture under `tests/fixtures/` is the first integration
+target before full-data implementation. It contains a small business file and
+review file with:
 
 - several businesses and overlapping categories;
 - reviews in multiple months or years;
@@ -116,9 +116,11 @@ file with:
 - known co-occurrences around a target such as `service`;
 - a few clear comparison sentences and non-comparison controls.
 
-Also commit expected prepared records and a very small expected index. These are
-test data, not a sample copied from Yelp. The fixture lets Groups B and C start on
-day one and makes failures reproducible.
+Expected prepared records, a very small index, hand-calculated ranking and PMI
+values, and labeled sentiment/comparison cases live under
+`tests/fixtures/expected/`. These are invented test data, not a sample copied
+from Yelp. The fixture lets Groups B and C start on day one and makes failures
+reproducible.
 
 ## CLI ownership and merge-conflict policy
 

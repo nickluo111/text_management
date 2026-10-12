@@ -1,0 +1,32 @@
+[data]
+business_path = "tests/fixtures/raw/businesses.jsonl"
+review_path = "tests/fixtures/raw/reviews.jsonl"
+sample_fraction = 1.0
+random_seed = 6122
+
+[tokenizer]
+lowercase = true
+preserve_contractions = true
+preserve_emojis = true
+split_hyphenated_words = true
+
+[index]
+output_dir = "artifacts/indexes/fixture"
+
+[search]
+top_k = 4
+
+[search.bm25]
+k1 = 1.5
+b = 0.75
+
+[trends]
+sector_a = "Italian"
+sector_b = "Fast Food"
+time_granularity = "year"
+
+[trends.pmi]
+target_term = "service"
+context = "document"
+top_n = 5
+min_cooccurrence = 1

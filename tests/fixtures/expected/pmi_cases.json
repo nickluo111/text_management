@@ -1,0 +1,51 @@
+{
+  "context": "one synthetic document; term presence is binary within a document",
+  "log_base": "natural",
+  "target_term": "service",
+  "periods": {
+    "2021": {
+      "documents": [
+        ["service", "friendly"],
+        ["service", "friendly"],
+        ["service", "slow"],
+        ["food", "slow"]
+      ],
+      "document_count": 4,
+      "target_document_frequency": 3,
+      "associations": {
+        "friendly": {
+          "term_document_frequency": 2,
+          "cooccurrence_count": 2,
+          "pmi": 0.28768207245178085
+        },
+        "slow": {
+          "term_document_frequency": 2,
+          "cooccurrence_count": 1,
+          "pmi": -0.40546510810816444
+        }
+      }
+    },
+    "2022": {
+      "documents": [
+        ["service", "quick"],
+        ["service", "quick"],
+        ["service", "slow"],
+        ["food", "fresh"]
+      ],
+      "document_count": 4,
+      "target_document_frequency": 3,
+      "associations": {
+        "quick": {
+          "term_document_frequency": 2,
+          "cooccurrence_count": 2,
+          "pmi": 0.28768207245178085
+        },
+        "slow": {
+          "term_document_frequency": 1,
+          "cooccurrence_count": 1,
+          "pmi": 0.28768207245178085
+        }
+      }
+    }
+  }
+}

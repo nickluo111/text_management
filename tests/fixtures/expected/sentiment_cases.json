@@ -1,0 +1,20 @@
+{
+  "method": "VADER compound score with conventional +/-0.05 thresholds",
+  "cases": [
+    {
+      "review_id": "r013",
+      "text": "I absolutely love the warm coffee and kind staff.",
+      "expected_label": "positive"
+    },
+    {
+      "review_id": "r011",
+      "text": "The pasta was awful and disappointing.",
+      "expected_label": "negative"
+    },
+    {
+      "review_id": "r009",
+      "text": "The bookstore is on Main Street.",
+      "expected_label": "neutral"
+    }
+  ]
+}
