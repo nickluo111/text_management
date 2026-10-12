@@ -1,1 +1,1 @@
-"""TODO: hand-calculate co-occurrence counts and PMI on a tiny corpus."""
+"""Blocked until the co-occurrence and PMI contracts are approved."""

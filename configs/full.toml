@@ -1,6 +1,9 @@
 # Full-dataset overrides. Keep experimental parameters in default.toml unless
 # a full run intentionally differs.
 
+[runtime]
+mode = "real"
+
 [data]
 prepared_path = "data/processed/reviews-full.jsonl"
 sample_fraction = 1.0

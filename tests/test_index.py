@@ -1,1 +1,1 @@
-"""TODO: test postings, document frequency, lengths, and global avgdl."""
+"""Blocked until the review/tokenizer contracts and B fixtures are approved."""

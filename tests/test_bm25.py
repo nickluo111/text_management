@@ -1,1 +1,1 @@
-"""TODO: hand-calculate a tiny corpus and assert BM25 scores and parameters."""
+"""Blocked until the IndexReader contract and BM25 definition are approved."""

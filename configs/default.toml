@@ -1,6 +1,9 @@
 # Shared default experiment configuration. Values may be refined after the
 # dataset has been inspected; code should not duplicate these settings.
 
+[runtime]
+mode = "real"
+
 [data]
 business_path = "data/raw/yelp_academic_dataset_business.json"
 review_path = "data/raw/yelp_academic_dataset_review.json"

@@ -35,27 +35,22 @@ python -m yelptext --help
 ## Development with synthetic data
 
 There is no separate test CLI. Development and full-data runs use the same
-`yelptext` entry point; `--config` selects the inputs and experiment settings.
-The committed synthetic fixture can be used with every leaf command:
+`yelptext` entry point. Runtime configuration will select same-contract fixture
+or real providers after the team approves those contracts.
 
 ```powershell
-yelptext prepare --config tests/fixtures/fixture.toml
-yelptext analyze zipf --config tests/fixtures/fixture.toml
-yelptext index build --config tests/fixtures/fixture.toml
-yelptext search "great pizza" --config tests/fixtures/fixture.toml
-yelptext trend pmi --term service --config tests/fixtures/fixture.toml
-yelptext app comparisons --config tests/fixtures/fixture.toml
-yelptext run-all --config tests/fixtures/fixture.toml
+python -m pytest tests/test_fixtures.py -q
 ```
 
-During the current scaffold phase these commands only confirm dispatch. As each
-handler is implemented, the same invocations become its fixture-based smoke
-tests. Unit tests should call domain functions directly with `pytest`; CLI
-integration tests should invoke these real command paths rather than a
-test-specific entry point. Full runs use `configs/full.toml` instead.
+At present only Yelp-shaped raw fixture records exist. Proposed Protocols are
+under `src/yelptext/contracts/`, but no derived fixture or fake/real provider is
+implemented until the team confirms its schema. Consequently, the CLI commands
+still confirm registration and dispatch only.
 
-Fixture handoffs, mathematical oracles, and labeled cases are described in
-`tests/fixtures/README.md`.
+After approval, each interface owner adds its fake, group-specific derived
+fixture, and contract tests together. Fixture and real modes then use the same
+CLI and consumer calls; only runtime provider composition changes. See
+`tests/fixtures/README.md` and `docs/TEAM_WORKFLOW.md`.
 
 ## Notebooks
 

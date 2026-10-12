@@ -45,11 +45,17 @@ in `docs/TEAM_WORKFLOW.md`.
 
 Every long-running command should eventually emit a manifest containing the configuration, random seed, source-file metadata, tokenizer version/fingerprint, record counts, and elapsed time.
 
-There is deliberately no separate test CLI and no `--test-data` code path. Every
-leaf command accepts `--config`: tests use `tests/fixtures/fixture.toml`, while
-sample and full runs use `configs/sample.toml` and `configs/full.toml`. This makes
-fixture integration tests exercise the same argument parsing and handlers used
-for the real dataset.
+There is deliberately no separate test CLI and no `--test-data` algorithm
+branch. The intended composition root selects same-contract providers from
+`tests/fakes` in fixture mode and from `src/yelptext/providers/real` in real
+mode. Domain functions receive those providers through their confirmed
+interfaces and never import a fake directly. The provider loader is not yet
+implemented because the contracts are still provisional.
+
+The current `tests/fixtures/fixture.toml` declares fixture mode and raw source
+paths only. Group-specific derived data, fake providers, and their configuration
+are added after the relevant schema is approved. The final fixture integration
+run exercises real providers over small invented data before sample/full runs.
 
 ## Notebook policy
 
@@ -61,12 +67,10 @@ for the real dataset.
 
 ## Implementation order
 
-1. Streaming readers, schemas, and deterministic sampling.
-2. Custom tokenizer plus baseline comparisons.
-3. Zipf and Heaps experiments.
-4. Inverted index and persistence.
-5. TF-IDF and BM25 with hand-checked tests.
-6. Query evaluation.
-7. Business-category linkage and sentiment trends.
-8. Co-occurrence/PMI drift.
-9. Small application and final `run-all` pipeline.
+1. Approve cross-group contracts and serialized examples.
+2. Add same-contract fake providers, group fixtures, and contract tests.
+3. Implement real streaming readers, preparation, and deterministic sampling.
+4. Implement and refine the real tokenizer against a documented sample.
+5. Develop corpus analysis, search, and trends in parallel against fake upstreams.
+6. Make real providers pass the same contract tests and switch composition.
+7. Run sample/full experiments, notebooks, and the final `run-all` pipeline.

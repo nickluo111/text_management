@@ -1,1 +1,1 @@
-"""TODO: hand-calculate a tiny corpus and assert TF-IDF cosine scores."""
+"""Blocked until the IndexReader contract and TF-IDF definition are approved."""
