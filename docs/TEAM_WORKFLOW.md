@@ -19,9 +19,10 @@ three groups can then implement against those contracts in parallel.
 Owns:
 
 - streaming Yelp JSONL/ZIP input, validation, deterministic sampling, and the
-  business-review join;
-- the shared normalization and tokenizer policy;
-- Zipf's law, Heaps' law, and tokenizer-comparison experiments;
+  business-review join (`D1`);
+- the shared normalization and tokenizer policy (`DA3`);
+- Zipf's law, Heaps' law, and tokenizer-comparison experiments (`DA1`, `DA2`,
+  `DA4`);
 - `notebooks/00_data_check.ipynb` and `notebooks/01_corpus_analysis.ipynb`;
 - CLI registration in `commands/prepare.py` and `commands/analyze.py`.
 
@@ -32,9 +33,11 @@ analysis. Both review the tokenizer because it is a dependency of every group.
 
 Owns:
 
-- the custom inverted index, document statistics, serialization, and loading;
-- TF-IDF and BM25 scoring from scratch;
-- interactive search, batch queries, retrieval evaluation, and timing;
+- the custom inverted index, document statistics, serialization, and loading
+  (`SE1`);
+- TF-IDF and BM25 scoring from scratch (`SE2`, `SE3`);
+- interactive search, at least five batch queries, retrieval evaluation, and
+  timing (`SE4`);
 - `notebooks/02_search_evaluation.ipynb`;
 - CLI registration in `commands/index.py` and `commands/search.py`.
 
@@ -45,14 +48,119 @@ evaluation. Each must be able to explain the other member's formulas and tests.
 
 Owns:
 
-- VADER sentiment scoring and time/category aggregation;
-- term co-occurrence, PMI calculation, and temporal drift analysis;
-- the comparison-sentence application and its evaluation;
+- VADER sentiment scoring and time/category aggregation (`TA1`, `TA2`);
+- term co-occurrence, PMI calculation, and temporal drift analysis (`TA3`,
+  `TA4`, and `TA5`);
+- the comparison-sentence application and its evaluation (`APP1`);
 - `notebooks/03_trend_analysis.ipynb` and `notebooks/04_application.ipynb`;
 - CLI registration in `commands/trend.py` and `commands/application.py`.
 
 Suggested internal split: one member leads sentiment and one leads PMI/application.
 Both review category filtering, date bucketing, and evaluation examples.
+
+## Assignment traceability and dependency flow
+
+The references in this document were checked against the September 2026
+assignment brief. The brief numbers sections, but does not number the bullets
+inside each section. Therefore, `§3.4.2 bullet 2` means the second visible bullet
+under section 3.4.2. Requirements written as prose rather than bullets are named
+`Dataset paragraph`, `Indexing paragraph`, `Analysis paragraph`, or
+`Application paragraph`. The Work IDs below are project-local shorthand, not
+official assignment numbering.
+
+### Dependency flowchart
+
+```mermaid
+flowchart TD
+    F["Shared contracts + synthetic fixture<br/>parallel starting point"]
+
+    subgraph A["Group A - Data and corpus analysis"]
+        D["D1 Prepare and join data<br/>§3.1 Dataset paragraph"]
+        T["DA3-DA4 Custom tokenizer + comparison<br/>§3.2.2 bullets 1-2"]
+        ZH["DA1-DA2 Zipf + Heaps<br/>§3.2.1 bullets 1-2"]
+        D --> ZH
+        T --> ZH
+    end
+
+    subgraph B["Group B - Search engine"]
+        I["SE1 Inverted index + global statistics<br/>§3.3.1 Indexing paragraph"]
+        R["SE2-SE3 TF-IDF + BM25 from scratch<br/>§3.3.2 bullets 1-2"]
+        Q["SE4 At least five diverse queries<br/>§3.3.2 Analysis paragraph"]
+        I --> R --> Q
+    end
+
+    subgraph C["Group C - Trends and application"]
+        S1["TA1 Lexicon sentiment scores<br/>§3.4.1 bullet 1"]
+        S2["TA2 Sector trend + visualization + limitations<br/>§3.4.1 bullet 2"]
+        P1["TA3-TA4 Target term + yearly top-N PMI<br/>§3.4.2 bullets 1-2"]
+        P2["TA5 Drift interpretation<br/>§3.4.2 bullet 3"]
+        APP["APP1 Small NLP/IR application<br/>§3.5 Application paragraph"]
+        S1 --> S2
+        P1 --> P2
+    end
+
+    F --> D
+    F --> T
+    D --> I
+    T --> I
+    D --> S1
+    D --> P1
+    T --> P1
+    D --> APP
+    T -.->|optional component reuse| APP
+
+    INT["Integration: run-all + notebooks + manifests"]
+    REP["Report, contribution record, README, source archive<br/>§2 bullets 2 and 5; §4.1-§4.2"]
+    ZH --> INT
+    Q --> INT
+    S2 --> INT
+    P2 --> INT
+    APP --> INT
+    INT --> REP
+```
+
+Solid arrows are hard data or implementation dependencies. The dashed arrow is
+optional reuse: the application may reuse the shared tokenizer, but §3.5 allows
+another defensible NLP/IR approach. The fixture is deliberately placed before
+all three groups so Group B and Group C can develop against stable test records
+while Group A is still preparing the real Yelp data.
+
+The critical path is not “Group A finishes, then B, then C.” It is:
+
+1. freeze fixture schemas and tokenizer behavior;
+2. develop the three branches in parallel;
+3. integrate only their stable artifacts and public interfaces;
+4. run the full dataset and finish report evidence.
+
+### Assignment-to-code traceability matrix
+
+| Work ID | Official assignment reference | Required evidence | Owner and main entry point |
+| --- | --- | --- | --- |
+| `D1` | §3.1, Dataset paragraph | Read `business.json` and `review.json`; documented sample/join and record counts | Group A; `yelptext prepare` |
+| `DA1` | §3.2.1, bullet 1 | Term frequencies and log-log frequency-versus-rank Zipf plot | Group A; `yelptext analyze zipf` |
+| `DA2` | §3.2.1, bullet 2 | Multiple sample sizes; estimated `k` and `beta`; vocabulary-growth prediction and discussion | Group A; `yelptext analyze heaps` |
+| `DA3` | §3.2.2, bullet 1 | Custom regex tokenizer handling emoji, contractions, and run-on/hyphenated words | Group A; shared `text` package |
+| `DA4` | §3.2.2, bullet 2 | Vocabulary-size and qualitative comparison with standard tokenizers | Group A; `yelptext analyze tokenizers` |
+| `SE1` | §3.3.1, Indexing paragraph | Inverted index, postings, document frequency, document length, and global `avgdl` | Group B; `yelptext index build` |
+| `SE2` | §3.3.2, bullet 1 | From-scratch TF-IDF with cosine similarity plus hand-calculated tests | Group B; `yelptext search --ranker tfidf` |
+| `SE3` | §3.3.2, bullet 2 | From-scratch BM25 with correct `k1`, `b`, and indexing-time global `avgdl` | Group B; `yelptext search --ranker bm25` |
+| `SE4` | §3.3.2, Analysis paragraph | At least five diverse queries run on both rankers, with comparative analysis | Group B; batch search config and notebook 02 |
+| `TA1` | §3.4.1, bullet 1 | Review sentiment scores from VADER or another classic lexicon | Group C; `yelptext trend sentiment` |
+| `TA2` | §3.4.1, bullet 2 | Sector sentiment by year/season, visualization, and lexicon limitations such as sarcasm | Group C; trend artifacts and notebook 03 |
+| `TA3` | §3.4.2, bullet 1 | Explicitly selected target aspect term and documented context definition | Group C; trend configuration |
+| `TA4` | §3.4.2, bullet 2 | PMI and top-N co-occurring words for the target in different years | Group C; `yelptext trend pmi` |
+| `TA5` | §3.4.2, bullet 3 | Interpretation of how target-term associations drift over time | Group C; notebook 03 and report text |
+| `APP1` | §3.5, Application paragraph | Defined and evaluated small NLP/IR tool; CLI is sufficient and GUI adds no marks | Group C; `yelptext app comparisons` and notebook 04 |
+| `GOV1` | §2, bullet 2 | Individual contributions clearly identified in the report | All; contribution table in this document |
+| `GOV2` | §2, bullet 5 | Members understand submitted code and can defend assumptions/design choices | All; paired ownership, reviews, and decision notes |
+| `REP1` | §4.1, bullets 2-3 and 5 | ACM sigconf main content within 10 pages; key snippets and library citations; readable figures/text | Temporary integration group, reviewed by all |
+| `SRC1` | §4.2, `Readme.txt` sub-bullets 1-3 | Dependency links, installation/usage commands, inputs/parameters, and sample-output explanations | Temporary integration group |
+| `SRC2` | §4.2, `SourceCode` sub-bullet | Source archive contains only own source; excludes dataset and third-party libraries | Temporary integration group |
+
+Every implementation PR should list its Work IDs in the description, for
+example `Covers SE1; prepares SE2/SE3`. Every notebook section and report figure
+should also name at least one Work ID. This creates a direct chain from assignment
+requirement to code, test, artifact, figure, and report discussion.
 
 ## Shared contracts agreed before implementation
 
