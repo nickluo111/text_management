@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# Yelp data: never commit or include in the source-code submission.
+data/raw/*
+data/interim/*
+data/processed/*
+!data/raw/.gitkeep
+!data/interim/.gitkeep
+!data/processed/.gitkeep
+!data/README.md
+
+# Reproducible generated outputs.
+artifacts/indexes/*
+artifacts/figures/*
+artifacts/tables/*
+artifacts/search_results/*
+artifacts/manifests/*
+!artifacts/**/.gitkeep
+!artifacts/README.md
+
+# Local and editor files
+.idea/
+.vscode/
+*.log
+
+# Submission archives
+Src_G*.zip
+
+# Course-provided assignment documents are reference material, not source code.
+GroupAssignment-*.pdf

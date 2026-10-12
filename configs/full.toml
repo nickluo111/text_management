@@ -1,0 +1,9 @@
+# Full-dataset overrides. Keep experimental parameters in default.toml unless
+# a full run intentionally differs.
+
+[data]
+sample_fraction = 1.0
+random_seed = 6122
+
+[index]
+output_dir = "artifacts/indexes/full"

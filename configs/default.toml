@@ -1,0 +1,38 @@
+# Shared default experiment configuration. Values may be refined after the
+# dataset has been inspected; code should not duplicate these settings.
+
+[data]
+business_path = "data/raw/yelp_academic_dataset_business.json"
+review_path = "data/raw/yelp_academic_dataset_review.json"
+sample_fraction = 0.10
+random_seed = 6122
+
+[tokenizer]
+lowercase = true
+preserve_contractions = true
+preserve_emojis = true
+split_hyphenated_words = true
+
+[index]
+output_dir = "artifacts/indexes/default"
+
+[search]
+top_k = 10
+
+[search.bm25]
+k1 = 1.5
+b = 0.75
+
+[analysis.heaps]
+sample_fractions = [0.10, 0.30, 0.50, 1.00]
+
+[trends]
+sector_a = "Italian Restaurants"
+sector_b = "Fast Food"
+time_granularity = "year"
+
+[trends.pmi]
+target_term = "service"
+window_size = 5
+top_n = 20
+min_cooccurrence = 10

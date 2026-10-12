@@ -1,0 +1,10 @@
+# At least five diverse evaluation queries are required. Replace these
+# placeholders only after the selected dataset sectors have been inspected.
+
+queries = [
+  "good service",
+  "cheap Italian restaurant",
+  "family friendly atmosphere",
+  "slow delivery",
+  "best coffee and breakfast",
+]
