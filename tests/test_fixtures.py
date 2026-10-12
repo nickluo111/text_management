@@ -32,6 +32,9 @@ def test_fixture_configuration_points_to_committed_inputs() -> None:
 
     assert config["data"]["sample_fraction"] == 1.0
     assert config["data"]["random_seed"] == 6122
+    assert config["data"]["prepared_path"] == (
+        "data/processed/reviews-fixture.jsonl"
+    )
     assert config["search"]["bm25"] == {"k1": 1.5, "b": 0.75}
     assert config["trends"]["pmi"]["context"] == "document"
     for key in ("business_path", "review_path"):

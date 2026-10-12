@@ -4,6 +4,7 @@
 [data]
 business_path = "data/raw/yelp_academic_dataset_business.json"
 review_path = "data/raw/yelp_academic_dataset_review.json"
+prepared_path = "data/processed/reviews-default.jsonl"
 sample_fraction = 0.10
 random_seed = 6122
 

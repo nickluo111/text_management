@@ -2,6 +2,7 @@
 # a full run intentionally differs.
 
 [data]
+prepared_path = "data/processed/reviews-full.jsonl"
 sample_fraction = 1.0
 random_seed = 6122
 

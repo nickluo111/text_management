@@ -1,6 +1,7 @@
 [data]
 business_path = "tests/fixtures/raw/businesses.jsonl"
 review_path = "tests/fixtures/raw/reviews.jsonl"
+prepared_path = "data/processed/reviews-fixture.jsonl"
 sample_fraction = 1.0
 random_seed = 6122
 

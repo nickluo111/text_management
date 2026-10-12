@@ -1,6 +1,7 @@
 # Fast local-development overrides. TODO: tune after measuring memory/time.
 
 [data]
+prepared_path = "data/processed/reviews-sample.jsonl"
 sample_fraction = 0.01
 random_seed = 6122
 
