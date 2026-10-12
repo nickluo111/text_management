@@ -1,0 +1,147 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1320" viewBox="0 0 1600 1320" role="img" aria-labelledby="title desc">
+  <title id="title">AI6122 Yelp text project dependency map</title>
+  <desc id="desc">Shared contracts and synthetic fixtures lead to data preparation and tokenization. Their stable output lets three groups work in parallel on corpus analysis, search, and trends plus application. All branches join in one integration and reporting stage.</desc>
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#DED9CF" stroke-width="1" opacity="0.35"/>
+    </pattern>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#79746C"/>
+    </marker>
+    <style>
+      .sans { font-family: Inter, Arial, Helvetica, sans-serif; }
+      .serif { font-family: Georgia, "Times New Roman", serif; }
+      .mono { font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace; }
+      .eyebrow { font-size: 15px; font-weight: 600; letter-spacing: 2.5px; }
+      .title { font-size: 58px; font-weight: 400; letter-spacing: -1.4px; }
+      .subtitle { font-size: 20px; font-weight: 400; }
+      .group-title { font-size: 18px; font-weight: 700; letter-spacing: 1.8px; }
+      .node-id { font-size: 15px; font-weight: 700; letter-spacing: 1px; }
+      .node-title { font-size: 23px; font-weight: 600; }
+      .node-copy { font-size: 17px; font-weight: 400; }
+      .ref { font-size: 14px; font-weight: 600; letter-spacing: 0.35px; }
+      .small { font-size: 14px; font-weight: 500; letter-spacing: 0.4px; }
+      .ink { fill: #1E1E1B; }
+      .muted { fill: #6E6961; }
+      .line { fill: none; stroke: #79746C; stroke-width: 2; marker-end: url(#arrow); }
+      .rail { fill: none; stroke: #AAA49B; stroke-width: 2; }
+      .card { fill: #FBFAF6; stroke: #D6D0C6; stroke-width: 1.5; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="1320" fill="#F4F1EA"/>
+  <rect width="1600" height="1320" fill="url(#grid)"/>
+
+  <text x="80" y="64" class="sans eyebrow muted">AI6122 · DEPENDENCY MAP · SEPTEMBER 2026</text>
+  <text x="80" y="131" class="serif title ink">Parallel, but contract-led.</text>
+  <text x="80" y="169" class="sans subtitle muted">One shared data contract lets three pairs move independently without creating a serial hand-off.</text>
+
+  <rect x="80" y="205" width="1440" height="92" fill="#1E1E1B"/>
+  <text x="112" y="239" class="mono node-id" fill="#F4F1EA">00 / SHARED START</text>
+  <text x="112" y="272" class="sans node-title" fill="#FFFFFF">Freeze schema, fixture, configuration keys, artifact names and acceptance checks</text>
+  <text x="1488" y="260" text-anchor="end" class="mono ref" fill="#BDB8AF">UNBLOCKS ALL GROUPS</text>
+
+  <path d="M800 297 V329 H455 V352" class="line"/>
+  <path d="M800 329 H1145 V352" class="line"/>
+  <text x="80" y="320" class="sans group-title" fill="#C45E43">GROUP A PUBLISHES THE SHARED INPUTS</text>
+
+  <rect x="180" y="365" width="550" height="104" class="card"/>
+  <rect x="180" y="365" width="8" height="104" fill="#C45E43"/>
+  <text x="210" y="398" class="mono node-id" fill="#C45E43">D1</text>
+  <text x="210" y="430" class="sans node-title ink">Prepare + join</text>
+  <text x="210" y="454" class="sans node-copy muted">Stream reviews, attach business categories, validate counts</text>
+  <text x="704" y="399" text-anchor="end" class="mono ref muted">§3.1</text>
+
+  <rect x="870" y="365" width="550" height="104" class="card"/>
+  <rect x="870" y="365" width="8" height="104" fill="#C45E43"/>
+  <text x="900" y="398" class="mono node-id" fill="#C45E43">DA3–DA4</text>
+  <text x="900" y="430" class="sans node-title ink">Tokenizer + baseline comparison</text>
+  <text x="900" y="454" class="sans node-copy muted">One policy for corpus, index and query processing</text>
+  <text x="1394" y="399" text-anchor="end" class="mono ref muted">§3.2.2 · BULLETS 1–2</text>
+
+  <path d="M455 469 V506" class="rail"/>
+  <path d="M1145 469 V506" class="rail"/>
+  <line x1="180" y1="506" x2="1420" y2="506" stroke="#1E1E1B" stroke-width="2.5"/>
+  <rect x="488" y="485" width="624" height="42" fill="#F4F1EA" stroke="#1E1E1B" stroke-width="1.5"/>
+  <text x="800" y="512" text-anchor="middle" class="mono small ink">STABLE CONTRACT · PREPARED REVIEW + TOKENIZER FINGERPRINT</text>
+  <text x="800" y="552" text-anchor="middle" class="sans small muted">fixture now · real Yelp data later · identical downstream interface</text>
+
+  <path d="M300 506 V626" class="line"/>
+  <path d="M800 506 V626" class="line"/>
+  <path d="M1300 506 V626" class="rail"/>
+
+  <text x="80" y="610" class="sans group-title" fill="#C45E43">01 / GROUP A · CORPUS</text>
+  <line x1="80" y1="624" x2="520" y2="624" stroke="#C45E43" stroke-width="4"/>
+  <text x="580" y="610" class="sans group-title" fill="#466A7F">02 / GROUP B · SEARCH</text>
+  <line x1="580" y1="624" x2="1020" y2="624" stroke="#466A7F" stroke-width="4"/>
+  <text x="1080" y="610" class="sans group-title" fill="#65765A">03 / GROUP C · TRENDS + APP</text>
+  <line x1="1080" y1="624" x2="1520" y2="624" stroke="#65765A" stroke-width="4"/>
+
+  <rect x="80" y="648" width="440" height="198" class="card"/>
+  <text x="108" y="684" class="mono node-id" fill="#C45E43">DA1</text>
+  <text x="108" y="714" class="sans node-title ink">Zipf validation</text>
+  <text x="492" y="684" text-anchor="end" class="mono ref muted">§3.2.1 · BULLET 1</text>
+  <text x="108" y="742" class="sans node-copy muted">Term frequencies + log-log rank plot</text>
+  <line x1="108" y1="766" x2="492" y2="766" stroke="#D6D0C6" stroke-width="1.5"/>
+  <text x="108" y="798" class="mono node-id" fill="#C45E43">DA2</text>
+  <text x="108" y="828" class="sans node-title ink">Heaps estimation</text>
+  <text x="492" y="798" text-anchor="end" class="mono ref muted">§3.2.1 · BULLET 2</text>
+
+  <rect x="580" y="648" width="440" height="96" class="card"/>
+  <text x="608" y="681" class="mono node-id" fill="#466A7F">SE1</text>
+  <text x="608" y="713" class="sans node-title ink">Inverted index + global stats</text>
+  <text x="992" y="681" text-anchor="end" class="mono ref muted">§3.3.1</text>
+  <path d="M800 744 V776" class="line"/>
+
+  <rect x="580" y="784" width="440" height="116" class="card"/>
+  <text x="608" y="817" class="mono node-id" fill="#466A7F">SE2–SE3</text>
+  <text x="608" y="849" class="sans node-title ink">TF-IDF + BM25 from scratch</text>
+  <text x="608" y="877" class="sans node-copy muted">Hand-calculated scores; shared index statistics</text>
+  <text x="992" y="817" text-anchor="end" class="mono ref muted">§3.3.2 · BULLETS 1–2</text>
+  <path d="M800 900 V932" class="line"/>
+
+  <rect x="580" y="940" width="440" height="96" class="card"/>
+  <text x="608" y="973" class="mono node-id" fill="#466A7F">SE4</text>
+  <text x="608" y="1005" class="sans node-title ink">Five+ diverse query analysis</text>
+  <text x="992" y="973" text-anchor="end" class="mono ref muted">§3.3.2 · ANALYSIS</text>
+
+  <path d="M1300 626 H1060 V696 H1080" class="rail"/>
+  <path d="M1060 696 V988" class="rail"/>
+  <path d="M1060 842 H1080" class="line"/>
+  <path d="M1060 988 H1080" class="line"/>
+  <path d="M1060 696 H1080" class="line"/>
+
+  <rect x="1080" y="648" width="440" height="104" class="card"/>
+  <text x="1108" y="681" class="mono node-id" fill="#65765A">TA1–TA2</text>
+  <text x="1108" y="713" class="sans node-title ink">Lexicon sentiment → sector trend</text>
+  <text x="1108" y="739" class="sans node-copy muted">Score, aggregate, visualize, discuss limitations</text>
+  <text x="1492" y="681" text-anchor="end" class="mono ref muted">§3.4.1 · BULLETS 1–2</text>
+
+  <rect x="1080" y="790" width="440" height="112" class="card"/>
+  <text x="1108" y="823" class="mono node-id" fill="#65765A">TA3–TA5</text>
+  <text x="1108" y="855" class="sans node-title ink">Target term → yearly PMI → drift</text>
+  <text x="1108" y="883" class="sans node-copy muted">Top-N associations with temporal interpretation</text>
+  <text x="1492" y="823" text-anchor="end" class="mono ref muted">§3.4.2 · BULLETS 1–3</text>
+
+  <rect x="1080" y="936" width="440" height="104" class="card"/>
+  <text x="1108" y="969" class="mono node-id" fill="#65765A">APP1</text>
+  <text x="1108" y="1001" class="sans node-title ink">Small NLP / IR application</text>
+  <text x="1108" y="1027" class="sans node-copy muted">Comparison detector + evaluation cases</text>
+  <text x="1492" y="969" text-anchor="end" class="mono ref muted">§3.5</text>
+
+  <path d="M300 846 V1076" class="rail"/>
+  <path d="M800 1036 V1076" class="rail"/>
+  <path d="M1300 1040 V1076" class="rail"/>
+  <line x1="300" y1="1076" x2="1300" y2="1076" stroke="#79746C" stroke-width="2"/>
+  <path d="M800 1076 V1100" class="line"/>
+
+  <rect x="80" y="1110" width="1440" height="106" fill="#E7E2D8" stroke="#1E1E1B" stroke-width="1.5"/>
+  <text x="112" y="1146" class="mono node-id ink">INTEGRATION / SHARED</text>
+  <text x="112" y="1182" class="sans node-title ink">run-all · notebooks · manifests · clean-environment reproduction</text>
+  <text x="1488" y="1164" text-anchor="end" class="mono ref muted">ONE PIPELINE · THREE REVIEWERS</text>
+
+  <line x1="80" y1="1260" x2="1520" y2="1260" stroke="#1E1E1B" stroke-width="1.5"/>
+  <text x="80" y="1290" class="sans eyebrow ink">FINAL EVIDENCE</text>
+  <text x="248" y="1290" class="sans node-copy muted">report · contribution record · README · source archive</text>
+  <text x="1520" y="1290" text-anchor="end" class="mono ref muted">§2 · BULLETS 2, 5  /  §4.1–§4.2</text>
+</svg>

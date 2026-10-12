@@ -70,54 +70,7 @@ official assignment numbering.
 
 ### Dependency flowchart
 
-```mermaid
-flowchart TD
-    F["Shared contracts + synthetic fixture<br/>parallel starting point"]
-
-    subgraph A["Group A - Data and corpus analysis"]
-        D["D1 Prepare and join data<br/>§3.1 Dataset paragraph"]
-        T["DA3-DA4 Custom tokenizer + comparison<br/>§3.2.2 bullets 1-2"]
-        ZH["DA1-DA2 Zipf + Heaps<br/>§3.2.1 bullets 1-2"]
-        D --> ZH
-        T --> ZH
-    end
-
-    subgraph B["Group B - Search engine"]
-        I["SE1 Inverted index + global statistics<br/>§3.3.1 Indexing paragraph"]
-        R["SE2-SE3 TF-IDF + BM25 from scratch<br/>§3.3.2 bullets 1-2"]
-        Q["SE4 At least five diverse queries<br/>§3.3.2 Analysis paragraph"]
-        I --> R --> Q
-    end
-
-    subgraph C["Group C - Trends and application"]
-        S1["TA1 Lexicon sentiment scores<br/>§3.4.1 bullet 1"]
-        S2["TA2 Sector trend + visualization + limitations<br/>§3.4.1 bullet 2"]
-        P1["TA3-TA4 Target term + yearly top-N PMI<br/>§3.4.2 bullets 1-2"]
-        P2["TA5 Drift interpretation<br/>§3.4.2 bullet 3"]
-        APP["APP1 Small NLP/IR application<br/>§3.5 Application paragraph"]
-        S1 --> S2
-        P1 --> P2
-    end
-
-    F --> D
-    F --> T
-    D --> I
-    T --> I
-    D --> S1
-    D --> P1
-    T --> P1
-    D --> APP
-    T -.->|optional component reuse| APP
-
-    INT["Integration: run-all + notebooks + manifests"]
-    REP["Report, contribution record, README, source archive<br/>§2 bullets 2 and 5; §4.1-§4.2"]
-    ZH --> INT
-    Q --> INT
-    S2 --> INT
-    P2 --> INT
-    APP --> INT
-    INT --> REP
-```
+![Dependency map for the three parallel responsibility groups](assets/team-workflow-dependencies.png)
 
 Solid arrows are hard data or implementation dependencies. The dashed arrow is
 optional reuse: the application may reuse the shared tokenizer, but §3.5 allows
