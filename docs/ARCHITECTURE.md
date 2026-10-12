@@ -28,6 +28,11 @@ CLI
 
 Domain modules must not import the CLI. Both index-time and query-time text processing must call the same `text` package.
 
+Top-level commands register independently under `yelptext.commands`. The root
+`cli.py` only composes those registration modules, which reduces merge conflicts
+between responsibility groups. Team ownership and integration rules are defined
+in `docs/TEAM_WORKFLOW.md`.
+
 ## Configuration and outputs
 
 - `.python-version` fixes the reference interpreter to CPython 3.12.4.

@@ -40,3 +40,7 @@ implemented only inside a notebook. Use the CLI for reproducible full runs and
 the notebooks for figures, tables, comparisons, and report interpretation.
 
 See `docs/DATA_ACCESS.md` before obtaining the Yelp dataset. Data and generated artifacts must not be committed or included in the final source-code archive.
+
+Project boundaries are documented in `docs/ARCHITECTURE.md`; the six-person
+group workflow, shared interfaces, reviews, and integration checkpoints are in
+`docs/TEAM_WORKFLOW.md`.
