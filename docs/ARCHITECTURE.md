@@ -30,6 +30,8 @@ Domain modules must not import the CLI. Both index-time and query-time text proc
 
 ## Configuration and outputs
 
+- `.python-version` fixes the reference interpreter to CPython 3.12.4.
+- `requirements.txt` pins the complete reproducible coursework environment.
 - `pyproject.toml` defines packaging and the single `yelptext` command.
 - `configs/*.toml` defines experiment parameters.
 - `data/` stores unsubmitted local input/intermediate data.

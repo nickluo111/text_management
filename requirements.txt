@@ -1,0 +1,24 @@
+# Interpreter: CPython 3.12.4 (see .python-version and pyproject.toml)
+# Keep exact pins synchronized with pyproject.toml.
+
+# Numerical analysis and fitting for Zipf's/Heaps' laws, TF-IDF, BM25, and PMI.
+numpy==2.4.4
+scipy==1.17.1
+
+# Tabular summaries and report-ready visualization.
+pandas==3.0.2
+matplotlib==3.10.8
+seaborn==0.13.2
+
+# Baseline tokenizers and lexicon-based sentiment analysis (VADER).
+nltk==3.8.1
+
+# Progress reporting for multi-gigabyte streaming jobs.
+tqdm==4.66.4
+
+# Notebook presentation layer.
+jupyterlab==4.0.11
+ipykernel==6.28.0
+
+# Unit tests for tokenizer, index, TF-IDF, BM25, and PMI formulas.
+pytest==7.4.4

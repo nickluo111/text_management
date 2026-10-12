@@ -8,12 +8,23 @@ The package layout and unified CLI entry point are established. Algorithm module
 
 ## Quick start
 
+The project is pinned to **CPython 3.12.4**. Confirm the interpreter before
+creating the environment:
+
 ```powershell
+python --version
 python -m venv .venv
 .venv\Scripts\Activate.ps1
-python -m pip install -e .
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+python -m pip install -e . --no-deps
+python -m nltk.downloader vader_lexicon
 yelptext --help
 ```
+
+The NLTK download installs the VADER lexicon data used by the sentiment
+experiment; it is not a Python package and therefore cannot be listed in
+`requirements.txt`.
 
 The equivalent non-installed entry point is:
 
