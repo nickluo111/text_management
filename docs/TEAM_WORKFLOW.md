@@ -12,9 +12,10 @@ Use three pairs:
   NLP/IR application (§3.4-§3.5).
 
 The raw synthetic records exist, but no cross-group schema has been approved.
-There are therefore no derived fixtures, fake providers, or expected algorithm
-outputs yet. Files under `src/yelptext/contracts/` are proposals for discussion,
-not frozen APIs.
+There are therefore no derived fixtures, conforming provider implementations,
+or expected algorithm outputs yet. The group directories and provider modules
+are placeholders only. Files under `src/yelptext/contracts/` are proposals for
+discussion, not frozen APIs.
 
 ![Target dependency map after contract approval](assets/team-workflow-dependencies.png)
 
@@ -77,7 +78,8 @@ tests/fixtures/
     └── reviews.jsonl
 ```
 
-After contracts are approved, create consumer-oriented directories:
+Consumer-oriented directories are already reserved. Populate them only after
+the relevant contracts are approved:
 
 ```text
 tests/fixtures/
@@ -102,8 +104,8 @@ oracles require hand calculation or an independent reference calculation.
 
 ## Fake and real providers
 
-After contract approval, interface owners add same-name implementations in
-parallel namespaces:
+After contract approval, interface owners fill the reserved modules with
+same-name implementations in parallel namespaces:
 
 ```text
 tests/fakes/
@@ -135,6 +137,10 @@ mode = "real"
 Mode selection belongs in the composition root. Domain functions such as
 `build_index()` and `search()` must not contain `if fixture` branches or import
 `tests.fakes` directly.
+
+`yelptext.runtime.load_provider_module()` already performs this namespace
+selection. The reserved modules remain empty until an approved contract defines
+the same export name on both sides.
 
 The function under test is always real; only its unfinished upstream providers
 are fake. For example:

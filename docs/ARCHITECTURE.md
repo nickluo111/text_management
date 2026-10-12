@@ -23,6 +23,9 @@ CLI
 - `search.rankers`: ranking formulas implemented from scratch.
 - `trends`: lexicon sentiment, aggregation, co-occurrence, and PMI drift.
 - `applications`: the independent 10-mark NLP/IR application.
+- `contracts`: provisional cross-group structural interfaces.
+- `providers`: only runtime-selectable adapters for confirmed cross-group
+  boundaries; it does not contain the groups' domain algorithms.
 - `visualization`: common report-ready plotting conventions.
 - `utils`: logging and reproducibility manifests only.
 
@@ -49,13 +52,15 @@ There is deliberately no separate test CLI and no `--test-data` algorithm
 branch. The intended composition root selects same-contract providers from
 `tests/fakes` in fixture mode and from `src/yelptext/providers/real` in real
 mode. Domain functions receive those providers through their confirmed
-interfaces and never import a fake directly. The provider loader is not yet
-implemented because the contracts are still provisional.
+interfaces and never import a fake directly. The schema-independent module
+resolver is implemented; the provider modules intentionally export no classes
+until their contracts are approved.
 
 The current `tests/fixtures/fixture.toml` declares fixture mode and raw source
-paths only. Group-specific derived data, fake providers, and their configuration
-are added after the relevant schema is approved. The final fixture integration
-run exercises real providers over small invented data before sample/full runs.
+paths only. Group-specific fixture and provider modules are reserved as empty
+placeholders; derived data and implementations are added only after the relevant
+schema is approved. The final fixture integration run exercises real providers
+over small invented data before sample/full runs.
 
 ## Notebook policy
 

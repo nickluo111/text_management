@@ -39,13 +39,19 @@ There is no separate test CLI. Development and full-data runs use the same
 or real providers after the team approves those contracts.
 
 ```powershell
-python -m pytest tests/test_fixtures.py -q
+python -m pytest tests/test_raw_fixtures.py -q
 ```
 
 At present only Yelp-shaped raw fixture records exist. Proposed Protocols are
-under `src/yelptext/contracts/`, but no derived fixture or fake/real provider is
-implemented until the team confirms its schema. Consequently, the CLI commands
-still confirm registration and dispatch only.
+under `src/yelptext/contracts/`; group fixture directories and fake/real
+provider modules are reserved but contain no implementations until the team
+confirms each schema. Consequently, the CLI commands still confirm registration
+and dispatch only.
+
+The schema-independent runtime resolver is already active: fixture mode resolves
+provider modules under `tests.fakes`, while real mode resolves the matching
+modules under `yelptext.providers.real`. Classes are added to those modules only
+after their contracts are approved.
 
 After approval, each interface owner adds its fake, group-specific derived
 fixture, and contract tests together. Fixture and real modes then use the same

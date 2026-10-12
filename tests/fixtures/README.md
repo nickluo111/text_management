@@ -3,16 +3,20 @@
 The project contracts have not yet been approved. Consequently, this directory
 currently contains only invented Yelp-shaped raw records and a minimal fixture
 configuration. There are deliberately no prepared reviews, token outputs,
-postings, ranking scores, PMI values, sentiment labels, or fake providers yet.
+postings, ranking scores, PMI values, sentiment labels, or conforming provider
+implementations yet.
 
 ## Current layout
 
 ```text
 fixtures/
 ├── fixture.toml
-└── raw/
-    ├── businesses.jsonl
-    └── reviews.jsonl
+├── raw/
+│   ├── businesses.jsonl
+│   └── reviews.jsonl
+├── group_a/README.md
+├── group_b/README.md
+└── group_c/README.md
 ```
 
 The raw fixture mirrors the source file shapes and covers conditions that are
@@ -23,8 +27,9 @@ records are test data, not a proposed downstream schema.
 
 ## What happens after contract approval
 
-Each consuming group will receive its own derived-fixture directory so inputs,
-case labels, and mathematical oracles are not mixed together:
+Each consuming group already has a reserved directory. It contains only a
+status README until the relevant contracts are approved, after which inputs,
+case labels, and mathematical oracles are added without mixing group concerns:
 
 ```text
 fixtures/
