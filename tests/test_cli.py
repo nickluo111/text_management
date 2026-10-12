@@ -7,6 +7,9 @@ import pytest
 from yelptext.cli import build_parser, main
 
 
+FIXTURE_CONFIG = "tests/fixtures/fixture.toml"
+
+
 @pytest.mark.parametrize(
     ("argv", "expected_path"),
     [
@@ -36,6 +39,26 @@ def test_search_options_are_preserved() -> None:
     assert args.ranker == "tfidf"
     assert args.queries == "queries.toml"
     assert args.config == "configs/default.toml"
+
+
+@pytest.mark.parametrize(
+    "argv",
+    [
+        ["prepare"],
+        ["analyze", "zipf"],
+        ["analyze", "heaps"],
+        ["analyze", "tokenizers"],
+        ["index", "build"],
+        ["search", "great pizza"],
+        ["trend", "sentiment"],
+        ["trend", "pmi"],
+        ["app", "comparisons"],
+        ["run-all"],
+    ],
+)
+def test_every_leaf_command_accepts_fixture_config(argv: list[str]) -> None:
+    args = build_parser().parse_args([*argv, "--config", FIXTURE_CONFIG])
+    assert args.config == FIXTURE_CONFIG
 
 
 def test_placeholder_dispatch(capsys: pytest.CaptureFixture[str]) -> None:

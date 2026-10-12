@@ -122,6 +122,11 @@ values, and labeled sentiment/comparison cases live under
 from Yelp. The fixture lets Groups B and C start on day one and makes failures
 reproducible.
 
+Run fixture smoke tests through the normal CLI by passing
+`--config tests/fixtures/fixture.toml`. Do not introduce a second test CLI or
+special `--test-data` branches; `pytest` handles unit tests, while the configured
+main CLI handles integration tests.
+
 ## CLI ownership and merge-conflict policy
 
 There remains one installed command, `yelptext`, but its registration is split by

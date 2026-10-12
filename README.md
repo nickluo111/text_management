@@ -32,6 +32,31 @@ The equivalent non-installed entry point is:
 python -m yelptext --help
 ```
 
+## Development with synthetic data
+
+There is no separate test CLI. Development and full-data runs use the same
+`yelptext` entry point; `--config` selects the inputs and experiment settings.
+The committed synthetic fixture can be used with every leaf command:
+
+```powershell
+yelptext prepare --config tests/fixtures/fixture.toml
+yelptext analyze zipf --config tests/fixtures/fixture.toml
+yelptext index build --config tests/fixtures/fixture.toml
+yelptext search "great pizza" --config tests/fixtures/fixture.toml
+yelptext trend pmi --term service --config tests/fixtures/fixture.toml
+yelptext app comparisons --config tests/fixtures/fixture.toml
+yelptext run-all --config tests/fixtures/fixture.toml
+```
+
+During the current scaffold phase these commands only confirm dispatch. As each
+handler is implemented, the same invocations become its fixture-based smoke
+tests. Unit tests should call domain functions directly with `pytest`; CLI
+integration tests should invoke these real command paths rather than a
+test-specific entry point. Full runs use `configs/full.toml` instead.
+
+The fixture schema, policies, and hand-calculated expected outputs are described
+in `tests/fixtures/README.md`.
+
 ## Notebooks
 
 The notebooks under `notebooks/` are presentation and analysis drivers. They

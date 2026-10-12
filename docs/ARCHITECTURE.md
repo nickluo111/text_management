@@ -45,6 +45,12 @@ in `docs/TEAM_WORKFLOW.md`.
 
 Every long-running command should eventually emit a manifest containing the configuration, random seed, source-file metadata, tokenizer version/fingerprint, record counts, and elapsed time.
 
+There is deliberately no separate test CLI and no `--test-data` code path. Every
+leaf command accepts `--config`: tests use `tests/fixtures/fixture.toml`, while
+sample and full runs use `configs/sample.toml` and `configs/full.toml`. This makes
+fixture integration tests exercise the same argument parsing and handlers used
+for the real dataset.
+
 ## Notebook policy
 
 - Notebooks are grouped by assignment section, not by individual Python module.
