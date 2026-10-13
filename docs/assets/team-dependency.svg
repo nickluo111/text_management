@@ -48,12 +48,13 @@
   <text x="836" y="217" class="body muted">Fake interface + derived fixture</text>
   <text x="836" y="239" class="body muted">Reviewed cases + exact answers when valid</text>
 
-  <path d="M1170 198 H1260 V336" class="lane-line"/>
-  <path d="M1260 336 H1188" class="line"/>
-  <path d="M990 268 V336 H858" class="line"/>
-  <path d="M990 268 V540 H858" class="line"/>
+  <path d="M990 268 V310" class="lane-line"/>
+  <path d="M265 310 H1150" class="lane-line"/>
+  <path d="M265 310 V338" class="line"/>
+  <path d="M695 310 V338" class="line"/>
+  <path d="M1150 310 V338" class="line"/>
 
-  <text x="90" y="322" class="eyebrow muted">PARALLEL FEATURE WORK</text>
+  <text x="90" y="292" class="eyebrow muted">PARALLEL FEATURE WORK</text>
 
   <rect x="90" y="345" width="350" height="154" class="parallel"/>
   <text x="116" y="374" class="eyebrow muted">DATA + CORPUS</text>
@@ -76,10 +77,11 @@
   <text x="976" y="460" class="small muted">Own real feature code, full feature tests,</text>
   <text x="976" y="480" class="small muted">trend fixtures and notebooks 03–04</text>
 
-  <path d="M265 499 V575 H610" class="lane-line"/>
-  <path d="M695 499 V575 H610" class="lane-line"/>
-  <path d="M1150 499 V575 H610" class="lane-line"/>
-  <path d="M610 575 V620" class="line"/>
+  <path d="M265 499 V565" class="lane-line"/>
+  <path d="M695 499 V565" class="lane-line"/>
+  <path d="M1150 499 V565" class="lane-line"/>
+  <path d="M265 565 H1150" class="lane-line"/>
+  <path d="M610 565 V618" class="line"/>
 
   <rect x="430" y="625" width="360" height="112" class="node"/>
   <text x="456" y="654" class="eyebrow muted">INTEGRATION</text>
