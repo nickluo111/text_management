@@ -27,7 +27,7 @@ The required order is:
 
 1. agree on assignment scope, raw Yelp shapes, and which outputs cross feature boundaries;
 2. downstream consumers state what they need, and the upstream producer freezes a jointly approved schema;
-3. create the fake interface and minimum baseline test kit from that schema;
+3. let Groups B and C independently create schema-conforming fake upstreams and test data for their own work;
 4. let all three pairs implement and test their own complete feature in parallel;
 5. replace fake upstreams with real upstreams by switching runtime mode only;
 6. tune empirical choices on real samples, then run final notebooks and report experiments.
@@ -46,38 +46,37 @@ An internal helper or final report artifact is not a shared schema. Under the cu
 
 ## Who defines and who implements a schema
 
-Use a **consumer-driven, producer-owned** rule:
+Use a **consumer-defined, producer-implemented** rule:
 
-- downstream consumers write the required use cases, fields, example calls, edge cases, and serialized examples;
-- the upstream producer checks feasibility, removes accidental implementation details, and becomes steward of the final protocol file;
-- producer and every affected consumer approve the schema before it is frozen;
-- the upstream producer implements the real interface and owns its compatibility;
-- consumers may request changes but must not create a second version of the same schema.
+- Groups B and C jointly write the required fields, signatures, behavior, examples and edge cases in `protocol/reviewer.py` and `protocol/tokenizer.py`;
+- Group A reviews whether the proposal can be implemented efficiently from Yelp data, but does not replace it with a producer-centric schema;
+- B and C approve one shared version before it is frozen;
+- Group A implements the real interface and must conform to that frozen version;
+- B and C each implement their own fake against the same protocol and may use different records for their own algorithms.
 
-This is preferable to either side deciding alone. A producer-only design can omit data the consumer needs; a consumer-only design can expose unstable or expensive internals. The target is **consumer-complete and minimal**, not speculative redundancy. A derived field belongs in the shared schema only when its meaning is common, stable, and recomputing it in several consumers would be inconsistent or needlessly expensive.
+The target is **consumer-complete and minimal**, not speculative redundancy. A derived field belongs in the shared schema only when B or C actually consumes it and its meaning is stable. Group A may flag an infeasible or ambiguous requirement, which returns to B/C for revision rather than being changed unilaterally.
 
 ### Boundary ownership
 
-| Boundary | Requirements proposed by | Protocol steward | Real implementation |
+| Boundary | Schema owners | Feasibility reviewer | Real implementation |
 | --- | --- | --- | --- |
-| prepared reviews | search pair + trend/application pair, with corpus needs from the data pair | data/corpus pair | data/corpus pair |
-| tokenizer | every pair that tokenizes text | data/corpus pair | data/corpus pair |
+| prepared reviews | search pair + trend/application pair | data/corpus pair | data/corpus pair |
+| tokenizer | search pair + trend/application pair (PMI requirements only for C) | data/corpus pair | data/corpus pair |
 
-The data/corpus pair stewards `src/yelptext/protocol/reviewer.py` and `tokenizer.py`. Its real implementations are exposed through `src/yelptext/interface/data_corpus_analysis.py`; fixture-mode implementations use `tests/fake/interface/data_corpus_analysis.py`. Search and trend/application types stay inside their own interface/implementation directories and do not enter `protocol/`.
+Groups B/C steward `src/yelptext/protocol/reviewer.py` and `tokenizer.py`. Group A exposes the real implementations through `src/yelptext/interface/data_corpus_analysis.py`. Fixture mode selects either B's `tests/fake/search_engine/data_corpus_analysis.py` or C's `tests/fake/trend_application/data_corpus_analysis.py`. Search and trend/application types stay inside their own interface/implementation directories and do not enter `protocol/`.
 
 ## What is created when a schema is frozen
 
-For each approved boundary, create one coherent change containing:
+For each proposed boundary, B/C first create one coherent schema change containing:
 
 1. the approved protocol and serialized example;
-2. the data/corpus real interface facade with the approved exported names;
-3. matching fake exports under `tests/fake/interface/data_corpus_analysis.py`;
-4. the smallest schema-valid derived fixture needed to unblock consumers;
-5. baseline acceptance cases and independently checked answers where an exact answer exists.
+2. example calls for both consumers;
+3. field/behavior decisions and edge cases;
+4. Group A's implementability review.
 
-An LLM may construct this baseline kit after the human team fixes the schema. It may enumerate edge cases, produce small records, and calculate deterministic examples. The schema steward and at least one consumer must review it. The LLM must not silently decide an unresolved tokenizer policy, ranking convention, threshold, label, or other ground truth.
+After schema approval, B and C separately add their fake `data_corpus_analysis` module, the smallest fixture needed by their algorithms, and independently checked expected answers where exact answers exist. An LLM may help draft records and enumerate edges, but the owning consumer group reviews and owns the result. It must not silently decide an unresolved tokenizer policy, ranking convention, threshold, label, or other ground truth.
 
-The baseline kit is not the complete feature test suite. It only proves the shared boundary is usable and gives downstream work a stable input.
+These consumer-owned fakes unblock development but do not replace each group's full feature tests. In parallel, Group A implements the same protocols against real/raw data.
 
 ## What each pair writes after the shared gate
 
@@ -92,7 +91,6 @@ src/yelptext/protocol/reviewer.py
 src/yelptext/protocol/tokenizer.py
 src/yelptext/interface/data_corpus_analysis.py
 src/yelptext/implementation/data_corpus_analysis/**
-tests/fake/interface/data_corpus_analysis.py
 tests/fixtures/data_corpus_analysis/**
 tests/test_data_corpus_analysis.py
 notebooks/00_dataset_inspection.ipynb
@@ -110,6 +108,7 @@ src/yelptext/cli/search_engine.py
 src/yelptext/command/search_engine.py
 src/yelptext/interface/search_engine.py
 src/yelptext/implementation/search_engine/**
+tests/fake/search_engine/data_corpus_analysis.py
 tests/fixtures/search_engine/**
 tests/test_search_engine.py
 notebooks/02_search_engine.ipynb
@@ -126,6 +125,7 @@ src/yelptext/cli/trend_application.py
 src/yelptext/command/trend_application.py
 src/yelptext/interface/trend_application.py
 src/yelptext/implementation/trend_application/**
+tests/fake/trend_application/data_corpus_analysis.py
 tests/fixtures/trend_application/**
 tests/test_trend_application.py
 notebooks/03_sentiment_and_pmi.ipynb
@@ -134,15 +134,16 @@ notebooks/04_application_demo.ipynb
 
 The pair owns sentiment, aggregation, PMI, sentence-level comparison detection, CLI artifacts, and report interpretation. Sentiment passes each original review string directly to VADER and does not use the shared tokenizer. PMI consumes the shared tokenizer. The comparison application owns sentence segmentation and consumes original review text. Exact counts and PMI examples can use fixtures; sector choice, minimum counts, sentiment interpretation, thresholds, and application quality require real samples.
 
-Each pair writes and expands its own `test_<feature>.py` while implementing the feature. The LLM-generated baseline cases do not replace these tests.
+Each pair writes and expands its own `test_<feature>.py` while implementing the feature. B/C's fake data are inputs to these tests, not substitutes for testing their real feature code.
 
 ## Fixture mode and real mode
 
 The function under development is always real. Runtime mode selects only its upstream dependencies:
 
 ```text
-fixture: tests.fake.interface.<upstream_feature>
-real:    yelptext.interface.<upstream_feature>
+fixture for B: tests.fake.search_engine.<upstream_feature>
+fixture for C: tests.fake.trend_application.<upstream_feature>
+real:          yelptext.interface.<upstream_feature>
 ```
 
 For example, a search fixture run follows:

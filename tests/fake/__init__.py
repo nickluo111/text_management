@@ -1,1 +1,1 @@
-"""Fixture-mode test doubles."""
+"""Consumer-owned fixture-mode implementations of upstream interfaces."""

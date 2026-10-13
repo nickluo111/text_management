@@ -1,10 +1,15 @@
 """Configuration and interface-selection helpers."""
 
 from yelptext.runtime.config import RuntimeMode, load_config, runtime_mode
-from yelptext.runtime.resolver import INTERFACE_ROOTS, load_interface_module
+from yelptext.runtime.resolver import (
+    FIXTURE_INTERFACE_ROOTS,
+    REAL_INTERFACE_ROOT,
+    load_interface_module,
+)
 
 __all__ = [
-    "INTERFACE_ROOTS",
+    "FIXTURE_INTERFACE_ROOTS",
+    "REAL_INTERFACE_ROOT",
     "RuntimeMode",
     "load_config",
     "load_interface_module",

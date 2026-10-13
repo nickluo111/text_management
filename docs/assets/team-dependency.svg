@@ -147,4 +147,5 @@
   <text x="1160" y="1088" class="body muted">matches · cues/labels · evaluation metrics</text>
 
   <text x="80" y="1172" class="small"><tspan class="muted">Cross-group runtime facilities: </tspan><tspan class="reviewer">PreparedReviewReader</tspan><tspan class="muted"> and shared </tspan><tspan class="tokenizer">Tokenizer</tspan><tspan class="muted">. Search and trend outputs are final artifacts unless another approved consumer is identified.</tspan></text>
+  <text x="80" y="1197" class="small muted">Schema: jointly defined by B/C · Real implementation: A · Fixture implementations and data: separately owned by B and C</text>
 </svg>
