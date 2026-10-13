@@ -1,0 +1,1 @@
+"""Fixture-mode test doubles."""

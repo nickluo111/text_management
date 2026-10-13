@@ -1,25 +1,24 @@
-"""The configuration mode selects parallel fake or real provider namespaces."""
+"""The configuration mode selects parallel fake or real interfaces."""
 
 from __future__ import annotations
 
 import pytest
 
-from yelptext.config import load_config, runtime_mode
-from yelptext.runtime import load_provider_module
+from yelptext.runtime import load_config, load_interface_module, runtime_mode
 
 
 def test_fixture_mode_resolves_the_fake_namespace() -> None:
     config = load_config("tests/fixtures/fixture.toml")
-    module = load_provider_module(runtime_mode(config), "reviews")
+    module = load_interface_module(runtime_mode(config), "data_corpus_analysis")
 
-    assert module.__name__ == "tests.fakes.reviews"
+    assert module.__name__ == "tests.fake.interface.data_corpus_analysis"
 
 
 def test_real_mode_resolves_the_source_namespace() -> None:
     config = load_config("configs/default.toml")
-    module = load_provider_module(runtime_mode(config), "reviews")
+    module = load_interface_module(runtime_mode(config), "data_corpus_analysis")
 
-    assert module.__name__ == "yelptext.providers.real.reviews"
+    assert module.__name__ == "yelptext.interface.data_corpus_analysis"
 
 
 @pytest.mark.parametrize("mode", [None, "test", "production"])
@@ -28,7 +27,7 @@ def test_invalid_runtime_modes_are_rejected(mode: object) -> None:
         runtime_mode({"runtime": {"mode": mode}})
 
 
-@pytest.mark.parametrize("provider", ["", "../reviews", "_private"])
-def test_invalid_provider_names_are_rejected(provider: str) -> None:
-    with pytest.raises(ValueError, match="Invalid provider"):
-        load_provider_module("fixture", provider)
+@pytest.mark.parametrize("interface", ["", "../reviews", "_private"])
+def test_invalid_interface_names_are_rejected(interface: str) -> None:
+    with pytest.raises(ValueError, match="Invalid interface"):
+        load_interface_module("fixture", interface)

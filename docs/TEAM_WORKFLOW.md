@@ -1,224 +1,105 @@
 # Six-person team workflow
 
-## Current state
+## Pair responsibilities
 
-Use three pairs:
+Use three pairs with flexible internal division and mutual backup:
 
-- **Group A - data and corpus analysis:** preparation, tokenizer, Zipf, Heaps,
-  and tokenizer comparison (§3.1-§3.2).
-- **Group B - search:** index, TF-IDF, BM25, queries, and retrieval analysis
-  (§3.3).
-- **Group C - trends and application:** sentiment, PMI drift, and the small
-  NLP/IR application (§3.4-§3.5).
-
-The raw synthetic records exist, but no cross-group schema has been approved.
-There are therefore no derived fixtures, conforming provider implementations,
-or expected algorithm outputs yet. The group directories and provider modules
-are placeholders only. Files under `src/yelptext/contracts/` are proposals for
-discussion, not frozen APIs.
-
-![Target dependency map after contract approval](assets/team-workflow-dependencies.png)
-
-## Workflow before parallel implementation
-
-The order is:
-
-1. inspect the Yelp-shaped raw fixture and its edge cases;
-2. agree on the minimum schema and Protocol at each group boundary;
-3. derive the smallest group-specific inputs from the raw fixture;
-4. implement same-interface fake providers;
-5. add contract tests and independently checked mathematical oracles;
-6. let each group implement its real component against the fake upstream;
-7. make the real provider pass the same contract tests;
-8. switch provider mode without changing consumer calls;
-9. use real samples for empirical tuning and the full data for final evidence.
-
-Do not create derived fixtures before step 2. Otherwise an invented file silently
-becomes a schema decision that the team never reviewed.
-
-## What must be confirmed
-
-| Boundary | Owner | Consumers | Decisions required before fixture/fake creation |
-| --- | --- | --- | --- |
-| Prepared reviews | Group A | A, B, C | fields, Python and serialized types, nullability, date format, category representation, orphan policy, iteration/error behavior |
-| Tokenizer | Group A | A, B, optionally C | normalization, contractions, emoji, hyphens, numbers, Unicode, empty input, fingerprint contents |
-| Read-only index | Group B | B search/rankers | document identifier, posting fields, position base, global statistics, missing-term behavior, tokenizer compatibility |
-| Trend outputs | Group C | notebooks/report | period/category keys, count fields, missing periods, sentiment values, PMI context and filtering |
-| Application output | Group C | notebook/report | prediction fields, labels, evidence/cue fields, evaluation record format |
-
-Each boundary must have one example call and one serialized example before it is
-approved. Internal helper functions do not require cross-group agreement.
-
-## Provisional contract proposals
-
-The current suggestions are deliberately structural only:
-
-- `src/yelptext/contracts/reviews.py`: proposed `PreparedReview` fields and a
-  streaming `ReviewReader`;
-- `src/yelptext/contracts/tokenizer.py`: proposed `tokenize()` and
-  `fingerprint()` methods;
-- `src/yelptext/contracts/index.py`: proposed posting fields and a read-only
-  `IndexReader`.
-
-The team may rename fields or change types. Until approval, production modules
-must remain placeholders and no fake may claim conformance.
-
-When a proposal is approved, remove its provisional warning and record the
-decision in the same pull request that adds its fake, fixture, and contract test.
-
-## Fixture organization after approval
-
-The only committed test data now is:
-
-```text
-tests/fixtures/
-├── fixture.toml
-└── raw/
-    ├── businesses.jsonl
-    └── reviews.jsonl
-```
-
-Consumer-oriented directories are already reserved. Populate them only after
-the relevant contracts are approved:
-
-```text
-tests/fixtures/
-├── raw/
-├── group_a/
-├── group_b/
-└── group_c/
-```
-
-Each directory contains only the inputs, labeled cases, and mathematical
-oracles needed by that group. A README in the directory must state for every
-file:
-
-- which confirmed contract it follows;
-- whether it is input, a case-level label, or an exact oracle;
-- how it was derived and which edge cases it covers;
-- who owns changes to it.
-
-Generated derived input must be reproducible from `raw/`. An expected result for
-the algorithm under test must not be produced by that same algorithm. Formula
-oracles require hand calculation or an independent reference calculation.
-
-## Fake and real providers
-
-After contract approval, interface owners fill the reserved modules with
-same-name implementations in parallel namespaces:
-
-```text
-tests/fakes/
-├── reviews.py       # ReviewReader
-├── tokenizer.py     # Tokenizer
-└── index.py         # IndexReader
-
-src/yelptext/providers/real/
-├── reviews.py       # ReviewReader
-├── tokenizer.py     # Tokenizer
-└── index.py         # IndexReader
-```
-
-Both implementations import the one shared contract; a fake must never redefine
-the schema. The runtime composition layer selects the namespace:
-
-```toml
-[runtime]
-mode = "fixture"
-```
-
-or:
-
-```toml
-[runtime]
-mode = "real"
-```
-
-Mode selection belongs in the composition root. Domain functions such as
-`build_index()` and `search()` must not contain `if fixture` branches or import
-`tests.fakes` directly.
-
-`yelptext.runtime.load_provider_module()` already performs this namespace
-selection. The reserved modules remain empty until an approved contract defines
-the same export name on both sides.
-
-The function under test is always real; only its unfinished upstream providers
-are fake. For example:
-
-| Work under test | Fake upstream | Real code exercised |
+| Feature | Assignment scope | Owned semantic files |
 | --- | --- | --- |
-| B index builder | A review reader and tokenizer | B `build_index()` |
-| B rankers | B read-only index | B TF-IDF/BM25 |
-| C trend aggregation | A review reader; tokenizer if required | C aggregation/PMI/sentiment |
-| Integrated fixture run | none once real providers exist | the full real pipeline over synthetic data |
+| Data and corpus analysis | preparation, tokenizer, Zipf, Heaps, tokenizer comparison (§3.1-§3.2) | `data_corpus_analysis` files |
+| Search engine | index, persistence, TF-IDF, BM25, queries and retrieval analysis (§3.3) | `search_engine` files |
+| Trends and application | sentiment, PMI drift, independent application (§3.4-§3.5) | `trend_application` files |
 
-Once a real upstream exists, switching mode changes provider construction only.
-Consumer imports, function signatures, and calls do not change. A tokenizer
-fingerprint change requires rebuilding dependent indexes, not rewriting B code.
+Pairs may organize files inside their `implementation/` directory freely. Cross-team changes are limited to approved interfaces, shared configuration, fixtures, and integration code.
 
-## Group A deliverables after its contracts are confirmed
+## What must be settled before pairs work independently
 
-| Area | Production files | Test responsibility |
-| --- | --- | --- |
-| Raw/prepared data | `data/models.py`, `data/reader.py`, `data/sampler.py`, `data/prepare.py` | fake review reader, join/orphan/sampling tests, approved prepared fixture |
-| Tokenization | `text/normalization.py`, `text/tokenizer.py`, `text/baselines.py` | fake tokenizer, confirmed edge cases, fake/real contract test |
-| Corpus analysis | `analysis/zipf.py`, `analysis/heaps.py`, `analysis/tokenizer_comparison.py` | exact small-corpus counting/fitting tests; real-sample evidence |
-| CLI | `commands/prepare.py`, `commands/analyze.py` | handler tests using injected providers |
-| Notebook | `00_dataset_inspection.ipynb`, `01_zipf_heaps_tokenizer.ipynb` | counts, coverage, plots, fitted values, examples, interpretation |
+Freeze the smallest schemas that cross feature boundaries. For every boundary, agree on:
 
-## Group B deliverables after A's fakes are available
+- exported names and signatures;
+- field names, types, nullability, and serialized representation;
+- iteration, missing-data, and error behavior;
+- one example call and one serialized example;
+- which pair owns the interface and fake.
 
-| Area | Production files | Test responsibility |
-| --- | --- | --- |
-| Index model/build | `search/models.py`, `search/index.py` | real builder with fake reviews/tokenizer; compare with independent postings oracle |
-| Persistence | `search/storage.py` | round-trip, metadata, corruption, tokenizer mismatch |
-| Ranking | `search/rankers/base.py`, `tfidf.py`, `bm25.py` | real rankers with fake index; exact scores and tie/missing-term cases |
-| Query/evaluation | `search/query.py`, `search/evaluation.py` | orchestration with fake tokenizer/index; real-sample query analysis |
-| CLI | `commands/index.py`, `commands/search.py` | real handler dispatch with injected runtime providers |
-| Notebook | `02_search_engine.ipynb` | index statistics, at least five real queries, TF-IDF/BM25 comparison and failures |
+The first likely boundaries are prepared reviews and the tokenizer from data/corpus analysis, followed by a read-only search index if trend/application work consumes search results. The files under `src/yelptext/protocol/` are recommendations for this discussion, not decisions.
 
-Group B owns the approved `IndexReader` contract and publishes its fake as soon
-as that contract is agreed, so ranker/query work need not wait for persistence.
+When a schema is approved, make one coherent update containing:
 
-## Group C deliverables after A's fakes are available
+1. the final protocol;
+2. the real public facade in `src/yelptext/interface/<feature>.py`;
+3. the same-name fake in `tests/fake/interface/<feature>.py`;
+4. the smallest derived fixture needed by consumers;
+5. tests that establish the agreed behavior.
 
-| Area | Production files | Test responsibility |
-| --- | --- | --- |
-| Sentiment | `trends/sentiment.py`, `trends/aggregation.py` | obvious labeled controls and aggregation invariants; real-sample trend evidence |
-| PMI | `trends/cooccurrence.py`, `trends/pmi.py` | exact counts/PMI under the approved context and log base |
-| Application | `applications/comparison_detector.py` | case-level labels, evaluation behavior, held-out real-sample error analysis |
-| CLI | `commands/trend.py`, `commands/application.py` | handler tests using injected providers |
-| Notebooks | `03_sentiment_and_pmi.ipynb`, `04_application_demo.ipynb` | figures, review counts, associations, metrics, examples, limitations |
+The fake interface is the executable stand-in. It reads its semantic fixture directory and returns objects matching the approved schema. Consumers do not manually import a special fake class or change a path.
 
-## Correctness versus empirical quality
+## Work after schemas are frozen
 
-Synthetic fixtures can establish schema conformance, error behavior,
-determinism, counting invariants, and exact results for fully specified formulas.
-They cannot establish that an empirical choice works well on Yelp.
+### Data and corpus analysis pair
 
-The following require a documented real sample after fixture tests pass:
+Complete:
 
-- tokenizer and normalization policy;
-- category matching and period coverage;
-- search query selection and retrieval usefulness;
-- BM25 parameter justification;
-- PMI target, context, minimum count, and stability;
-- application rules/thresholds and held-out error analysis;
-- runtime, memory, and artifact size.
+- `command/data_corpus_analysis.py`;
+- `interface/data_corpus_analysis.py`;
+- freely chosen modules in `implementation/data_corpus_analysis/`;
+- `tests/test_data_corpus_analysis.py` and its semantic fixtures;
+- data inspection and corpus-analysis notebooks.
 
-Do not update an oracle merely to match an implementation. Do not claim that a
-passing edge-case fixture validates corpus-level quality.
+Publish the prepared-review and tokenizer fakes early so the other pairs can start. Tokenizer behavior that is purely specified can be tested synthetically; policy selection and normalization quality must later be checked on a documented real sample.
 
-## Integration and ownership
+### Search-engine pair
 
-- The interface owner supplies the contract, fake, derived input, and contract
-  tests together.
-- Consumers may add scenarios but may not redefine the provider's schema.
-- A contract change requires review from at least one consuming group.
-- The fake and real provider must pass the same contract test suite.
-- `fixture` mode is for parallel development; the final synthetic integration
-  run uses all real providers over small invented data.
-- Sample/full runs change configuration and inputs, not consumer code.
-- Reusable logic belongs under `src/yelptext`; notebooks only present results.
-- Do not commit Yelp data, large generated artifacts, secrets, or unnecessary
-  notebook output.
+Complete:
+
+- `command/search_engine.py`;
+- `interface/search_engine.py`;
+- freely chosen modules in `implementation/search_engine/`;
+- `tests/test_search_engine.py` and search fixtures;
+- the search notebook and final real-query analysis.
+
+Start with `fixture` mode. The real search implementation consumes the fake `data_corpus_analysis` interface automatically. Use small, independently checked postings and score examples for deterministic index/ranking behavior. After the upstream real interface is ready, switch the config to `real`; do not alter imports, function signatures, or fixture paths in the search implementation.
+
+### Trend/application pair
+
+Complete:
+
+- `command/trend_application.py`;
+- `interface/trend_application.py`;
+- freely chosen modules in `implementation/trend_application/`;
+- `tests/test_trend_application.py` and trend/application fixtures;
+- sentiment, PMI, and application notebooks.
+
+Begin against fake prepared reviews (and fake tokenizer if the approved design requires it). Exact aggregation and PMI examples can be checked synthetically. Sector selection, minimum counts, sentiment interpretation, application thresholds, and error analysis require real data.
+
+## How fixture and real modes migrate
+
+The runtime resolver maps a semantic interface name without changing consumer code:
+
+| Config mode | `data_corpus_analysis` resolves to |
+| --- | --- |
+| `fixture` | `tests.fake.interface.data_corpus_analysis` |
+| `real` | `yelptext.interface.data_corpus_analysis` |
+
+The same rule applies to the other semantic interfaces. The implementation currently under test is always real; only upstream dependencies are resolved by mode. Once all upstreams are implemented, the same feature command can run over the small invented raw data using real mode before moving to a real Yelp sample.
+
+## What counts as an expected output
+
+An expected file is not required merely because a fixture exists.
+
+- Use exact expected outputs for deterministic, fully specified behavior: joins, counts, postings, formula scores, ordering/tie rules, PMI on fixed counts, or fixed-rule labels.
+- Use schema checks and invariants when many valid representations exist.
+- Use labeled cases only when the label was independently decided; never generate the oracle using the implementation being tested.
+- For tokenizer policy, query usefulness, BM25 settings, PMI thresholds, sentiment interpretation, and application quality, fixture tests establish functional correctness only. Tune and evaluate these on documented real samples.
+- A fake interface's returned data is an upstream input, not automatically the expected result of the feature under test.
+
+Therefore CLI-oriented tests should compare structured artifacts with expected results only where a real standard answer exists. Otherwise they should validate schema, determinism, invariants, and error behavior.
+
+## Integration rules
+
+- Consumer code never imports `tests.fake` directly.
+- No `if fixture` branches belong inside algorithms.
+- A schema change requires the owner and at least one consumer to review it.
+- Changes to a tokenizer fingerprint require dependent indexes to be rebuilt, not search code to be rewritten.
+- Reusable logic belongs in `src/yelptext`; notebooks display and interpret it.
+- Do not commit Yelp data, large artifacts, secrets, or unnecessary notebook output.

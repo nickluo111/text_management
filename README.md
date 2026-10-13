@@ -1,15 +1,10 @@
 # Yelp Text Analysis
 
-Course-project scaffold for AI6122 Text Data Management & Processing.
-
-## Current status
-
-The package layout and unified CLI entry point are established. Algorithm modules are placeholders and are intentionally not implemented yet.
+Course-project scaffold for AI6122 Text Data Management & Processing. The project uses one installable Python package, one public CLI, small presentation notebooks, and semantic feature boundaries that six contributors can work on as three flexible pairs.
 
 ## Quick start
 
-The project is pinned to **CPython 3.12.4**. Confirm the interpreter before
-creating the environment:
+The reference interpreter is **CPython 3.12.4**.
 
 ```powershell
 python --version
@@ -19,54 +14,32 @@ python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 python -m pip install -e . --no-deps
 python -m nltk.downloader vader_lexicon
+python -m pytest -q
 yelptext --help
 ```
 
-The NLTK download installs the VADER lexicon data used by the sentiment
-experiment; it is not a Python package and therefore cannot be listed in
-`requirements.txt`.
+The VADER lexicon is runtime data rather than a Python package, so it cannot be pinned in `requirements.txt`.
 
-The equivalent non-installed entry point is:
+## Current status
 
-```powershell
-python -m yelptext --help
-```
+The repository is intentionally in a pre-schema state:
 
-## Development with synthetic data
+- CLI registration, TOML loading, runtime mode selection, raw synthetic data, and structural tests work now.
+- `src/yelptext/protocol/` contains recommendations for team review, not approved contracts.
+- real interfaces, fake interfaces, command implementations, and domain implementations remain empty until the schemas are approved.
+- derived fixtures and exact expected outputs will be added only where the approved behavior makes them meaningful.
 
-There is no separate test CLI. Development and full-data runs use the same
-`yelptext` entry point. Runtime configuration will select same-contract fixture
-or real providers after the team approves those contracts.
+There is no second test CLI. The normal command accepts either `configs/default.toml` (`real`) or `tests/fixtures/fixture.toml` (`fixture`). The domain being developed always runs its real implementation; fixture mode substitutes only unfinished upstream interfaces.
 
 ```powershell
-python -m pytest tests/test_raw_fixtures.py -q
+yelptext index build --config tests/fixtures/fixture.toml
+yelptext search "great service" --config configs/default.toml
 ```
 
-At present only Yelp-shaped raw fixture records exist. Proposed Protocols are
-under `src/yelptext/contracts/`; group fixture directories and fake/real
-provider modules are reserved but contain no implementations until the team
-confirms each schema. Consequently, the CLI commands still confirm registration
-and dispatch only.
+See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for layer boundaries and [docs/TEAM_WORKFLOW.md](docs/TEAM_WORKFLOW.md) for the collaboration procedure.
 
-The schema-independent runtime resolver is already active: fixture mode resolves
-provider modules under `tests.fakes`, while real mode resolves the matching
-modules under `yelptext.providers.real`. Classes are added to those modules only
-after their contracts are approved.
+## Data and notebooks
 
-After approval, each interface owner adds its fake, group-specific derived
-fixture, and contract tests together. Fixture and real modes then use the same
-CLI and consumer calls; only runtime provider composition changes. See
-`tests/fixtures/README.md` and `docs/TEAM_WORKFLOW.md`.
+Place the Yelp business and review files under `data/raw/` using the names documented in `data/README.md`. Real data and generated artifacts are ignored and must not be submitted. Acquisition notes are in `docs/DATA_ACCESS.md`.
 
-## Notebooks
-
-The notebooks under `notebooks/` are presentation and analysis drivers. They
-must import reusable logic from `src/yelptext`; core algorithms must not be
-implemented only inside a notebook. Use the CLI for reproducible full runs and
-the notebooks for figures, tables, comparisons, and report interpretation.
-
-See `docs/DATA_ACCESS.md` before obtaining the Yelp dataset. Data and generated artifacts must not be committed or included in the final source-code archive.
-
-Project boundaries are documented in `docs/ARCHITECTURE.md`; the six-person
-group workflow, shared interfaces, reviews, and integration checkpoints are in
-`docs/TEAM_WORKFLOW.md`.
+Notebooks are presentation drivers. They import reusable work from `src/yelptext`; algorithms must not exist only in notebooks.
