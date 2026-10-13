@@ -6,7 +6,7 @@ The project uses three pairs, but the work does not begin as three independent b
 
 ![Team dependency and ownership flow](assets/team-dependency.svg)
 
-In the diagram, a blue filled output is a cross-group global facility. A pale-blue input with a stronger blue border consumes at least one global facility. Neutral inputs/outputs are external sources, within-feature dependencies, or terminal experiment/report artifacts.
+In the diagram, only facility names carry dependency colors: blue text is `PreparedReviewReader`, and purple text is the shared `Tokenizer`. Box styling continues to mean input, work, or output, so dependency identity does not obscure node responsibility.
 
 ### Facility dependency register
 
