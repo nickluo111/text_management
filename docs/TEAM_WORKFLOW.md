@@ -39,10 +39,10 @@ The serial dependency stops at the approved schema and usable fake. Group B does
 | Pair | Assignment scope | Upstream dependency | Outputs consumed elsewhere |
 | --- | --- | --- | --- |
 | Data and corpus analysis | preparation, tokenizer, Zipf, Heaps, tokenizer comparison (§3.1-§3.2) | raw Yelp business/review records | prepared reviews and tokenizer |
-| Search engine | index, persistence, TF-IDF, BM25, query and retrieval analysis (§3.3) | prepared reviews and tokenizer | read-only search/index interface only if another feature needs it |
-| Trends and application | sentiment, PMI drift, independent NLP/IR application (§3.4-§3.5) | prepared reviews for all tasks; shared tokenizer for PMI only | sentiment series, PMI rankings, comparison matches and evaluation artifacts |
+| Search engine | index, persistence, TF-IDF, BM25, query and retrieval analysis (§3.3) | prepared reviews and tokenizer | none; its index and ranked results remain group-internal/report artifacts |
+| Trends and application | sentiment, PMI drift, independent NLP/IR application (§3.4-§3.5) | prepared reviews for all tasks; shared tokenizer for PMI only | none; its results are terminal report/application artifacts |
 
-An internal helper is not a shared schema. Create a cross-feature protocol only when another pair actually consumes it.
+An internal helper or final report artifact is not a shared schema. Under the current design, the only cross-feature runtime schemas are `PreparedReviewReader` and `Tokenizer`.
 
 ## Who defines and who implements a schema
 
@@ -62,18 +62,16 @@ This is preferable to either side deciding alone. A producer-only design can omi
 | --- | --- | --- | --- |
 | prepared reviews | search pair + trend/application pair, with corpus needs from the data pair | data/corpus pair | data/corpus pair |
 | tokenizer | every pair that tokenizes text | data/corpus pair | data/corpus pair |
-| read-only index/search | trend/application pair only if it consumes this boundary; otherwise search-internal | search pair | search pair |
-| trend/application artifacts | notebook/report consumers | trend/application pair | trend/application pair |
 
-The steward maintains `src/yelptext/protocol/<feature>.py` and `src/yelptext/interface/<feature>.py`. The implementation remains inside `src/yelptext/implementation/<feature>/`.
+The data/corpus pair stewards `src/yelptext/protocol/reviewer.py` and `tokenizer.py`. Its real implementations are exposed through `src/yelptext/interface/data_corpus_analysis.py`; fixture-mode implementations use `tests/fake/interface/data_corpus_analysis.py`. Search and trend/application types stay inside their own interface/implementation directories and do not enter `protocol/`.
 
 ## What is created when a schema is frozen
 
 For each approved boundary, create one coherent change containing:
 
 1. the approved protocol and serialized example;
-2. the real interface facade with the approved exported names;
-3. the same-name fake interface under `tests/fake/interface/`;
+2. the data/corpus real interface facade with the approved exported names;
+3. matching fake exports under `tests/fake/interface/data_corpus_analysis.py`;
 4. the smallest schema-valid derived fixture needed to unblock consumers;
 5. baseline acceptance cases and independently checked answers where an exact answer exists.
 
@@ -90,7 +88,8 @@ Owned locations:
 ```text
 src/yelptext/cli/data_corpus_analysis.py
 src/yelptext/command/data_corpus_analysis.py
-src/yelptext/protocol/data_corpus_analysis.py
+src/yelptext/protocol/reviewer.py
+src/yelptext/protocol/tokenizer.py
 src/yelptext/interface/data_corpus_analysis.py
 src/yelptext/implementation/data_corpus_analysis/**
 tests/fake/interface/data_corpus_analysis.py
@@ -109,10 +108,8 @@ Owned locations:
 ```text
 src/yelptext/cli/search_engine.py
 src/yelptext/command/search_engine.py
-src/yelptext/protocol/search_engine.py
 src/yelptext/interface/search_engine.py
 src/yelptext/implementation/search_engine/**
-tests/fake/interface/search_engine.py
 tests/fixtures/search_engine/**
 tests/test_search_engine.py
 notebooks/02_search_engine.ipynb
@@ -127,10 +124,8 @@ Owned locations:
 ```text
 src/yelptext/cli/trend_application.py
 src/yelptext/command/trend_application.py
-src/yelptext/protocol/trend_application.py
 src/yelptext/interface/trend_application.py
 src/yelptext/implementation/trend_application/**
-tests/fake/interface/trend_application.py
 tests/fixtures/trend_application/**
 tests/test_trend_application.py
 notebooks/03_sentiment_and_pmi.ipynb

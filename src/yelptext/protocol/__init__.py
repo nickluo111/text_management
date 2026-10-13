@@ -1,1 +1,1 @@
-"""Provisional cross-domain schemas for team review."""
+"""Provisional schemas only for facilities consumed across group boundaries."""

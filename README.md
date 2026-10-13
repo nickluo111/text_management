@@ -25,7 +25,7 @@ The VADER lexicon is runtime data rather than a Python package, so it cannot be 
 The repository is intentionally in a pre-schema state:
 
 - CLI registration, TOML loading, runtime mode selection, raw synthetic data, and structural tests work now.
-- `src/yelptext/protocol/` contains recommendations for team review, not approved contracts.
+- `src/yelptext/protocol/reviewer.py` and `tokenizer.py` contain the only two cross-group schema recommendations; they are not yet approved contracts.
 - real interfaces, fake interfaces, command implementations, and domain implementations remain empty until the schemas are approved.
 - derived fixtures and exact expected outputs will be added only where the approved behavior makes them meaningful.
 

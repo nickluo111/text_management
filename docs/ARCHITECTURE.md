@@ -8,7 +8,9 @@ The repository is organized by semantic feature and by responsibility layer. A f
 src/yelptext/
 ├── cli/                    # argparse registration only
 ├── command/                # use-case orchestration
-├── protocol/               # proposed/approved shared schemas
+├── protocol/               # cross-group schemas only
+│   ├── reviewer.py         # PreparedReview + PreparedReviewReader
+│   └── tokenizer.py        # shared Tokenizer
 ├── interface/              # stable real public facades
 ├── implementation/         # private domain code, freely organized by each pair
 │   ├── data_corpus_analysis/
@@ -25,7 +27,7 @@ The three feature names repeat across layers so ownership is visible:
 - `search_engine`: index construction/storage, TF-IDF, BM25, query and retrieval analysis;
 - `trend_application`: sentiment, PMI drift, and the independent NLP/IR application.
 
-`implementation/<feature>/` deliberately does not prescribe many files. Each pair can split its private implementation as needed. Only the approved public interface and serialized artifacts are cross-team commitments.
+`implementation/<feature>/` deliberately does not prescribe many files. Each pair can split its private implementation as needed. Only `PreparedReviewReader` and `Tokenizer` currently cross group boundaries, so they are the only shared protocols. Search models/rankers and trend/application outputs remain private to their owning feature unless a real downstream runtime consumer is later identified.
 
 Shared schemas are consumer-driven and producer-owned. Downstream pairs specify the information and behavior they need; the upstream pair validates feasibility, maintains the protocol and real interface, and implements it. The producer and every affected consumer approve the boundary. This keeps one source of truth without letting either side define it alone.
 

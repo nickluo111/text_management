@@ -1,1 +1,1 @@
-"""Real data/corpus interface placeholder pending schema approval."""
+"""Real PreparedReviewReader/Tokenizer exports pending schema approval."""

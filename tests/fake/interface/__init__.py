@@ -1,1 +1,1 @@
-"""Fake public interfaces, populated only after schema approval."""
+"""Fake cross-group interfaces, populated only after schema approval."""

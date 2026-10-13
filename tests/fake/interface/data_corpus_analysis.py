@@ -1,1 +1,1 @@
-"""Fake data/corpus interface placeholder pending schema approval."""
+"""Fake PreparedReviewReader/Tokenizer exports pending schema approval."""
