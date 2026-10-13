@@ -13,6 +13,8 @@
       .input { fill: #ffffff; stroke: #d5d3cc; stroke-width: 1.5; }
       .work { fill: #fff5e8; stroke: #d97822; stroke-width: 1.6; }
       .output { fill: #edf3ef; stroke: #91a097; stroke-width: 1.5; }
+      .global-output { fill: #dce8fb; stroke: #4169a8; stroke-width: 2.2; }
+      .global-input { fill: #f1f6ff; stroke: #4169a8; stroke-width: 3; }
       .line { fill: none; stroke: #77766f; stroke-width: 2; marker-end: url(#arrow); }
       .separator { stroke: #d8d6cf; stroke-width: 1; }
       .title { font: 500 30px Georgia, ui-serif, serif; }
@@ -28,6 +30,10 @@
   <rect class="bg" width="1600" height="1220"/>
   <text x="80" y="58" class="title ink">Exact facilities: consume → work → provide</text>
   <text x="80" y="86" class="body muted">A dependency exists only when the work unit directly consumes that facility.</text>
+  <rect x="905" y="39" width="24" height="18" rx="4" class="global-output"/>
+  <text x="941" y="53" class="small ink">Global facility provided</text>
+  <rect x="1225" y="39" width="24" height="18" rx="4" class="global-input"/>
+  <text x="1261" y="53" class="small ink">Consumes global facility</text>
 
   <rect x="80" y="112" width="380" height="42" rx="8" class="header"/>
   <rect x="555" y="112" width="490" height="42" rx="8" class="header"/>
@@ -46,23 +52,23 @@
   <text x="575" y="233" class="label ink">Prepare reviews</text>
   <text x="575" y="258" class="body muted">stream · validate · join metadata · apply policies</text>
   <path d="M1045 243 H1132" class="line"/>
-  <rect x="1140" y="202" width="380" height="82" rx="12" class="output"/>
+  <rect x="1140" y="202" width="380" height="82" rx="12" class="global-output"/>
   <text x="1160" y="233" class="label ink">PreparedReviewReader</text>
   <text x="1160" y="258" class="body muted">stable review records + prepared artifact</text>
 
-  <rect x="80" y="302" width="380" height="82" rx="12" class="input"/>
-  <text x="100" y="333" class="label ink">Prepared review text</text>
-  <text x="100" y="358" class="body muted">plus approved token policy</text>
+  <rect x="80" y="302" width="380" height="82" rx="12" class="global-input"/>
+  <text x="100" y="333" class="label ink">PreparedReviewReader</text>
+  <text x="100" y="358" class="body muted">original text + approved token policy</text>
   <path d="M460 343 H547" class="line"/>
   <rect x="555" y="302" width="490" height="82" rx="12" class="work"/>
   <text x="575" y="333" class="label ink">Normalize and tokenize</text>
   <text x="575" y="358" class="body muted">fixed behavior + versioned compatibility fingerprint</text>
   <path d="M1045 343 H1132" class="line"/>
-  <rect x="1140" y="302" width="380" height="82" rx="12" class="output"/>
+  <rect x="1140" y="302" width="380" height="82" rx="12" class="global-output"/>
   <text x="1160" y="333" class="label ink">Shared Tokenizer</text>
   <text x="1160" y="358" class="body muted">tokenize(text) + fingerprint()</text>
 
-  <rect x="80" y="402" width="380" height="82" rx="12" class="input"/>
+  <rect x="80" y="402" width="380" height="82" rx="12" class="global-input"/>
   <text x="100" y="433" class="label ink">ReviewReader + Tokenizer</text>
   <text x="100" y="458" class="body muted">plus baseline tokenizers</text>
   <path d="M460 443 H547" class="line"/>
@@ -77,7 +83,7 @@
   <line x1="80" y1="518" x2="1520" y2="518" class="separator"/>
   <text x="80" y="551" class="group muted">SEARCH ENGINE</text>
 
-  <rect x="80" y="567" width="380" height="82" rx="12" class="input"/>
+  <rect x="80" y="567" width="380" height="82" rx="12" class="global-input"/>
   <text x="100" y="598" class="label ink">ReviewReader + Tokenizer</text>
   <text x="100" y="623" class="body muted">approved A-group facilities</text>
   <path d="M460 608 H547" class="line"/>
@@ -89,7 +95,7 @@
   <text x="1160" y="598" class="label ink">Index artifact + facade</text>
   <text x="1160" y="623" class="body muted">SearchIndex / read-only index access</text>
 
-  <rect x="80" y="667" width="380" height="82" rx="12" class="input"/>
+  <rect x="80" y="667" width="380" height="82" rx="12" class="global-input"/>
   <text x="100" y="698" class="label ink">Index facade + Tokenizer</text>
   <text x="100" y="723" class="body muted">same fingerprint as index time</text>
   <path d="M460 708 H547" class="line"/>
@@ -104,7 +110,7 @@
   <line x1="80" y1="783" x2="1520" y2="783" class="separator"/>
   <text x="80" y="816" class="group muted">TRENDS + APPLICATION</text>
 
-  <rect x="80" y="832" width="380" height="82" rx="12" class="input"/>
+  <rect x="80" y="832" width="380" height="82" rx="12" class="global-input"/>
   <text x="100" y="863" class="label ink">ReviewReader only</text>
   <text x="100" y="888" class="body muted">original text · date · categories</text>
   <path d="M460 873 H547" class="line"/>
@@ -116,7 +122,7 @@
   <text x="1160" y="863" class="label ink">Sentiment trends</text>
   <text x="1160" y="888" class="body muted">period × sector aggregates + counts</text>
 
-  <rect x="80" y="932" width="380" height="82" rx="12" class="input"/>
+  <rect x="80" y="932" width="380" height="82" rx="12" class="global-input"/>
   <text x="100" y="963" class="label ink">ReviewReader + Tokenizer</text>
   <text x="100" y="988" class="body muted">approved context and period definition</text>
   <path d="M460 973 H547" class="line"/>
@@ -128,7 +134,7 @@
   <text x="1160" y="963" class="label ink">PMI associations</text>
   <text x="1160" y="988" class="body muted">ranked terms + counts + period metadata</text>
 
-  <rect x="80" y="1032" width="380" height="82" rx="12" class="input"/>
+  <rect x="80" y="1032" width="380" height="82" rx="12" class="global-input"/>
   <text x="100" y="1063" class="label ink">ReviewReader only</text>
   <text x="100" y="1088" class="body muted">original text + review_id</text>
   <path d="M460 1073 H547" class="line"/>
