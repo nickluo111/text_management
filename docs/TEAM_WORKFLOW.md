@@ -6,7 +6,7 @@ The project uses three pairs, but the work does not begin as three independent b
 
 ![Team dependency and ownership flow](assets/team-dependency.svg)
 
-In the diagram, only facility names carry dependency colors: blue text is `PreparedReviewReader`, and purple text is the shared `Tokenizer`. Box styling continues to mean input, work, or output, so dependency identity does not obscure node responsibility.
+In the diagram, dependency colors are used only at cross-group boundaries: Group A's provided `PreparedReviewReader` is blue and its shared `Tokenizer` is purple; the same colors reappear where Groups B/C consume them. Group A's own internal inputs remain neutral. Box styling continues to mean input, work, or output, so dependency identity does not obscure node responsibility.
 
 ### Facility dependency register
 

@@ -57,7 +57,7 @@
   <text x="1160" y="258" class="body muted">stable review records + prepared artifact</text>
 
   <rect x="80" y="302" width="380" height="82" rx="12" class="input"/>
-  <text x="100" y="333" class="label reviewer">PreparedReviewReader</text>
+  <text x="100" y="333" class="label ink">PreparedReviewReader</text>
   <text x="100" y="358" class="body muted">original text + approved token policy</text>
   <path d="M460 343 H547" class="line"/>
   <rect x="555" y="302" width="490" height="82" rx="12" class="work"/>
@@ -69,7 +69,7 @@
   <text x="1160" y="358" class="body muted">tokenize(text) + fingerprint()</text>
 
   <rect x="80" y="402" width="380" height="82" rx="12" class="input"/>
-  <text x="100" y="433" class="label"><tspan class="reviewer">PreparedReviewReader</tspan><tspan class="ink"> + </tspan><tspan class="tokenizer">Tokenizer</tspan></text>
+  <text x="100" y="433" class="label ink">PreparedReviewReader + Tokenizer</text>
   <text x="100" y="458" class="body muted">plus baseline tokenizers</text>
   <path d="M460 443 H547" class="line"/>
   <rect x="555" y="402" width="490" height="82" rx="12" class="work"/>
