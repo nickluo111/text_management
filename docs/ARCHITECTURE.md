@@ -58,6 +58,8 @@ yelptext index build --config tests/fixtures/fixture.toml
 
 Switching the config to `real` changes only the upstream resolution to `yelptext.interface.data_corpus_analysis`; the search code and call sites remain unchanged.
 
+Dependencies are declared per work unit rather than per pair. In particular, trend/application has three different input paths: sentiment consumes complete prepared-review text without the shared tokenizer, PMI consumes prepared reviews plus the shared tokenizer, and the comparison application consumes original text with sentence segmentation owned inside that feature. The detailed dependency register is maintained in `docs/TEAM_WORKFLOW.md`.
+
 ## Test layout
 
 Tests do not mirror every production layer:

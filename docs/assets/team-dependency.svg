@@ -1,99 +1,144 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="860" viewBox="0 0 1440 860" role="img" aria-labelledby="title desc">
-  <title id="title">Team dependency and ownership flow</title>
-  <desc id="desc">A shared schema gate and baseline test kit unblock three parallel implementation lanes, which later converge for real-interface integration and empirical evaluation.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1220" viewBox="0 0 1600 1220" role="img" aria-labelledby="title desc">
+  <title id="title">Feature facilities and exact upstream dependencies</title>
+  <desc id="desc">Each row names the upstream facilities a work unit consumes, the work it performs, and the facilities or artifacts it provides.</desc>
   <defs>
     <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
-      <path d="M0,0 L10,5 L0,10 Z" fill="#6b6b66"/>
+      <path d="M0,0 L10,5 L0,10 Z" fill="#77766f"/>
     </marker>
     <style>
       .bg { fill: #f7f6f2; }
       .ink { fill: #20201e; }
       .muted { fill: #696863; }
-      .line { fill: none; stroke: #8a8983; stroke-width: 2; marker-end: url(#arrow); }
-      .lane-line { fill: none; stroke: #b0afa8; stroke-width: 2; }
-      .node { fill: #ffffff; stroke: #d8d6cf; stroke-width: 1.5; rx: 14; }
-      .gate { fill: #fff4e6; stroke: #d97822; stroke-width: 2; rx: 14; }
-      .parallel { fill: #eef3ef; stroke: #94a198; stroke-width: 1.5; rx: 14; }
-      .label { font: 500 18px Inter, ui-sans-serif, system-ui, sans-serif; letter-spacing: .2px; }
-      .body { font: 400 15px Inter, ui-sans-serif, system-ui, sans-serif; }
-      .small { font: 400 13px Inter, ui-sans-serif, system-ui, sans-serif; }
-      .eyebrow { font: 500 12px Inter, ui-sans-serif, system-ui, sans-serif; letter-spacing: 1.4px; text-transform: uppercase; }
+      .header { fill: #eceae4; }
+      .input { fill: #ffffff; stroke: #d5d3cc; stroke-width: 1.5; }
+      .work { fill: #fff5e8; stroke: #d97822; stroke-width: 1.6; }
+      .output { fill: #edf3ef; stroke: #91a097; stroke-width: 1.5; }
+      .line { fill: none; stroke: #77766f; stroke-width: 2; marker-end: url(#arrow); }
+      .separator { stroke: #d8d6cf; stroke-width: 1; }
       .title { font: 500 30px Georgia, ui-serif, serif; }
+      .column { font: 500 13px Inter, ui-sans-serif, system-ui, sans-serif; letter-spacing: 1.2px; }
+      .group { font: 500 14px Inter, ui-sans-serif, system-ui, sans-serif; letter-spacing: 1.1px; }
+      .label { font: 500 17px Inter, ui-sans-serif, system-ui, sans-serif; }
+      .body { font: 400 14px Inter, ui-sans-serif, system-ui, sans-serif; }
+      .small { font: 400 13px Inter, ui-sans-serif, system-ui, sans-serif; }
+      .note { font: 500 13px Inter, ui-sans-serif, system-ui, sans-serif; fill: #9a4a11; }
     </style>
   </defs>
 
-  <rect class="bg" width="1440" height="860"/>
-  <text x="90" y="68" class="title ink">From shared contracts to parallel delivery</text>
-  <text x="90" y="99" class="body muted">Only the schema and baseline fake are serial gates; real feature work proceeds in parallel.</text>
+  <rect class="bg" width="1600" height="1220"/>
+  <text x="80" y="58" class="title ink">Exact facilities: consume → work → provide</text>
+  <text x="80" y="86" class="body muted">A dependency exists only when the work unit directly consumes that facility.</text>
 
-  <rect x="90" y="142" width="260" height="112" class="node"/>
-  <text x="114" y="169" class="eyebrow muted">SHARED INPUT</text>
-  <text x="114" y="199" class="label ink">Scope + raw shapes</text>
-  <text x="114" y="225" class="body muted">Assignment requirements</text>
-  <text x="114" y="247" class="body muted">Yelp record examples</text>
+  <rect x="80" y="112" width="380" height="42" rx="8" class="header"/>
+  <rect x="555" y="112" width="490" height="42" rx="8" class="header"/>
+  <rect x="1140" y="112" width="380" height="42" rx="8" class="header"/>
+  <text x="100" y="139" class="column muted">REQUIRED UPSTREAM FACILITIES</text>
+  <text x="575" y="139" class="column muted">WORK UNIT</text>
+  <text x="1160" y="139" class="column muted">FACILITIES / ARTIFACTS PROVIDED</text>
 
-  <path d="M350 198 H405" class="line"/>
+  <text x="80" y="186" class="group muted">DATA + CORPUS ANALYSIS</text>
 
-  <rect x="410" y="128" width="340" height="140" class="gate"/>
-  <text x="436" y="157" class="eyebrow" fill="#a24b0e">SERIAL GATE 1</text>
-  <text x="436" y="190" class="label ink">Consumer-driven schema</text>
-  <text x="436" y="217" class="body muted">Downstream specifies needs</text>
-  <text x="436" y="239" class="body muted">Upstream validates, stewards, implements</text>
+  <rect x="80" y="202" width="380" height="82" rx="12" class="input"/>
+  <text x="100" y="233" class="label ink">Raw Yelp files</text>
+  <text x="100" y="258" class="body muted">business JSON + review JSON</text>
+  <path d="M460 243 H547" class="line"/>
+  <rect x="555" y="202" width="490" height="82" rx="12" class="work"/>
+  <text x="575" y="233" class="label ink">Prepare reviews</text>
+  <text x="575" y="258" class="body muted">stream · validate · join metadata · apply policies</text>
+  <path d="M1045 243 H1132" class="line"/>
+  <rect x="1140" y="202" width="380" height="82" rx="12" class="output"/>
+  <text x="1160" y="233" class="label ink">PreparedReviewReader</text>
+  <text x="1160" y="258" class="body muted">stable review records + prepared artifact</text>
 
-  <path d="M750 198 H805" class="line"/>
+  <rect x="80" y="302" width="380" height="82" rx="12" class="input"/>
+  <text x="100" y="333" class="label ink">Prepared review text</text>
+  <text x="100" y="358" class="body muted">plus approved token policy</text>
+  <path d="M460 343 H547" class="line"/>
+  <rect x="555" y="302" width="490" height="82" rx="12" class="work"/>
+  <text x="575" y="333" class="label ink">Normalize and tokenize</text>
+  <text x="575" y="358" class="body muted">fixed behavior + versioned compatibility fingerprint</text>
+  <path d="M1045 343 H1132" class="line"/>
+  <rect x="1140" y="302" width="380" height="82" rx="12" class="output"/>
+  <text x="1160" y="333" class="label ink">Shared Tokenizer</text>
+  <text x="1160" y="358" class="body muted">tokenize(text) + fingerprint()</text>
 
-  <rect x="810" y="128" width="360" height="140" class="gate"/>
-  <text x="836" y="157" class="eyebrow" fill="#a24b0e">SERIAL GATE 2</text>
-  <text x="836" y="190" class="label ink">Baseline development kit</text>
-  <text x="836" y="217" class="body muted">Fake interface + derived fixture</text>
-  <text x="836" y="239" class="body muted">Reviewed cases + exact answers when valid</text>
+  <rect x="80" y="402" width="380" height="82" rx="12" class="input"/>
+  <text x="100" y="433" class="label ink">ReviewReader + Tokenizer</text>
+  <text x="100" y="458" class="body muted">plus baseline tokenizers</text>
+  <path d="M460 443 H547" class="line"/>
+  <rect x="555" y="402" width="490" height="82" rx="12" class="work"/>
+  <text x="575" y="433" class="label ink">Zipf · Heaps · tokenizer comparison</text>
+  <text x="575" y="458" class="body muted">count · fit · compare · interpret</text>
+  <path d="M1045 443 H1132" class="line"/>
+  <rect x="1140" y="402" width="380" height="82" rx="12" class="output"/>
+  <text x="1160" y="433" class="label ink">Corpus evidence</text>
+  <text x="1160" y="458" class="body muted">metrics · tables · figures</text>
 
-  <path d="M990 268 V310" class="lane-line"/>
-  <path d="M265 310 H1150" class="lane-line"/>
-  <path d="M265 310 V338" class="line"/>
-  <path d="M695 310 V338" class="line"/>
-  <path d="M1150 310 V338" class="line"/>
+  <line x1="80" y1="518" x2="1520" y2="518" class="separator"/>
+  <text x="80" y="551" class="group muted">SEARCH ENGINE</text>
 
-  <text x="90" y="292" class="eyebrow muted">PARALLEL FEATURE WORK</text>
+  <rect x="80" y="567" width="380" height="82" rx="12" class="input"/>
+  <text x="100" y="598" class="label ink">ReviewReader + Tokenizer</text>
+  <text x="100" y="623" class="body muted">approved A-group facilities</text>
+  <path d="M460 608 H547" class="line"/>
+  <rect x="555" y="567" width="490" height="82" rx="12" class="work"/>
+  <text x="575" y="598" class="label ink">Build and persist index</text>
+  <text x="575" y="623" class="body muted">postings · statistics · tokenizer metadata</text>
+  <path d="M1045 608 H1132" class="line"/>
+  <rect x="1140" y="567" width="380" height="82" rx="12" class="output"/>
+  <text x="1160" y="598" class="label ink">Index artifact + facade</text>
+  <text x="1160" y="623" class="body muted">SearchIndex / read-only index access</text>
 
-  <rect x="90" y="345" width="350" height="154" class="parallel"/>
-  <text x="116" y="374" class="eyebrow muted">DATA + CORPUS</text>
-  <text x="116" y="406" class="label ink">Produce shared upstreams</text>
-  <text x="116" y="434" class="body muted">Preparation · tokenizer · Zipf · Heaps</text>
-  <text x="116" y="460" class="small muted">Own protocol, real interface, implementation,</text>
-  <text x="116" y="480" class="small muted">feature tests, fixtures, notebooks 00–01</text>
+  <rect x="80" y="667" width="380" height="82" rx="12" class="input"/>
+  <text x="100" y="698" class="label ink">Index facade + Tokenizer</text>
+  <text x="100" y="723" class="body muted">same fingerprint as index time</text>
+  <path d="M460 708 H547" class="line"/>
+  <rect x="555" y="667" width="490" height="82" rx="12" class="work"/>
+  <text x="575" y="698" class="label ink">Query · TF-IDF · BM25 · evaluate</text>
+  <text x="575" y="723" class="body muted">tokenize query · score · rank · compare failures</text>
+  <path d="M1045 708 H1132" class="line"/>
+  <rect x="1140" y="667" width="380" height="82" rx="12" class="output"/>
+  <text x="1160" y="698" class="label ink">Retrieval evidence</text>
+  <text x="1160" y="723" class="body muted">ranked results · evaluation · report tables</text>
 
-  <rect x="520" y="345" width="350" height="154" class="parallel"/>
-  <text x="546" y="374" class="eyebrow muted">SEARCH ENGINE</text>
-  <text x="546" y="406" class="label ink">Build against fake upstream</text>
-  <text x="546" y="434" class="body muted">Index · storage · TF-IDF · BM25 · queries</text>
-  <text x="546" y="460" class="small muted">Own real search code, full feature tests,</text>
-  <text x="546" y="480" class="small muted">search fixtures and notebook 02</text>
+  <line x1="80" y1="783" x2="1520" y2="783" class="separator"/>
+  <text x="80" y="816" class="group muted">TRENDS + APPLICATION</text>
 
-  <rect x="950" y="345" width="400" height="154" class="parallel"/>
-  <text x="976" y="374" class="eyebrow muted">TRENDS + APPLICATION</text>
-  <text x="976" y="406" class="label ink">Build against fake upstream</text>
-  <text x="976" y="434" class="body muted">Sentiment · PMI · independent application</text>
-  <text x="976" y="460" class="small muted">Own real feature code, full feature tests,</text>
-  <text x="976" y="480" class="small muted">trend fixtures and notebooks 03–04</text>
+  <rect x="80" y="832" width="380" height="82" rx="12" class="input"/>
+  <text x="100" y="863" class="label ink">ReviewReader only</text>
+  <text x="100" y="888" class="body muted">original text · date · categories</text>
+  <path d="M460 873 H547" class="line"/>
+  <rect x="555" y="832" width="490" height="82" rx="12" class="work"/>
+  <text x="575" y="863" class="label ink">VADER sentiment on full review text</text>
+  <text x="575" y="888" class="note">NO TOKENIZER — keep punctuation, case, emoji, negation</text>
+  <path d="M1045 873 H1132" class="line"/>
+  <rect x="1140" y="832" width="380" height="82" rx="12" class="output"/>
+  <text x="1160" y="863" class="label ink">Sentiment trends</text>
+  <text x="1160" y="888" class="body muted">period × sector aggregates + counts</text>
 
-  <path d="M265 499 V565" class="lane-line"/>
-  <path d="M695 499 V565" class="lane-line"/>
-  <path d="M1150 499 V565" class="lane-line"/>
-  <path d="M265 565 H1150" class="lane-line"/>
-  <path d="M610 565 V618" class="line"/>
+  <rect x="80" y="932" width="380" height="82" rx="12" class="input"/>
+  <text x="100" y="963" class="label ink">ReviewReader + Tokenizer</text>
+  <text x="100" y="988" class="body muted">approved context and period definition</text>
+  <path d="M460 973 H547" class="line"/>
+  <rect x="555" y="932" width="490" height="82" rx="12" class="work"/>
+  <text x="575" y="963" class="label ink">Co-occurrence and PMI drift</text>
+  <text x="575" y="988" class="body muted">count · compute · filter · rank by period</text>
+  <path d="M1045 973 H1132" class="line"/>
+  <rect x="1140" y="932" width="380" height="82" rx="12" class="output"/>
+  <text x="1160" y="963" class="label ink">PMI associations</text>
+  <text x="1160" y="988" class="body muted">ranked terms + counts + period metadata</text>
 
-  <rect x="430" y="625" width="360" height="112" class="node"/>
-  <text x="456" y="654" class="eyebrow muted">INTEGRATION</text>
-  <text x="456" y="686" class="label ink">Switch upstreams to real</text>
-  <text x="456" y="714" class="body muted">Same calls and schemas; config mode changes</text>
+  <rect x="80" y="1032" width="380" height="82" rx="12" class="input"/>
+  <text x="100" y="1063" class="label ink">ReviewReader only</text>
+  <text x="100" y="1088" class="body muted">original text + review_id</text>
+  <path d="M460 1073 H547" class="line"/>
+  <rect x="555" y="1032" width="490" height="82" rx="12" class="work"/>
+  <text x="575" y="1063" class="label ink">Split sentences and detect comparisons</text>
+  <text x="575" y="1088" class="body muted">sentence handling is owned inside Group C</text>
+  <path d="M1045 1073 H1132" class="line"/>
+  <rect x="1140" y="1032" width="380" height="82" rx="12" class="output"/>
+  <text x="1160" y="1063" class="label ink">Application evidence</text>
+  <text x="1160" y="1088" class="body muted">matches · cues/labels · evaluation metrics</text>
 
-  <path d="M790 681 H845" class="line"/>
-
-  <rect x="850" y="625" width="400" height="112" class="node"/>
-  <text x="876" y="654" class="eyebrow muted">EMPIRICAL EVIDENCE</text>
-  <text x="876" y="686" class="label ink">Tune on real samples</text>
-  <text x="876" y="714" class="body muted">Quality, thresholds, queries, scale, report</text>
-
-  <text x="90" y="812" class="small muted">Schema approval: producer + every affected consumer · Baseline kit: LLM-assisted, human-reviewed · Full feature tests: owned by each pair</text>
+  <text x="80" y="1172" class="small muted">Cross-group runtime facilities: PreparedReviewReader and shared Tokenizer. Search and trend outputs are final artifacts unless another approved consumer is identified.</text>
 </svg>

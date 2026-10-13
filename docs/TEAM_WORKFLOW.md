@@ -6,6 +6,21 @@ The project uses three pairs, but the work does not begin as three independent b
 
 ![Team dependency and ownership flow](assets/team-dependency.svg)
 
+### Facility dependency register
+
+| Work unit | Required upstream facilities | Work performed | Facilities/artifacts provided |
+| --- | --- | --- | --- |
+| data preparation | raw Yelp business and review JSON | stream, validate, join business metadata, apply orphan/date/category policy | `PreparedReviewReader` and optional prepared-review artifact |
+| tokenizer | prepared review text plus approved token policy | normalize/tokenize and emit a compatibility fingerprint | shared `Tokenizer` |
+| Zipf/Heaps/tokenizer comparison | `PreparedReviewReader`, shared tokenizer, baseline tokenizers | corpus counting, fitting and comparison | metrics, tables and figures; no new cross-group runtime dependency |
+| index build/storage | `PreparedReviewReader` + shared `Tokenizer` | build postings/statistics, persist index and tokenizer metadata | index artifact and real `SearchIndex`/reader facade |
+| query/ranking/evaluation | index facade + the same shared `Tokenizer` | tokenize queries, score TF-IDF/BM25, rank and evaluate | ranked results, query evaluation and report artifacts |
+| sector sentiment | `PreparedReviewReader`: original `text`, `date`, `categories` | run VADER on the full original review text, then aggregate by period/sector | sentiment time series with review counts |
+| PMI drift | `PreparedReviewReader` + shared `Tokenizer` | form the approved context, count co-occurrence and compute/filter PMI | ranked term associations by period |
+| comparison application | `PreparedReviewReader`: original `text` and `review_id` | sentence splitting plus comparison detection/evaluation inside Group C | matched sentences, cues/labels and evaluation metrics |
+
+The shared tokenizer is therefore **not** a blanket dependency of trend/application work. Sentiment should preserve the complete review string because VADER uses punctuation, capitalization, emoji and negation cues. PMI requires the shared tokenizer so term identity is stable across periods. The comparison application uses original text and owns its sentence segmentation; it should depend on the shared tokenizer only if the final approved method genuinely needs token-level cues.
+
 The required order is:
 
 1. agree on assignment scope, raw Yelp shapes, and which outputs cross feature boundaries;
@@ -23,7 +38,7 @@ The serial dependency stops at the approved schema and usable fake. Group B does
 | --- | --- | --- | --- |
 | Data and corpus analysis | preparation, tokenizer, Zipf, Heaps, tokenizer comparison (§3.1-§3.2) | raw Yelp business/review records | prepared reviews and tokenizer |
 | Search engine | index, persistence, TF-IDF, BM25, query and retrieval analysis (§3.3) | prepared reviews and tokenizer | read-only search/index interface only if another feature needs it |
-| Trends and application | sentiment, PMI drift, independent NLP/IR application (§3.4-§3.5) | prepared reviews; tokenizer/search only if the approved design requires them | report-ready trend/application artifacts |
+| Trends and application | sentiment, PMI drift, independent NLP/IR application (§3.4-§3.5) | prepared reviews for all tasks; shared tokenizer for PMI only | sentiment series, PMI rankings, comparison matches and evaluation artifacts |
 
 An internal helper is not a shared schema. Create a cross-feature protocol only when another pair actually consumes it.
 
@@ -120,7 +135,7 @@ notebooks/03_sentiment_and_pmi.ipynb
 notebooks/04_application_demo.ipynb
 ```
 
-The pair owns sentiment, aggregation, PMI, the independent application, CLI artifacts, and report interpretation. Exact counts and PMI examples can use fixtures. Sector choice, minimum counts, sentiment interpretation, thresholds, and application quality require real samples.
+The pair owns sentiment, aggregation, PMI, sentence-level comparison detection, CLI artifacts, and report interpretation. Sentiment passes each original review string directly to VADER and does not use the shared tokenizer. PMI consumes the shared tokenizer. The comparison application owns sentence segmentation and consumes original review text. Exact counts and PMI examples can use fixtures; sector choice, minimum counts, sentiment interpretation, thresholds, and application quality require real samples.
 
 Each pair writes and expands its own `test_<feature>.py` while implementing the feature. The LLM-generated baseline cases do not replace these tests.
 

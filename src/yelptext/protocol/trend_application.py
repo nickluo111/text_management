@@ -1,4 +1,9 @@
-"""Provisional trend/application schema; not yet an approved API."""
+"""Provisional trend/application outputs; not yet an approved API.
+
+Recommended input split: sentiment receives original review strings, PMI also
+receives the shared tokenizer, and comparison detection owns sentence
+segmentation locally. These recommendations remain subject to schema approval.
+"""
 
 from __future__ import annotations
 
