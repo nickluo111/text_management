@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="860" viewBox="0 0 1440 860" role="img" aria-labelledby="title desc">
+  <title id="title">Team dependency and ownership flow</title>
+  <desc id="desc">A shared schema gate and baseline test kit unblock three parallel implementation lanes, which later converge for real-interface integration and empirical evaluation.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#6b6b66"/>
+    </marker>
+    <style>
+      .bg { fill: #f7f6f2; }
+      .ink { fill: #20201e; }
+      .muted { fill: #696863; }
+      .line { fill: none; stroke: #8a8983; stroke-width: 2; marker-end: url(#arrow); }
+      .lane-line { fill: none; stroke: #b0afa8; stroke-width: 2; }
+      .node { fill: #ffffff; stroke: #d8d6cf; stroke-width: 1.5; rx: 14; }
+      .gate { fill: #fff4e6; stroke: #d97822; stroke-width: 2; rx: 14; }
+      .parallel { fill: #eef3ef; stroke: #94a198; stroke-width: 1.5; rx: 14; }
+      .label { font: 500 18px Inter, ui-sans-serif, system-ui, sans-serif; letter-spacing: .2px; }
+      .body { font: 400 15px Inter, ui-sans-serif, system-ui, sans-serif; }
+      .small { font: 400 13px Inter, ui-sans-serif, system-ui, sans-serif; }
+      .eyebrow { font: 500 12px Inter, ui-sans-serif, system-ui, sans-serif; letter-spacing: 1.4px; text-transform: uppercase; }
+      .title { font: 500 30px Georgia, ui-serif, serif; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1440" height="860"/>
+  <text x="90" y="68" class="title ink">From shared contracts to parallel delivery</text>
+  <text x="90" y="99" class="body muted">Only the schema and baseline fake are serial gates; real feature work proceeds in parallel.</text>
+
+  <rect x="90" y="142" width="260" height="112" class="node"/>
+  <text x="114" y="169" class="eyebrow muted">SHARED INPUT</text>
+  <text x="114" y="199" class="label ink">Scope + raw shapes</text>
+  <text x="114" y="225" class="body muted">Assignment requirements</text>
+  <text x="114" y="247" class="body muted">Yelp record examples</text>
+
+  <path d="M350 198 H405" class="line"/>
+
+  <rect x="410" y="128" width="340" height="140" class="gate"/>
+  <text x="436" y="157" class="eyebrow" fill="#a24b0e">SERIAL GATE 1</text>
+  <text x="436" y="190" class="label ink">Consumer-driven schema</text>
+  <text x="436" y="217" class="body muted">Downstream specifies needs</text>
+  <text x="436" y="239" class="body muted">Upstream validates, stewards, implements</text>
+
+  <path d="M750 198 H805" class="line"/>
+
+  <rect x="810" y="128" width="360" height="140" class="gate"/>
+  <text x="836" y="157" class="eyebrow" fill="#a24b0e">SERIAL GATE 2</text>
+  <text x="836" y="190" class="label ink">Baseline development kit</text>
+  <text x="836" y="217" class="body muted">Fake interface + derived fixture</text>
+  <text x="836" y="239" class="body muted">Reviewed cases + exact answers when valid</text>
+
+  <path d="M1170 198 H1260 V336" class="lane-line"/>
+  <path d="M1260 336 H1188" class="line"/>
+  <path d="M990 268 V336 H858" class="line"/>
+  <path d="M990 268 V540 H858" class="line"/>
+
+  <text x="90" y="322" class="eyebrow muted">PARALLEL FEATURE WORK</text>
+
+  <rect x="90" y="345" width="350" height="154" class="parallel"/>
+  <text x="116" y="374" class="eyebrow muted">DATA + CORPUS</text>
+  <text x="116" y="406" class="label ink">Produce shared upstreams</text>
+  <text x="116" y="434" class="body muted">Preparation · tokenizer · Zipf · Heaps</text>
+  <text x="116" y="460" class="small muted">Own protocol, real interface, implementation,</text>
+  <text x="116" y="480" class="small muted">feature tests, fixtures, notebooks 00–01</text>
+
+  <rect x="520" y="345" width="350" height="154" class="parallel"/>
+  <text x="546" y="374" class="eyebrow muted">SEARCH ENGINE</text>
+  <text x="546" y="406" class="label ink">Build against fake upstream</text>
+  <text x="546" y="434" class="body muted">Index · storage · TF-IDF · BM25 · queries</text>
+  <text x="546" y="460" class="small muted">Own real search code, full feature tests,</text>
+  <text x="546" y="480" class="small muted">search fixtures and notebook 02</text>
+
+  <rect x="950" y="345" width="400" height="154" class="parallel"/>
+  <text x="976" y="374" class="eyebrow muted">TRENDS + APPLICATION</text>
+  <text x="976" y="406" class="label ink">Build against fake upstream</text>
+  <text x="976" y="434" class="body muted">Sentiment · PMI · independent application</text>
+  <text x="976" y="460" class="small muted">Own real feature code, full feature tests,</text>
+  <text x="976" y="480" class="small muted">trend fixtures and notebooks 03–04</text>
+
+  <path d="M265 499 V575 H610" class="lane-line"/>
+  <path d="M695 499 V575 H610" class="lane-line"/>
+  <path d="M1150 499 V575 H610" class="lane-line"/>
+  <path d="M610 575 V620" class="line"/>
+
+  <rect x="430" y="625" width="360" height="112" class="node"/>
+  <text x="456" y="654" class="eyebrow muted">INTEGRATION</text>
+  <text x="456" y="686" class="label ink">Switch upstreams to real</text>
+  <text x="456" y="714" class="body muted">Same calls and schemas; config mode changes</text>
+
+  <path d="M790 681 H845" class="line"/>
+
+  <rect x="850" y="625" width="400" height="112" class="node"/>
+  <text x="876" y="654" class="eyebrow muted">EMPIRICAL EVIDENCE</text>
+  <text x="876" y="686" class="label ink">Tune on real samples</text>
+  <text x="876" y="714" class="body muted">Quality, thresholds, queries, scale, report</text>
+
+  <text x="90" y="812" class="small muted">Schema approval: producer + every affected consumer · Baseline kit: LLM-assisted, human-reviewed · Full feature tests: owned by each pair</text>
+</svg>

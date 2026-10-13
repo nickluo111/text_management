@@ -27,6 +27,8 @@ The three feature names repeat across layers so ownership is visible:
 
 `implementation/<feature>/` deliberately does not prescribe many files. Each pair can split its private implementation as needed. Only the approved public interface and serialized artifacts are cross-team commitments.
 
+Shared schemas are consumer-driven and producer-owned. Downstream pairs specify the information and behavior they need; the upstream pair validates feasibility, maintains the protocol and real interface, and implements it. The producer and every affected consumer approve the boundary. This keeps one source of truth without letting either side define it alone.
+
 ## Call direction
 
 The normal path is:
@@ -76,7 +78,7 @@ tests/
 └── test_cli.py
 ```
 
-Feature tests should normally exercise the command or CLI in fixture mode and inspect structured output artifacts. A small direct test of a public interface is useful only when it makes failures easier to locate. There is no duplicated fake CLI, fake command layer, or fake runtime.
+Each feature pair owns its complete `test_<feature>.py`, including implementation behavior, command orchestration, CLI fixture-mode behavior, output artifacts, edge cases, and exact calculations where applicable. Schema approval may add an LLM-assisted baseline fake/fixture and a few reviewed acceptance cases, but it does not prewrite the feature's test suite. A small direct test of a public interface is useful when it verifies the shared boundary or makes failures easier to locate. There is no duplicated fake CLI, fake command layer, or fake runtime.
 
 ## Configuration and presentation
 
