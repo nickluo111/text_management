@@ -1,7 +1,12 @@
-"""Provisional prepared-review boundary; not yet an approved API.
+"""Shared prepared-review boundary implemented by Group A.
 
 Raw Yelp record models are intentionally excluded because they are internal to
 data preparation. Downstream groups consume only prepared review records.
+
+``date`` is an ISO ``YYYY-MM-DD`` string. ``categories`` is always a list; a
+missing Yelp category value becomes an empty list. Business metadata is part
+of this boundary because trend analysis needs categories and search results
+may need stable business identity/display information.
 """
 
 from __future__ import annotations

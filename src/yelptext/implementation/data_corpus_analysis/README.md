@@ -1,3 +1,6 @@
 # Data and corpus analysis implementation
 
-This directory is intentionally empty before schema approval. The responsible pair may choose its internal modules freely; only the approved public interface is fixed.
+`reviewer.py` implements the approved `PreparedReviewReader` boundary by
+streaming raw Yelp reviews and joining the business name/categories required by
+downstream search and trend work. Tokenization and corpus-analysis modules will
+be integrated separately after their behavior is reviewed.
