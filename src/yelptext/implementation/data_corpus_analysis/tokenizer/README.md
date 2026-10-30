@@ -1,14 +1,15 @@
 # Shared tokenizer implementation
 
 This directory contains the reviewed Group A implementation. Downstream groups
-should obtain the shared tokenizer from `yelptext.interface.data_corpus_analysis`
-rather than importing this implementation package directly.
+should obtain the shared tokenizer and optional POS/filter pipeline from
+`yelptext.interface.data_corpus_analysis` rather than importing this
+implementation package directly.
 
 ## Separation of responsibilities
 
 - `RegexTokenizer` normalizes and splits text without reading a vocabulary.
 - `TokenClassifier` adds only stable structural and NLTK stopword tags.
-- `PosTagger` is a separate experimental component. The canonical pipeline does
+- `PosTagger` is a separate opt-in component. The canonical pipeline does
   not instantiate it, and POS resources are never downloaded at import time.
 - `TokenFilter` applies a validated `skip_types` policy. Unknown tags, or
   `pos:*` tags without an enabled `PosTagger`, are configuration errors.
@@ -18,6 +19,24 @@ rather than importing this implementation package directly.
   `drop`, or `error`.
 - `TokenizerPipeline` is the downstream facade and verifies that its tokenizer
   and filtering policy are compatible with the vocabulary artifact.
+
+The public pipeline factory is:
+
+```python
+from yelptext.interface.data_corpus_analysis import create_tokenizer_pipeline
+
+pipeline = create_tokenizer_pipeline(
+    enable_pos=True,
+    skip_types={"punctuation", "stop_word", "pos:determiner"},
+)
+tagged = pipeline.analyze("The food was excellent!")
+terms = pipeline.terms("The food was excellent!")
+```
+
+`tokenize()` always returns canonical unfiltered terms. `analyze()` applies
+classification, optional POS tagging, and filtering and returns occurrences
+with `term` and `tags`. `terms()` returns only filtered strings. Vocabulary
+lookup remains an optional internal stage and is not applied by this factory.
 
 The main vocabulary does not merge rare words into `<UNK>`. `min_cf` and
 `min_df` are explicit task-specific pruning options; metadata records how many

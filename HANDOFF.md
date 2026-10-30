@@ -1,10 +1,11 @@
 # Group A → 下游交接说明
 
 本文面向 Search/Index（Group B）和 Trend/Application（Group C）。当前稳定的
-跨组运行时协议只有：
+跨组运行时协议包括：
 
 1. `PreparedReviewReader`
 2. `Tokenizer`
+3. `TokenizerPipeline`
 
 真实入口统一位于：
 
@@ -22,6 +23,7 @@ from yelptext.interface import data_corpus_analysis
 | 原始数据准备与 business join | 可用 | `yelptext prepare` / `prepare_reviews()` |
 | Prepared review reader | 可用 | `create_review_reader()` |
 | Regex tokenizer | 可用 | `create_tokenizer()` |
+| Classification/POS/filter pipeline | 可用 | `create_tokenizer_pipeline()` |
 | 确定性 review sampler | 可用 | `yelptext sample` / `sample_reviews()` |
 | 全量 CF/DF 词典 | 可构建 | `yelptext vocab build` |
 | Zipf/Heaps notebook | 可用 | `yelptext analyze zipf/heaps` |
@@ -121,21 +123,74 @@ policy_id = tokenizer.fingerprint()
 - 普通句号、逗号、分号等作为 delimiter；
 - tokenization 本身不读取词典、不做 POS tagging，也不自动裁剪低频词。
 
-### 3.3 推荐 use cases
+### 3.3 Classification、POS 与 filter pipeline
+
+需要结构标签、POS 或过滤时使用公开 pipeline：
+
+```python
+from yelptext.interface.data_corpus_analysis import (
+    available_token_types,
+    create_tokenizer_pipeline,
+)
+
+pipeline = create_tokenizer_pipeline(
+    enable_pos=True,
+    skip_types={"punctuation", "stop_word", "pos:determiner"},
+)
+
+raw_terms = pipeline.tokenize("The food was really excellent!")
+tagged = pipeline.analyze("The food was really excellent!")
+filtered_terms = pipeline.terms("The food was really excellent!")
+all_filter_types = available_token_types(include_pos=True)
+```
+
+三个方法的含义不同：
+
+- `tokenize()` 返回 canonical、未过滤的 `list[str]`，不执行 POS；
+- `analyze()` 执行 classification、可选 POS 和 filter，返回带 `term` 与
+  `tags` 的 occurrences；
+- `terms()` 执行同一 pipeline，但只返回过滤后的 `list[str]`。
+
+稳定结构标签包括：`word`、`stop_word`、`conjunction`、`url`、`email`、
+`emoticon`、`emoji`、`number`、`money`、`percentage`、`temperature`、
+`hashtag` 和 `punctuation`。启用 POS 后还可过滤：`pos:noun`、`pos:verb`、
+`pos:adjective`、`pos:adverb`、`pos:determiner`、`pos:conjunction`、
+`pos:adposition`、`pos:pronoun`、`pos:particle` 和 `pos:other`。
+
+一个 occurrence 可以同时拥有多个标签；filter 采用“任一标签命中即删除”。例如
+money 同时带有 `money` 与 `number`，因此跳过 `number` 也会删除 money。使用任何
+`pos:*` filter 时必须设置 `enable_pos=True`。环境需预先安装：
+
+```powershell
+python -m nltk.downloader stopwords averaged_perceptron_tagger
+```
+
+pipeline 不执行 vocabulary lookup，不会替 B 组建立 index term ID，也不会让 C 组
+复用全局 CF/DF；B/C 应在过滤后根据自己的 index 或时间窗口重新统计。
+
+### 3.4 推荐 use cases
 
 Search/index：index-time 和 query-time 必须使用同一 tokenizer：
 
 ```python
+from yelptext.interface.data_corpus_analysis import (
+    create_review_reader,
+    create_tokenizer_pipeline,
+)
+
 reader = create_review_reader("data/processed/reviews-sample.jsonl")
-tokenizer = create_tokenizer()
+pipeline = create_tokenizer_pipeline(
+    enable_pos=True,
+    skip_types={"punctuation", "stop_word", "pos:determiner"},
+)
 
 for review in reader.iter_reviews():
-    terms = tokenizer.tokenize(review["text"])
+    terms = pipeline.terms(review["text"])
     # Group B 在自己的实现中构建 postings、TF、DF 和 document length。
 ```
 
-PMI/trend：PMI 需要稳定的 term identity，因此使用共享 tokenizer；时间窗口、
-context window 和 minimum co-occurrence 仍由 Group C 定义。
+PMI/trend：PMI 需要稳定的 term identity，因此使用同一公开 pipeline 完成 POS 与
+filter；时间窗口、context window 和 minimum co-occurrence 仍由 Group C 定义。
 
 Sentiment：VADER 应直接接收原始 `review["text"]`，不要先 tokenize 或 lowercase，
 因为标点、大小写、emoji 和否定结构都可能影响 sentiment：
@@ -149,7 +204,7 @@ Zipf：直接读取全量词典中的 CF，不重新扫描 review。Heaps：使�
 两者都必须明确是否过滤 punctuation；低频裁剪会改变研究对象，因此不应把 rare
 terms 先映射为 `<UNK>`。
 
-### 3.4 词典与 token ID 的边界
+### 3.5 词典与 token ID 的边界
 
 全量词典位于：
 

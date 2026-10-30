@@ -57,6 +57,11 @@ class TokenizerPipeline:
             classified = self.pos_tagger.tag(classified)
         return self.token_filter.filter(classified)
 
+    def terms(self, text: str) -> list[str]:
+        """Return term strings after optional POS tagging and filtering."""
+
+        return [token.term for token in self.analyze(text)]
+
     def process(self, text: str) -> list[ClassifiedToken] | list[MappedToken]:
         analyzed = self.analyze(text)
         if self.vocabulary_lookup is None:

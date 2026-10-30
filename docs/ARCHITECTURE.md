@@ -28,7 +28,7 @@ The three feature names repeat across layers so ownership is visible:
 - `search_engine`: index construction/storage, TF-IDF, BM25, query and retrieval analysis;
 - `trend_application`: sentiment, PMI drift, and the independent NLP/IR application.
 
-`implementation/<feature>/` deliberately does not prescribe many files. Each pair can split its private implementation as needed. Only `PreparedReviewReader` and `Tokenizer` currently cross group boundaries, so they are the only shared protocols. Search models/rankers and trend/application outputs remain private to their owning feature unless a real downstream runtime consumer is later identified.
+`implementation/<feature>/` deliberately does not prescribe many files. Each pair can split its private implementation as needed. The shared runtime boundaries are `PreparedReviewReader`, the canonical `Tokenizer`, and the opt-in `TokenizerPipeline` for classification, POS, and filtering. Search models/rankers and trend/application outputs remain private to their owning feature unless a real downstream runtime consumer is later identified.
 
 Shared schemas are **consumer-defined and producer-implemented**. Groups B and C jointly write the `PreparedReviewReader` and `Tokenizer` protocols because they know the inputs their algorithms require. Group A reviews implementability, then implements the real interface without redefining the schema. B and C must still agree on one shared protocol rather than creating consumer-specific schema variants.
 

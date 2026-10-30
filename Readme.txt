@@ -13,7 +13,7 @@ The project is fixed to CPython 3.12.4.
     python -m pip install --upgrade pip
     python -m pip install -r requirements.txt
     python -m pip install -e . --no-deps
-    python -m nltk.downloader vader_lexicon
+    python -m nltk.downloader stopwords averaged_perceptron_tagger vader_lexicon
 
 TODO BEFORE SUBMISSION
 1. List every third-party library and its official download link.

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from collections.abc import Callable
+from collections.abc import Callable, Iterable
 from pathlib import Path
 from typing import Any
 
@@ -16,12 +16,23 @@ from yelptext.implementation.data_corpus_analysis.reviewer import (
 from yelptext.implementation.data_corpus_analysis.sampling import (
     sample_reviews as _sample_reviews,
 )
-from yelptext.implementation.data_corpus_analysis.tokenizer import RegexTokenizer
+from yelptext.implementation.data_corpus_analysis.tokenizer import (
+    POS_TAGS,
+    RegexTokenizer,
+    create_pipeline as _create_tokenizer_pipeline,
+)
+from yelptext.implementation.data_corpus_analysis.tokenizer.classification import (
+    STABLE_TOKEN_TYPES,
+)
 from yelptext.implementation.data_corpus_analysis.tokenizer.build_vocab_sqlite import (
     build_sqlite_vocabulary as _build_sqlite_vocabulary,
 )
 from yelptext.protocol.reviewer import PreparedReviewReader
-from yelptext.protocol.tokenizer import Tokenizer
+from yelptext.protocol.tokenizer import (
+    AnalyzedToken,
+    Tokenizer,
+    TokenizerPipeline,
+)
 
 
 def prepare_reviews(
@@ -53,6 +64,31 @@ def create_tokenizer() -> Tokenizer:
     """Construct the canonical vocabulary-independent shared tokenizer."""
 
     return RegexTokenizer()
+
+
+def create_tokenizer_pipeline(
+    *,
+    skip_types: Iterable[str] = (),
+    enable_pos: bool = False,
+) -> TokenizerPipeline:
+    """Construct the shared tokenizer with classification, POS, and filtering.
+
+    ``tokenize()`` retains the canonical unfiltered tokenizer contract.
+    Downstream consumers call ``analyze()`` for tagged occurrences or
+    ``terms()`` for filtered strings. POS tagging is opt-in and requires the
+    NLTK averaged perceptron tagger resource.
+    """
+
+    return _create_tokenizer_pipeline(
+        skip_types=skip_types,
+        enable_pos=enable_pos,
+    )
+
+
+def available_token_types(*, include_pos: bool = False) -> frozenset[str]:
+    """Return valid tags accepted by ``create_tokenizer_pipeline`` filters."""
+
+    return STABLE_TOKEN_TYPES | (POS_TAGS if include_pos else frozenset())
 
 
 def sample_reviews(
@@ -90,10 +126,15 @@ def build_vocabulary(
 
 
 __all__ = [
+    "AnalyzedToken",
+    "Tokenizer",
+    "TokenizerPipeline",
     "YelpDataError",
+    "available_token_types",
     "build_vocabulary",
     "create_review_reader",
     "create_tokenizer",
+    "create_tokenizer_pipeline",
     "prepare_reviews",
     "sample_reviews",
 ]

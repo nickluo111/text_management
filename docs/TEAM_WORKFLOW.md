@@ -42,7 +42,7 @@ The serial dependency stops at the approved schema and usable fake. Group B does
 | Search engine | index, persistence, TF-IDF, BM25, query and retrieval analysis (§3.3) | prepared reviews and tokenizer | none; its index and ranked results remain group-internal/report artifacts |
 | Trends and application | sentiment, PMI drift, independent NLP/IR application (§3.4-§3.5) | prepared reviews for all tasks; shared tokenizer for PMI only | none; its results are terminal report/application artifacts |
 
-An internal helper or final report artifact is not a shared schema. Under the current design, the only cross-feature runtime schemas are `PreparedReviewReader` and `Tokenizer`.
+An internal helper or final report artifact is not a shared schema. Under the current design, the cross-feature runtime schemas are `PreparedReviewReader`, `Tokenizer`, and the POS/filter-capable `TokenizerPipeline`; both tokenizer protocols live in `protocol/tokenizer.py` and share the same canonical tokenization policy.
 
 ## Who defines and who implements a schema
 

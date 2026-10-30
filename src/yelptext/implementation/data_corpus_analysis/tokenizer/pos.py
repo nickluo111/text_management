@@ -1,4 +1,4 @@
-"""Experimental, opt-in contextual POS tagging for the shared pipeline.
+"""Optional, opt-in contextual POS tagging for the shared pipeline.
 
 POS tagging is intentionally separate from stable token classification. The
 canonical pipeline does not instantiate this class.

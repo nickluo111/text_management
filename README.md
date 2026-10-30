@@ -2,7 +2,8 @@
 
 这是 AI6122 Text Data Management & Processing 小组项目。当前已经正式集成的
 Group A 交付包括：原始 Yelp 数据准备、严格的 prepared-review reader、共享
-regex tokenizer、可复用 sampler，以及全量 CF/DF 词典构建。
+regex tokenizer、公开的 classification/POS/filter pipeline、可复用 sampler，
+以及全量 CF/DF 词典构建。
 
 下游开发者应先阅读 [HANDOFF.md](HANDOFF.md)。架构和团队协作约定分别见
 [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) 与
@@ -31,13 +32,7 @@ python -m pip install -e . --no-deps
 安装运行时所需的 NLTK 数据：
 
 ```powershell
-python -m nltk.downloader stopwords vader_lexicon
-```
-
-只有显式启用实验性 POS tagging 时才需要：
-
-```powershell
-python -m nltk.downloader averaged_perceptron_tagger
+python -m nltk.downloader stopwords averaged_perceptron_tagger vader_lexicon
 ```
 
 确认安装：
@@ -240,6 +235,19 @@ reviewer、tokenizer、sampler、full/sample 切换方式及推荐 use cases 见
 [HANDOFF.md](HANDOFF.md)。下游只应依赖
 `yelptext.interface.data_corpus_analysis` 和 `yelptext.protocol`，不要直接 import
 `yelptext.implementation`。
+
+需要 classification、POS 和 type filtering 时使用公开 pipeline：
+
+```python
+from yelptext.interface.data_corpus_analysis import create_tokenizer_pipeline
+
+pipeline = create_tokenizer_pipeline(
+    enable_pos=True,
+    skip_types={"punctuation", "stop_word", "pos:determiner"},
+)
+terms = pipeline.terms("The food was really excellent!")
+tagged = pipeline.analyze("The food was really excellent!")
+```
 
 Group A 的 Zipf/Heaps 实验驱动、拟合与报告图表保存在 notebook；reviewer、
 tokenizer、sampler、词典等可复用运行时设施保存在 `src/yelptext/`。
