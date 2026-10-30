@@ -5,7 +5,7 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from yelptext.cli._common import add_config_argument, use_placeholder
+from yelptext.cli._common import add_config_argument
 from yelptext.command.data_corpus_analysis import (
     run_analysis_notebook,
     run_build_vocabulary,
@@ -69,6 +69,7 @@ def register(subparsers: argparse._SubParsersAction) -> None:
     for name, help_text in (
         ("zipf", "Execute the Zipf analysis notebook"),
         ("heaps", "Execute the Heaps analysis notebook"),
+        ("tokenizers", "Compare custom and baseline tokenizers"),
     ):
         child = analyses.add_parser(name, help=help_text)
         add_config_argument(child)
@@ -81,9 +82,3 @@ def register(subparsers: argparse._SubParsersAction) -> None:
             handler=run_analysis_notebook,
             command_path=["analyze", name],
         )
-
-    tokenizers = analyses.add_parser(
-        "tokenizers", help="Compare custom and baseline tokenizers"
-    )
-    add_config_argument(tokenizers)
-    use_placeholder(tokenizers, "analyze", "tokenizers")

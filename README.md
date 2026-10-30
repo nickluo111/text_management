@@ -149,14 +149,15 @@ data/processed/vocabulary-full.sqlite
 ### 3.3 当前 Group A 状态边界
 
 `prepare`、`sample`、`vocab build`、reviewer 和 tokenizer 已正式接入公共
-interface。Zipf 与 Heaps 分别由 `notebooks/01_zipf.ipynb` 和
-`notebooks/02_heaps.ipynb` 实现，可通过 `yelptext analyze zipf` 与
-`yelptext analyze heaps` 自动执行。Tokenizer baseline comparison 仍是 CLI
-scaffold；不要把其 placeholder 输出当成实验完成结果。
+interface。Zipf、Heaps 与 tokenizer baseline comparison 分别由
+`notebooks/01_zipf.ipynb`、`notebooks/02_heaps.ipynb` 和
+`notebooks/03_tokenizer_comparison.ipynb` 实现，并可通过对应的
+`yelptext analyze` 子命令自动执行。
 
 ```powershell
 yelptext analyze zipf --config configs/full.toml
 yelptext analyze heaps --config configs/full.toml
+yelptext analyze tokenizers --config configs/full.toml
 ```
 
 Zipf 直接读取全量词典 CF，不重新扫描 reviews；Heaps 为获得中间 vocabulary

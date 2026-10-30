@@ -26,6 +26,9 @@ artifacts/search_results/*
 artifacts/manifests/*
 artifacts/groupa/*
 artifacts/notebooks/*
+artifacts/zipf/*
+artifacts/heaps/*
+artifacts/tokenizer_comparison/*
 !artifacts/**/.gitkeep
 !artifacts/README.md
 

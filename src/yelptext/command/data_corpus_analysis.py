@@ -111,6 +111,7 @@ def run_analysis_notebook(args: argparse.Namespace) -> None:
     notebook_names = {
         "zipf": "01_zipf.ipynb",
         "heaps": "02_heaps.ipynb",
+        "tokenizers": "03_tokenizer_comparison.ipynb",
     }
     source = Path("notebooks") / notebook_names[args.analysis]
     if not source.is_file():

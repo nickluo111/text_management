@@ -25,10 +25,13 @@ selection overrides the notebook default:
 yelptext analyze zipf --config configs/full.toml
 yelptext analyze heaps --config configs/sample.toml
 yelptext analyze heaps --config configs/full.toml
+yelptext analyze tokenizers --config configs/full.toml
 ```
 
-Executed notebooks are written under `artifacts/notebooks/`; figures and tables
-go under `artifacts/groupa/`. Heaps streams reviews and must not load the full
-review file into a pandas dataframe.
+Executed notebooks are written under `artifacts/notebooks/`. Each experiment
+writes figures and tables directly under `artifacts/<experiment-name>/`, for
+example `artifacts/zipf/`, `artifacts/heaps/`, and
+`artifacts/tokenizer_comparison/`. Heaps streams reviews and must not load the
+full review file into a pandas dataframe.
 
 Before submission, restart each notebook, run it in order where practical, and clear any very large outputs.

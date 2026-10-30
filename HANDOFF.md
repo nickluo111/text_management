@@ -25,7 +25,7 @@ from yelptext.interface import data_corpus_analysis
 | 确定性 review sampler | 可用 | `yelptext sample` / `sample_reviews()` |
 | 全量 CF/DF 词典 | 可构建 | `yelptext vocab build` |
 | Zipf/Heaps notebook | 可用 | `yelptext analyze zipf/heaps` |
-| Tokenizer baseline comparison 主 CLI | 尚未正式接入 | `yelptext analyze tokenizers` 仍为 scaffold |
+| Tokenizer baseline comparison | 可用 | `yelptext analyze tokenizers` |
 | Search/Trend 实现 | 由 B/C 开发 | 当前 interface/command 仍可能是 placeholder |
 | B/C 开发区 | 空目录已建立 | 根目录 `groupb/`、`groupc/` |
 
