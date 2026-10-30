@@ -12,14 +12,14 @@ In the diagram, dependency colors are used only at cross-group boundaries: Group
 
 | Work unit | Required upstream facilities | Work performed | Facilities/artifacts provided |
 | --- | --- | --- | --- |
-| data preparation | raw Yelp business and review JSON | stream, validate, join business metadata, apply orphan/date/category policy | `PreparedReviewReader` and optional prepared-review artifact |
+| data preparation | raw Yelp business and review JSON | stream, validate, join business metadata, normalize dates/categories, audit rejected and unmatched records | canonical `reviews.jsonl`, audit files, and `PreparedReviewReader` |
 | tokenizer | prepared review text plus approved token policy | normalize/tokenize and emit a compatibility fingerprint | shared `Tokenizer` |
 | Zipf/Heaps/tokenizer comparison | `PreparedReviewReader`, shared tokenizer, baseline tokenizers | corpus counting, fitting and comparison | metrics, tables and figures; no new cross-group runtime dependency |
 | index build/storage | `PreparedReviewReader` + shared `Tokenizer` | build postings/statistics, persist index and tokenizer metadata | index artifact and real `SearchIndex`/reader facade |
 | query/ranking/evaluation | index facade + the same shared `Tokenizer` | tokenize queries, score TF-IDF/BM25, rank and evaluate | ranked results, query evaluation and report artifacts |
-| sector sentiment | `PreparedReviewReader`: original `text`, `date`, `categories` | run VADER on the full original review text, then aggregate by period/sector | sentiment time series with review counts |
+| sector sentiment | `PreparedReviewReader`: original `text`, `review_date`, `categories` | run VADER on the full original review text, then aggregate by period/sector | sentiment time series with review counts |
 | PMI drift | `PreparedReviewReader` + shared `Tokenizer` | form the approved context, count co-occurrence and compute/filter PMI | ranked term associations by period |
-| comparison application | `PreparedReviewReader`: original `text` and `review_id` | sentence splitting plus comparison detection/evaluation inside Group C | matched sentences, cues/labels and evaluation metrics |
+| comparison application | `PreparedReviewReader`: original `text` and `doc_id` | sentence splitting plus comparison detection/evaluation inside Group C | matched sentences, cues/labels and evaluation metrics |
 
 The shared tokenizer is therefore **not** a blanket dependency of trend/application work. Sentiment should preserve the complete review string because VADER uses punctuation, capitalization, emoji and negation cues. PMI requires the shared tokenizer so term identity is stable across periods. The comparison application uses original text and owns its sentence segmentation; it should depend on the shared tokenizer only if the final approved method genuinely needs token-level cues.
 
@@ -93,8 +93,9 @@ src/yelptext/interface/data_corpus_analysis.py
 src/yelptext/implementation/data_corpus_analysis/**
 tests/fixtures/data_corpus_analysis/**
 tests/test_data_corpus_analysis.py
-notebooks/00_dataset_inspection.ipynb
-notebooks/01_zipf_heaps_tokenizer.ipynb
+notebooks/01_zipf.ipynb
+notebooks/02_heaps.ipynb
+notebooks/03_tokenizer_comparison.ipynb
 ```
 
 The pair implements preparation, tokenizer behavior, corpus statistics, command orchestration, and report evidence. It also maintains the prepared-review and tokenizer boundary. Synthetic tests cover fixed behavior and edge cases; tokenizer policy and corpus-level quality require real-sample analysis.
@@ -111,7 +112,7 @@ src/yelptext/implementation/search_engine/**
 tests/fake/search_engine/data_corpus_analysis.py
 tests/fixtures/search_engine/**
 tests/test_search_engine.py
-notebooks/02_search_engine.ipynb
+notebooks/04_search_engine.ipynb
 ```
 
 The pair tests more than its interface: index construction, persistence, exact TF-IDF/BM25 calculations, ordering and ties, empty/missing terms, command orchestration, CLI fixture-mode artifacts, and real-query analysis. While Group A is unfinished, its real search implementation receives the fake data/corpus interface automatically.
@@ -128,8 +129,8 @@ src/yelptext/implementation/trend_application/**
 tests/fake/trend_application/data_corpus_analysis.py
 tests/fixtures/trend_application/**
 tests/test_trend_application.py
-notebooks/03_sentiment_and_pmi.ipynb
-notebooks/04_application_demo.ipynb
+notebooks/05_sentiment_and_pmi.ipynb
+notebooks/06_application_demo.ipynb
 ```
 
 The pair owns sentiment, aggregation, PMI, sentence-level comparison detection, CLI artifacts, and report interpretation. Sentiment passes each original review string directly to VADER and does not use the shared tokenizer. PMI consumes the shared tokenizer. The comparison application owns sentence segmentation and consumes original review text. Exact counts and PMI examples can use fixtures; sector choice, minimum counts, sentiment interpretation, thresholds, and application quality require real samples.

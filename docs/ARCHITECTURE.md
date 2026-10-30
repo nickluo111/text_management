@@ -23,7 +23,8 @@ src/yelptext/
 
 The three feature names repeat across layers so ownership is visible:
 
-- `data_corpus_analysis`: raw/prepared reviews, tokenization, Zipf, Heaps, and tokenizer comparison;
+- `data_corpus_analysis`: raw/prepared reviews, reusable review sampling,
+  tokenization, Zipf, Heaps, and tokenizer comparison;
 - `search_engine`: index construction/storage, TF-IDF, BM25, query and retrieval analysis;
 - `trend_application`: sentiment, PMI drift, and the independent NLP/IR application.
 

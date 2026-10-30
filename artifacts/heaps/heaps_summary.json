@@ -1,0 +1,16 @@
+{
+  "config": "F:\\1_graduates\\text_management\\group\\configs\\full.toml",
+  "prepared_path": "F:\\1_graduates\\text_management\\group\\data\\processed\\reviews-full.jsonl",
+  "reviews": 6990280,
+  "k": 6.672142863624548,
+  "beta": 0.564860859211713,
+  "r_squared_log_space": 0.9997582927381885,
+  "k_in_reference_range_30_100": false,
+  "beta_in_reference_range_0.40_0.60": true,
+  "ordering": "prepared-file order; sample files produced by the shared sampler are in stable priority order",
+  "punctuation_filter": [
+    "!",
+    "?",
+    "#"
+  ]
+}

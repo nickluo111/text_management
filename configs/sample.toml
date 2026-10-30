@@ -1,12 +1,43 @@
-# Fast local-development overrides. TODO: tune after measuring memory/time.
+# Complete sampled-data configuration. Generate reviews-sample.jsonl with the
+# full config first, then use this file for downstream development commands.
 
 [runtime]
 mode = "real"
 
 [data]
+business_path = "data/raw/yelp_academic_dataset_business.json"
+review_path = "data/raw/yelp_academic_dataset_review.json"
 prepared_path = "data/processed/reviews-sample.jsonl"
-sample_fraction = 0.01
-random_seed = 6122
+sample_path = "data/processed/reviews-sample.jsonl"
+random_seed = 42
+
+[tokenizer]
+lowercase = true
+preserve_contractions = true
+preserve_emojis = true
+split_hyphenated_words = true
+vocabulary_path = "data/processed/vocabulary-full.sqlite"
 
 [index]
 output_dir = "artifacts/indexes/sample"
+
+[search]
+top_k = 10
+
+[search.bm25]
+k1 = 1.5
+b = 0.75
+
+[analysis.heaps]
+sample_fractions = [0.10, 0.30, 0.50, 1.00]
+
+[trends]
+sector_a = "Italian Restaurants"
+sector_b = "Fast Food"
+time_granularity = "year"
+
+[trends.pmi]
+target_term = "service"
+window_size = 5
+top_n = 20
+min_cooccurrence = 10

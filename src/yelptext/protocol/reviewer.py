@@ -1,12 +1,18 @@
 """Shared prepared-review boundary implemented by Group A.
 
-Raw Yelp record models are intentionally excluded because they are internal to
-data preparation. Downstream groups consume only prepared review records.
+Downstream groups consume normalized review records and do not depend on the
+layout of Yelp's raw ``review.json`` and ``business.json`` files.
 
-``date`` is an ISO ``YYYY-MM-DD`` string. ``categories`` is always a list; a
-missing Yelp category value becomes an empty list. Business metadata is part
-of this boundary because trend analysis needs categories and search results
-may need stable business identity/display information.
+Every record contains the same ten keys. ``doc_id`` and ``text`` are required
+non-blank strings; unavailable optional values are represented by ``None``.
+``review_date`` is an ISO ``YYYY-MM-DD`` date. ``categories=None`` means the
+business categories are unknown, while ``categories=[]`` means they are known
+to be empty.
+
+``user_id`` and ``state`` are deliberately retained as small, useful pieces of
+redundancy: the former permits reviewer-level robustness checks and the latter
+disambiguates cities. Yelp engagement votes and mutable business snapshots are
+not part of the cross-group contract.
 """
 
 from __future__ import annotations
@@ -15,14 +21,20 @@ from collections.abc import Iterable
 from typing import Protocol, TypedDict
 
 
+PREPARED_REVIEW_SCHEMA_VERSION = "2.0"
+
+
 class PreparedReview(TypedDict):
-    review_id: str
-    business_id: str
-    business_name: str
-    categories: list[str]
-    stars: float
+    doc_id: str
     text: str
-    date: str
+    user_id: str | None
+    stars: float | None
+    review_date: str | None
+    business_id: str | None
+    business_name: str | None
+    categories: list[str] | None
+    city: str | None
+    state: str | None
 
 
 class PreparedReviewReader(Protocol):

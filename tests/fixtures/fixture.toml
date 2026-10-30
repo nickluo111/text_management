@@ -1,6 +1,0 @@
-[runtime]
-mode = "fixture"
-
-[data]
-business_path = "tests/fixtures/data/raw/yelp_academic_dataset_business.json"
-review_path = "tests/fixtures/data/raw/yelp_academic_dataset_review.json"

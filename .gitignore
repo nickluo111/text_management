@@ -24,6 +24,8 @@ artifacts/figures/*
 artifacts/tables/*
 artifacts/search_results/*
 artifacts/manifests/*
+artifacts/groupa/*
+artifacts/notebooks/*
 !artifacts/**/.gitkeep
 !artifacts/README.md
 

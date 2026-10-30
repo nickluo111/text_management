@@ -1,0 +1,18 @@
+{
+  "config": "F:\\1_graduates\\text_management\\group\\configs\\full.toml",
+  "vocabulary_path": "F:\\1_graduates\\text_management\\group\\data\\processed\\vocabulary-full.sqlite",
+  "observed_lexical_types": 685120,
+  "total_lexical_tokens": 734871222,
+  "fit_rank_min": 1,
+  "fit_rank_max": 1000,
+  "slope": -1.0411635474455752,
+  "alpha": 1.0411635474455752,
+  "K": 116130761.78813152,
+  "observed_rank_1_cf": 36808193,
+  "r_squared_log_space": 0.9927813634438776,
+  "slope_within_0.20_of_minus_one": true,
+  "tail_rank_min": 1000,
+  "tail_rank_max": 100000,
+  "tail_slope": -2.0610466044027165,
+  "method": "OLS on ln(CF) vs ln(rank); descriptive, not a power-law goodness-of-fit test"
+}

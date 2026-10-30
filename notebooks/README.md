@@ -1,16 +1,34 @@
 # Notebooks
 
-These notebooks are the presentation layer for the report. Reusable code belongs in `src/yelptext`; notebooks should call that code and add tables, figures, qualitative examples, and written interpretation.
+This directory contains only report analysis and visualization notebooks. Code
+review, interface debugging, and tokenizer audit evidence belong in source or
+Markdown documentation rather than in this directory.
+
+The notebooks use the formal reviewer/tokenizer interfaces and generated
+vocabulary rather than candidate Group A scripts.
 
 Recommended execution order:
 
-1. `00_dataset_inspection.ipynb` — bounded manual debugger for the real
-   `PreparedReviewReader` interface and its business metadata
-2. `01_zipf_heaps_tokenizer.ipynb`
-3. `02_search_engine.ipynb`
-4. `03_sentiment_and_pmi.ipynb`
-5. `04_application_demo.ipynb`
+1. `01_zipf.ipynb` — reads vocabulary CF; no review rescan
+2. `02_heaps.ipynb` — streams/tokenizes prepared reviews for growth points
+3. `03_tokenizer_comparison.ipynb` — compares the custom tokenizer with two NLTK baselines on the shared seed-42 sample
+4. `04_search_engine.ipynb`
+5. `05_sentiment_and_pmi.ipynb`
+6. `06_application_demo.ipynb`
 
-Use `configs/sample.toml` while developing. Generate final results with `configs/full.toml` and the CLI, then load the resulting artifacts into the notebooks. Do not load the full review file into a pandas dataframe.
+When opened directly, the analysis notebooks locate the repository root
+automatically and default to `configs/full.toml`. Use `configs/sample.toml`
+while developing by executing through the CLI with an explicit config; the CLI
+selection overrides the notebook default:
+
+```powershell
+yelptext analyze zipf --config configs/full.toml
+yelptext analyze heaps --config configs/sample.toml
+yelptext analyze heaps --config configs/full.toml
+```
+
+Executed notebooks are written under `artifacts/notebooks/`; figures and tables
+go under `artifacts/groupa/`. Heaps streams reviews and must not load the full
+review file into a pandas dataframe.
 
 Before submission, restart each notebook, run it in order where practical, and clear any very large outputs.

@@ -1,0 +1,4 @@
+tokenizer,reviews,repeats,median_seconds,median_reviews_per_second
+NLTK Whitespace,500,5,0.014936099993065,33475.9408568606
+NLTK WordPunct,500,5,0.017904499982250854,27925.940433726806
+Custom Yelp,500,5,0.08895750000374392,5620.6615516281

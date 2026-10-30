@@ -1,0 +1,68 @@
+{
+  "config": "F:\\1_graduates\\text_management\\group\\configs\\full.toml",
+  "sample_path": "F:\\1_graduates\\text_management\\group\\data\\processed\\reviews-sample.jsonl",
+  "sample_size": 50000,
+  "seed": 42,
+  "normalization": "RegexTokenizer.normalize applied to every method",
+  "retention": "all tokens; no stopword, stemming, lemmatization, or punctuation filter",
+  "python": "3.12.4",
+  "nltk": "3.8.1",
+  "results": [
+    {
+      "tokenizer": "NLTK Whitespace",
+      "reviews": 50000,
+      "tokens": 5230295,
+      "vocabulary": 147557,
+      "hapax_types": 87109,
+      "hapax_share": 0.5903413596101845,
+      "tokens_per_review": 104.6059,
+      "processing_seconds": 2.244826700014528,
+      "reviews_per_second_including_counting": 22273.434292133294
+    },
+    {
+      "tokenizer": "NLTK WordPunct",
+      "reviews": 50000,
+      "tokens": 6115281,
+      "vocabulary": 53840,
+      "hapax_types": 22219,
+      "hapax_share": 0.41268573551263,
+      "tokens_per_review": 122.30562,
+      "processing_seconds": 2.4471431999991182,
+      "reviews_per_second_including_counting": 20431.987797043515
+    },
+    {
+      "tokenizer": "Custom Yelp",
+      "reviews": 50000,
+      "tokens": 5323427,
+      "vocabulary": 56043,
+      "hapax_types": 23641,
+      "hapax_share": 0.4218368038827329,
+      "tokens_per_review": 106.46854,
+      "processing_seconds": 9.6649608000007,
+      "reviews_per_second_including_counting": 5173.326724718468
+    }
+  ],
+  "benchmark": [
+    {
+      "tokenizer": "NLTK Whitespace",
+      "reviews": 500,
+      "repeats": 5,
+      "median_seconds": 0.014936099993065,
+      "median_reviews_per_second": 33475.9408568606
+    },
+    {
+      "tokenizer": "NLTK WordPunct",
+      "reviews": 500,
+      "repeats": 5,
+      "median_seconds": 0.017904499982250854,
+      "median_reviews_per_second": 27925.940433726806
+    },
+    {
+      "tokenizer": "Custom Yelp",
+      "reviews": 500,
+      "repeats": 5,
+      "median_seconds": 0.08895750000374392,
+      "median_reviews_per_second": 5620.6615516281
+    }
+  ]
+}
