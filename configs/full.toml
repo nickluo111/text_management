@@ -16,7 +16,7 @@ lowercase = true
 preserve_contractions = true
 preserve_emojis = true
 split_hyphenated_words = true
-vocabulary_path = "data/processed/vocabulary-analysis_full.sqlite" #11.1 change
+vocabulary_path = "data/processed/vocabulary-full.sqlite"
 
 [index]
 output_dir = "artifacts/indexes/full"
@@ -28,14 +28,8 @@ top_k = 10
 k1 = 1.5
 b = 0.75
 
-[analysis.heaps] # 11. 1 change
+[analysis.heaps]
 sample_fractions = [0.10, 0.30, 0.50, 1.00]
-seed = 2026
-keep_random_order = false
-enhanced_output_dir = "artifacts/corpus_enhanced/analysis_full/heaps"
-
-[analysis.zipf] # 11.1 change
-enhanced_output_dir = "artifacts/corpus_enhanced/analysis_full/zipf"
 
 [trends]
 sector_a = "Italian Restaurants"
