@@ -1,12 +1,12 @@
 {
-  "config": "F:\\1_graduates\\text_management\\group\\configs\\full.toml",
-  "sample_path": "F:\\1_graduates\\text_management\\group\\data\\processed\\reviews-sample.jsonl",
+  "config": "/Users/adriannama/Desktop/group/text_management-main/configs/analysis_full.toml",
+  "sample_path": "/Users/adriannama/Desktop/group/text_management-main/data/processed/reviews-sample.jsonl",
   "sample_size": 50000,
   "seed": 42,
   "normalization": "RegexTokenizer.normalize applied to every method",
   "retention": "all tokens; no stopword, stemming, lemmatization, or punctuation filter",
-  "python": "3.12.4",
-  "nltk": "3.8.1",
+  "python": "3.11.1",
+  "nltk": "3.10.4",
   "results": [
     {
       "tokenizer": "NLTK Whitespace",
@@ -16,19 +16,19 @@
       "hapax_types": 87109,
       "hapax_share": 0.5903413596101845,
       "tokens_per_review": 104.6059,
-      "processing_seconds": 2.244826700014528,
-      "reviews_per_second_including_counting": 22273.434292133294
+      "processing_seconds": 2.663151041837409,
+      "reviews_per_second_including_counting": 18774.751868937594
     },
     {
       "tokenizer": "NLTK WordPunct",
       "reviews": 50000,
       "tokens": 6115281,
-      "vocabulary": 53840,
-      "hapax_types": 22219,
-      "hapax_share": 0.41268573551263,
+      "vocabulary": 53838,
+      "hapax_types": 22218,
+      "hapax_share": 0.41268249192020506,
       "tokens_per_review": 122.30562,
-      "processing_seconds": 2.4471431999991182,
-      "reviews_per_second_including_counting": 20431.987797043515
+      "processing_seconds": 3.2361943749710917,
+      "reviews_per_second_including_counting": 15450.246248093994
     },
     {
       "tokenizer": "Custom Yelp",
@@ -38,8 +38,8 @@
       "hapax_types": 23641,
       "hapax_share": 0.4218368038827329,
       "tokens_per_review": 106.46854,
-      "processing_seconds": 9.6649608000007,
-      "reviews_per_second_including_counting": 5173.326724718468
+      "processing_seconds": 5.236093624960631,
+      "reviews_per_second_including_counting": 9549.103507555394
     }
   ],
   "benchmark": [
@@ -47,22 +47,22 @@
       "tokenizer": "NLTK Whitespace",
       "reviews": 500,
       "repeats": 5,
-      "median_seconds": 0.014936099993065,
-      "median_reviews_per_second": 33475.9408568606
+      "median_seconds": 0.02305700001306832,
+      "median_reviews_per_second": 21685.38837301507
     },
     {
       "tokenizer": "NLTK WordPunct",
       "reviews": 500,
       "repeats": 5,
-      "median_seconds": 0.017904499982250854,
-      "median_reviews_per_second": 27925.940433726806
+      "median_seconds": 0.02836908306926489,
+      "median_reviews_per_second": 17624.820611199128
     },
     {
       "tokenizer": "Custom Yelp",
       "reviews": 500,
       "repeats": 5,
-      "median_seconds": 0.08895750000374392,
-      "median_reviews_per_second": 5620.6615516281
+      "median_seconds": 0.04818754200823605,
+      "median_reviews_per_second": 10376.125844197277
     }
   ]
 }
