@@ -1,16 +1,143 @@
 {
-  "config": "F:\\1_graduates\\text_management\\group\\configs\\full.toml",
-  "prepared_path": "F:\\1_graduates\\text_management\\group\\data\\processed\\reviews-full.jsonl",
+  "status": "COMPLETED",
   "reviews": 6990280,
-  "k": 6.672142863624548,
-  "beta": 0.564860859211713,
-  "r_squared_log_space": 0.9997582927381885,
-  "k_in_reference_range_30_100": false,
-  "beta_in_reference_range_0.40_0.60": true,
-  "ordering": "prepared-file order; sample files produced by the shared sampler are in stable priority order",
+  "total_tokens": 734871222,
+  "vocabulary_size": 685120,
+  "raw_total_tokens": 745364150,
+  "empty_after_filter_reviews": 28,
+  "input_sha256": "4286db5c652fbf1d102da97cb9a6b1d1c09de866e4432971ab5e160ad63a1c0f",
+  "tokenizer": {
+    "fingerprint": "regex-tokenizer|{\"config\":{\"lowercase\":true,\"normalize_apostrophes\":true,\"normalize_unicode\":true,\"normalize_width_punctuation\":true},\"version\":\"2.0.0\"}",
+    "source_sha256": "7a24b36a925b6a275988dd2821bda0676fd774c96def752c86e0282d430ebf4c"
+  },
+  "seed": 2026,
+  "ordering": "BLAKE2b-128 keyed by SHA256(seed), sorted by (priority, doc_id)",
+  "input": "/Users/adriannama/Desktop/group/text_management-main/data/processed/reviews-full.jsonl",
+  "vocabulary": "/Users/adriannama/Desktop/group/text_management-main/data/processed/vocabulary-analysis_full.sqlite",
+  "vocabulary_sha256": "c17d031fbdbd7ea9500203da1df52afb7499a95c46f796f6a394ee1825a6a6ee",
   "punctuation_filter": [
     "!",
-    "?",
-    "#"
+    "#",
+    "?"
+  ],
+  "stopword_removal": false,
+  "endpoint_matches_vocabulary": true,
+  "main_fit": {
+    "k": 12.72429559407451,
+    "beta": 0.53325100543771,
+    "r_squared_log_space": 0.9997569789747301,
+    "checkpoints": 4
+  },
+  "prediction": {
+    "fit_percentages": [
+      10,
+      30,
+      50
+    ],
+    "target_percent": 100,
+    "target_N": 734871222,
+    "actual_V": 685120,
+    "predicted_V": 671149.6374911105,
+    "signed_error": -13970.36250888952,
+    "absolute_percentage_error": 2.0391117627407636,
+    "model": {
+      "k": 14.684239613226138,
+      "beta": 0.5255872853659795,
+      "r_squared_log_space": 0.9998864228833249,
+      "checkpoints": 3
+    },
+    "limitation": "Nested same-corpus extrapolation given observed target N; not an independent test corpus."
+  },
+  "sensitivity": [
+    {
+      "model": "main_4",
+      "start_percent": 10,
+      "end_percent": 100,
+      "k": 12.72429559407451,
+      "beta": 0.53325100543771,
+      "r_squared_log_space": 0.9997569789747301,
+      "checkpoints": 4,
+      "delta_k_percent": 0.0,
+      "delta_beta": 0.0,
+      "reference_N": 367560903,
+      "prediction_at_reference_N": 470006.8806989338,
+      "reference_prediction_delta_percent": 0.0
+    },
+    {
+      "model": "matched_range_10",
+      "start_percent": 10,
+      "end_percent": 100,
+      "k": 12.162240252894136,
+      "beta": 0.5355130333288188,
+      "r_squared_log_space": 0.9997913542822141,
+      "checkpoints": 10,
+      "delta_k_percent": -4.417182366009431,
+      "delta_beta": 0.002262027891108853,
+      "reference_N": 367560903,
+      "prediction_at_reference_N": 469741.6385636369,
+      "reference_prediction_delta_percent": -0.05643367069486649
+    },
+    {
+      "model": "matched_range_19",
+      "start_percent": 10,
+      "end_percent": 100,
+      "k": 11.796400742104328,
+      "beta": 0.5370316876157417,
+      "r_squared_log_space": 0.9998124863623953,
+      "checkpoints": 19,
+      "delta_k_percent": -7.292308207633013,
+      "delta_beta": 0.0037806821780317357,
+      "reference_N": 367560903,
+      "prediction_at_reference_N": 469464.5158745342,
+      "reference_prediction_delta_percent": -0.11539508178965985
+    },
+    {
+      "model": "matched_range_91",
+      "start_percent": 10,
+      "end_percent": 100,
+      "k": 11.473218724432469,
+      "beta": 0.5384196570519931,
+      "r_squared_log_space": 0.999848823554621,
+      "checkpoints": 91,
+      "delta_k_percent": -9.83218961232437,
+      "delta_beta": 0.0051686516142831485,
+      "reference_N": 367560903,
+      "prediction_at_reference_N": 469274.4858414267,
+      "reference_prediction_delta_percent": -0.15582641182144696
+    },
+    {
+      "model": "full_range_100",
+      "start_percent": 1,
+      "end_percent": 100,
+      "k": 15.733747100843733,
+      "beta": 0.522442328913869,
+      "r_squared_log_space": 0.9991593234280253,
+      "checkpoints": 100,
+      "delta_k_percent": 23.651222847814644,
+      "delta_beta": -0.010808676523840988,
+      "reference_N": 367560903,
+      "prediction_at_reference_N": 469594.2361634304,
+      "reference_prediction_delta_percent": -0.08779542437544752
+    },
+    {
+      "model": "late_range_71",
+      "start_percent": 30,
+      "end_percent": 100,
+      "k": 9.639822413890856,
+      "beta": 0.5471352583185856,
+      "r_squared_log_space": 0.9999852246409386,
+      "checkpoints": 71,
+      "delta_k_percent": -24.240816769613883,
+      "delta_beta": 0.01388425288087558,
+      "reference_N": 367560903,
+      "prediction_at_reference_N": 468233.7324047168,
+      "reference_prediction_delta_percent": -0.3772600715079344
+    }
+  ],
+  "tokenization_and_checkpoint_seconds": 1021.8541745408438,
+  "limits": [
+    "One random seed; nested checkpoint errors are correlated.",
+    "OLS log-space fits are descriptive.",
+    "k depends on token units, preprocessing, and fitted interval."
   ]
 }
