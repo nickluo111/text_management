@@ -26,6 +26,7 @@ from yelptext.interface.data_corpus_analysis import (
     create_review_reader,
     create_tokenizer_pipeline,
 )
+from yelptext.interface.trend_application import scan_comparisons
 from yelptext.runtime.config import load_config
 
 
@@ -40,6 +41,11 @@ _SENTIMENT_FIELDS = [
     "neutral_share",
     "negative_share",
     "mean_stars",
+]
+
+_COMPARISON_FIELDS = [
+    "doc_id", "business_id", "business_name", "review_date", "stars",
+    "sentence_index", "pattern", "sentence",
 ]
 
 
@@ -387,6 +393,56 @@ def run_pmi(args: argparse.Namespace) -> None:
         "figure": str(figure_path),
     }
     summary_path = output_dir / f"pmi_drift_{slug}_summary.json"
+    summary_path.write_text(
+        json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
+    print(json.dumps({**result, "summary": str(summary_path)}, ensure_ascii=False, indent=2))
+
+
+def run_comparisons(args: argparse.Namespace) -> None:
+    """Detect cross-business comparison sentences in the shared review sample."""
+
+    config = load_config(args.config)
+    data = config.get("data")
+    application = config.get("application")
+    if not isinstance(data, Mapping) or not isinstance(application, Mapping):
+        raise ValueError("Configuration must define [data] and [application]")
+    settings = application.get("comparisons")
+    if not isinstance(settings, Mapping):
+        raise ValueError("Configuration must define [application.comparisons]")
+
+    sample_path = data.get("sample_path")
+    output_path = settings.get("output_dir")
+    if not isinstance(sample_path, str) or not isinstance(output_path, str):
+        raise ValueError("Comparison application requires sample_path and output_dir")
+
+    input_path = Path(args.input or sample_path)
+    output_dir = Path(args.output_dir or output_path)
+    output_dir.mkdir(parents=True, exist_ok=True)
+    table_path = output_dir / "comparison_sentences.csv"
+    tokenizer = create_tokenizer_pipeline(skip_types={"punctuation"})
+
+    with table_path.open("w", encoding="utf-8", newline="") as stream:
+        writer = csv.DictWriter(stream, fieldnames=_COMPARISON_FIELDS)
+        writer.writeheader()
+        summary = scan_comparisons(
+            create_review_reader(input_path).iter_reviews(),
+            tokenizer,
+            writer.writerow,
+            limit=args.limit,
+            progress=lambda count: print(
+                f"[comparisons] reviews_read={count:,}", file=sys.stderr, flush=True
+            ),
+        )
+
+    result = {
+        "status": "COMPLETED",
+        "input": str(input_path),
+        "review_limit": args.limit,
+        **summary,
+        "table": str(table_path),
+    }
+    summary_path = output_dir / "comparison_summary.json"
     summary_path.write_text(
         json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )

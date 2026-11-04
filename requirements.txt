@@ -21,5 +21,3 @@ tqdm==4.66.4
 jupyterlab==4.0.11
 ipykernel==6.28.0
 
-# Unit tests for tokenizer, index, TF-IDF, BM25, and PMI formulas.
-pytest==7.4.4

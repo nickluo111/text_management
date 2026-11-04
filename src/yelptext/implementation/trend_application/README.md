@@ -5,6 +5,8 @@
   intervals in bounded working memory.
 - `pmi.py` computes independent period-level directed window marginals and
   supported PMI rankings for a configured target term.
+- `comparisons.py` uses the shared tokenizer and lightweight sentence rules to
+  detect review sentences that compare the current business with alternatives.
 
-The comparison application is the remaining component and will be added here
-behind the public interface and registered CLI command.
+All three features are exposed through registered CLI commands; notebooks only
+present their generated artifacts.

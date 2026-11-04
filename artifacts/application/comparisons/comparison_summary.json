@@ -1,0 +1,19 @@
+{
+  "status": "COMPLETED",
+  "input": "data\\processed\\reviews-sample.jsonl",
+  "review_limit": null,
+  "reviews_scanned": 50000,
+  "sentences_scanned": 396907,
+  "matched_reviews": 3164,
+  "matched_sentences": 3342,
+  "patterns": {
+    "comparative_than": 405,
+    "compared_to": 136,
+    "compared_with": 3,
+    "experience_superlative": 2685,
+    "explicit_comparison": 90,
+    "prefer_over": 5,
+    "similar_to": 18
+  },
+  "table": "artifacts\\application\\comparisons\\comparison_sentences.csv"
+}

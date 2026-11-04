@@ -5,8 +5,8 @@ OVERVIEW
 --------
 This submission implements the shared data reader and tokenizer, Zipf and
 Heaps analyses, a persistent inverted index with TF-IDF cosine and BM25,
-sector sentiment trends, and PMI co-occurrence drift. The small comparison
-application is completed through the same package separately.
+sector sentiment trends, PMI co-occurrence drift, and a comparison-sentence
+application over the shared 50,000-review sample.
 
 The Yelp dataset, generated artifacts, virtual environment, caches, and
 third-party libraries are not included in the source archive.
@@ -35,14 +35,14 @@ Pinned third-party libraries and official sites:
 * regex: https://pypi.org/project/regex/
 * tqdm: https://tqdm.github.io/
 * JupyterLab: https://jupyter.org/
-* pytest: https://pytest.org/
 
 DATA
 ----
 Download the Yelp Open Dataset from https://www.yelp.com/dataset and place
 `yelp_academic_dataset_business.json` and
-`yelp_academic_dataset_review.json` under `data/raw/`. See
-`docs/DATA_ACCESS.md` and `docs/yelp-review.schema.json`.
+`yelp_academic_dataset_review.json` under `data/raw/`. Prepared records contain
+review and business identifiers, original text, date, stars, name, categories,
+city, and state.
 
 PREPARATION
 -----------
@@ -80,12 +80,15 @@ requires `Fast Food`. PMI defaults to target `service`, radius 5, annual
 periods, Top 20, minimum count 10, and relative support floor 0.001.
 Notebook 05 presents the resulting trend tables and figures.
 
-TESTS
------
-    python -m pytest -q --basetemp artifacts/pytest-tmp
+APPLICATION
+-----------
+    python -m yelptext app comparisons --config configs/sample.toml
 
-The validated integrated suite contains 118 tests covering formulas,
-persistence, failures, configuration, and CLI integration.
+The application reuses `data/processed/reviews-sample.jsonl`, splits original
+review text into sentences, and uses the shared tokenizer to detect explicit
+cross-business comparisons. It writes `comparison_sentences.csv` and
+`comparison_summary.json` under `artifacts/application/comparisons/`.
+Notebook 06 displays the pattern counts and representative sentences.
 
 DIRECTORY GUIDE
 ---------------
@@ -95,7 +98,6 @@ DIRECTORY GUIDE
 * `src/yelptext/cli/`: command registration and arguments.
 * `configs/`: full and sample configurations.
 * `notebooks/`: presentation notebooks 01--06.
-* `tests/`: unit and integration tests.
 * `scripts/`: experiment and submission helpers.
 
 CONTRIBUTIONS

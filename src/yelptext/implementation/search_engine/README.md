@@ -9,39 +9,24 @@ The default SQLite backend has completed the real 50,000-review experiment:
 index construction, persistence/reload, six queries under both rankers, and BM25
 parameter analysis are stored under `artifacts/search_engine/sample/` and
 presented by `notebooks/04_search_engine.ipynb`.
-The optional compact backend is implemented and covered by equivalence tests.
+The optional compact backend is implemented and was checked against the default
+backend during development.
 The full-corpus performance run was cancelled; there are no completed
 full-corpus build-time, query-latency, or memory measurements.
 
-## Reproduce the small-data baseline
+## Reproduce the sampled experiment
 
-Run from the repository root after installing the project's Python environment.
-The fixture pipeline uses only the standard library and needs no Yelp downloads
-or NLTK resources. Both modes execute the same real index and ranking code.
-The complete test suite also exercises the real shared tokenizer and therefore
-requires the project's NLTK dependency and `stopwords` resource. In a sandbox
-that cannot write the system temporary directory, run tests with
-`python -m pytest -q --basetemp=.pytest_cache/search-tests`.
+After preparing the shared 50,000-review sample, run the experiment driver from
+the repository root:
 
 ```powershell
-python -m pytest -q
-python -m yelptext index build --config tests/fixtures/search_engine/fixture.toml
-python -m yelptext search "apple banana" --ranker tfidf --config tests/fixtures/search_engine/fixture.toml
-python -m yelptext search "apple banana" --ranker bm25 --config tests/fixtures/search_engine/fixture.toml
-python -m yelptext search --queries tests/fixtures/search_engine/queries.toml --ranker bm25 --config tests/fixtures/search_engine/fixture.toml --output artifacts/search_results/fixture-bm25.json
+python scripts/run_search_experiment.py --config configs/sample.toml
+python -m yelptext search "good service" --ranker tfidf --config configs/sample.toml
+python -m yelptext search "good service" --ranker bm25 --config configs/sample.toml
 ```
 
-For a source checkout that has not been installed, set `$env:PYTHONPATH = "src"`
-first (POSIX: `export PYTHONPATH=src`). Fixture mode is a source-checkout
-development tool: its consumer-owned fake lives under `tests/`, not the
-installed production package. Paths in config files are relative to the current
-working directory, as with the other project commands.
-
-To exercise the real shared reader and tokenizer on exactly the same tiny corpus,
-use `tests/fixtures/search_engine/real.toml` instead. It writes a separate index
-under `artifacts/indexes/fixture-real`; it needs NLTK stopwords but no full Yelp
-data or vocabulary. These smoke queries validate calculations and integration,
-not the assignment's later relevance evaluation on real Yelp reviews.
+Paths in configuration files are relative to the current working directory, as
+with the other project commands.
 
 The default build saves `index.sqlite3` under `[index].output_dir`. It refuses to replace
 an existing index. Use `index build --output-dir <new-directory>` and the matching
@@ -128,9 +113,9 @@ Compact storage consists of `compact.sqlite3`, `lengths.npy`, `norms.npy`, and
 postings, with review metadata in SQLite and lengths/norms in NumPy arrays.
 The completed directory is published atomically. Loading validates metadata,
 array layout, and the tokenizer fingerprint. Scoring retains the formulas,
-full document normalization, OOV handling, and document-ID tie breaking below;
-tests compare both rankers with the default backend. Neither this storage
-design nor a sample trial establishes full-corpus performance.
+full document normalization, OOV handling, and document-ID tie breaking below.
+Neither this storage design nor a sample trial establishes full-corpus
+performance.
 
 ## Scoring conventions
 

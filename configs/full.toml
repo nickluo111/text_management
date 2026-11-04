@@ -80,3 +80,6 @@ min_cooccurrence = 10
 min_cooccurrence_rate = 0.001
 time_granularity = "year"
 output_dir = "artifacts/pmi"
+
+[application.comparisons]
+output_dir = "artifacts/application/comparisons"

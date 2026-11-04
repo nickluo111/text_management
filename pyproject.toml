@@ -24,16 +24,9 @@ notebook = [
     "jupyterlab==4.0.11",
     "ipykernel==6.28.0",
 ]
-dev = [
-    "pytest==7.4.4",
-]
 
 [project.scripts]
 yelptext = "yelptext.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
-
-[tool.pytest.ini_options]
-testpaths = ["tests"]
-pythonpath = ["src"]

@@ -1,4 +1,0 @@
-{"doc_id":"d1","text":"apple apple banana","user_id":"u1","stars":4.5,"review_date":"2024-01-01","business_id":"b1","business_name":"Café 苹果","categories":["Cafe"],"city":"Montréal","state":"QC"}
-{"doc_id":"d2","text":"banana carrot","user_id":null,"stars":null,"review_date":null,"business_id":null,"business_name":null,"categories":null,"city":null,"state":null}
-{"doc_id":"d3","text":"apple carrot carrot carrot","user_id":"u3","stars":3.0,"review_date":"2024-01-03","business_id":"b3","business_name":"Garden","categories":[],"city":"Toronto","state":"ON"}
-{"doc_id":"d4","text":"!!!","user_id":null,"stars":null,"review_date":null,"business_id":null,"business_name":null,"categories":null,"city":null,"state":null}

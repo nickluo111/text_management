@@ -16,6 +16,7 @@ python -m yelptext analyze tokenizers --config configs/full.toml
 python scripts/run_search_experiment.py --config configs/sample.toml
 python -m yelptext trend sentiment --config configs/full.toml
 python -m yelptext trend pmi --config configs/full.toml
+python -m yelptext app comparisons --config configs/sample.toml
 ```
 
 ## Presentation order
@@ -27,8 +28,9 @@ python -m yelptext trend pmi --config configs/full.toml
 5. `05_sentiment_and_pmi.ipynb` reads the full-data artifacts under
    `artifacts/sentiment/` and `artifacts/pmi/` and creates report-oriented
    visualizations from those aggregate tables.
-6. `06_application_demo.ipynb` remains a placeholder until the application is
-   implemented.
+6. `06_application_demo.ipynb` reads
+   `artifacts/application/comparisons/` and presents detected comparison
+   sentences from the shared sample.
 
 The first four notebooks do not build or refit their underlying analyses.
 Notebook 05 may reshape aggregate CSV tables and save presentation figures, but

@@ -24,24 +24,27 @@ if (-not $resolvedStage.StartsWith($expectedPrefix, [System.StringComparison]::O
     throw "Unexpected staging path: $resolvedStage"
 }
 
-$files = @('.python-version', 'pyproject.toml', 'requirements.txt', 'README.md', 'Readme.txt')
-$directories = @('configs', 'docs', 'notebooks', 'scripts', 'src', 'tests')
+$sourceFiles = @('.python-version', 'pyproject.toml', 'requirements.txt', 'README.md')
+$sourceDirectories = @('configs', 'notebooks', 'scripts', 'src')
 
 try {
     New-Item -ItemType Directory -Path $resolvedStage | Out-Null
-    foreach ($relative in $files) {
+    Copy-Item -LiteralPath (Join-Path $projectRoot 'Readme.txt') -Destination $resolvedStage
+    $sourceRoot = Join-Path $resolvedStage 'SourceCode'
+    New-Item -ItemType Directory -Path $sourceRoot | Out-Null
+    foreach ($relative in $sourceFiles) {
         $source = Join-Path $projectRoot $relative
         if (-not (Test-Path -LiteralPath $source -PathType Leaf)) {
             throw "Required submission file is missing: $relative"
         }
-        Copy-Item -LiteralPath $source -Destination $resolvedStage
+        Copy-Item -LiteralPath $source -Destination $sourceRoot
     }
-    foreach ($relative in $directories) {
+    foreach ($relative in $sourceDirectories) {
         $source = Join-Path $projectRoot $relative
         if (-not (Test-Path -LiteralPath $source -PathType Container)) {
             throw "Required submission directory is missing: $relative"
         }
-        Copy-Item -LiteralPath $source -Destination $resolvedStage -Recurse
+        Copy-Item -LiteralPath $source -Destination $sourceRoot -Recurse
     }
 
     Get-ChildItem -LiteralPath $resolvedStage -Recurse -Force -Directory |

@@ -1,7 +1,8 @@
 # Yelp Text Analysis
 
-AI6122 Text Data Management & Processing group project. Sections 3.1-3.3 are
-implemented; the small application in Section 3.4 is the remaining component.
+AI6122 Text Data Management & Processing group project. Dataset analysis,
+search, trend analysis, and the small comparison-sentence application are
+implemented through one package and CLI.
 
 The report workflow deliberately uses two explicit configurations:
 
@@ -31,7 +32,6 @@ Check the installation:
 ```powershell
 python --version
 python -m yelptext --help
-python -m pytest -q --basetemp artifacts/pytest-tmp
 ```
 
 On macOS/Linux, activate with `source .venv/bin/activate` and use `/` in paths.
@@ -230,5 +230,12 @@ powershell -ExecutionPolicy Bypass -File scripts/build_submission.ps1 -GroupNumb
 The whitelist-based packager excludes local Yelp data, generated artifacts,
 virtual environments, caches, and course-provided files.
 
-The `app comparisons` command remains a placeholder and is intentionally not
-included in the completed 3.1-3.3 workflow.
+The application reuses the deterministic 50,000-review sample and the shared
+tokenizer:
+
+```powershell
+python -m yelptext app comparisons --config configs/sample.toml
+```
+
+It writes detected cross-business comparison sentences and a compact summary
+under `artifacts/application/comparisons/`; Notebook 06 presents those files.

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import argparse
 
-from yelptext.cli._common import add_config_argument, use_placeholder
+from yelptext.cli._common import add_config_argument
 from yelptext.command import trend_application as trend_command_impl
 
 
@@ -59,6 +59,13 @@ def register(subparsers: argparse._SubParsersAction) -> None:
     comparisons = app_commands.add_parser(
         "comparisons", help="Detect comparison sentences in reviews"
     )
-    comparisons.add_argument("--limit", type=int, default=20)
+    comparisons.add_argument(
+        "--input", help="Prepared sample JSONL (default: [data].sample_path)"
+    )
+    comparisons.add_argument(
+        "--output-dir",
+        help="Artifact directory (default: [application.comparisons].output_dir)",
+    )
+    comparisons.add_argument("--limit", type=int, help="Maximum reviews to scan")
     add_config_argument(comparisons)
-    use_placeholder(comparisons, "app", "comparisons")
+    comparisons.set_defaults(handler=trend_command_impl.run_comparisons)
