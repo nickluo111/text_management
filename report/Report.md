@@ -14,7 +14,7 @@ This project implements an end-to-end text processing and retrieval pipeline for
 | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | LUO PEIAO | Set up the codebase structure and utils, integrated and consolidated the various modules into src, worked on sections 3.4.1, 3.4.2, and 3.5, and made optimizations to the tokenizer and index builder. |
 | MA ZIWEN  | Prepared the Yelp dataset, compared tokenizers, conducted Zipf’s and Heaps’ law analyses, and wrote the corresponding report sections. |
-|           |                                                                                                                                                                                                          |
+| ZHAO YIFAN | Mainly worked on section 3.1.1, built up the custom regex tokenizer from scratch, and generated the vocabulary files for downstream tasks. |
 |           |                                                                                                                                                                                                          |
 |           |                                                                                                                                                                                                          |
 |           |                                                                                                                                                                                                          |
