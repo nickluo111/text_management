@@ -17,7 +17,7 @@ This project implements an end-to-end text processing and retrieval pipeline for
 | ZHAO YIFAN | Mainly worked on section 3.1.1, built up the custom regex tokenizer from scratch, and generated the vocabulary files for downstream tasks. |
 | YANG WEI | Implemented persistent indexing, TF-IDF cosine and BM25 ranking, conducted query comparisons and parameter experiments, and contributed to writing the Group B report section. |
 | SUN SIJIE | Defined the search input schema and interface requirements, assisted with testing and result verification, and contributed to writing the Group B report section. |
-|           |                                                                                                                                                                                                          |
+| LIU RUI | Worked on 3.3.1 Sector Sentiment Trends 3.3.2 Term Co-occurrence Drift. |
 
 ## 1. Data and System Design
 
