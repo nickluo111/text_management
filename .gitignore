@@ -36,6 +36,7 @@ artifacts/analysis_backups/*
 artifacts/pytest-*/
 !artifacts/**/.gitkeep
 !artifacts/README.md
+!artifacts/*/*.png
 
 # Local and editor files
 .idea/
