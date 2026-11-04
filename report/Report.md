@@ -15,8 +15,8 @@ This project implements an end-to-end text processing and retrieval pipeline for
 | LUO PEIAO | Set up the codebase structure and utils, integrated and consolidated the various modules into src, worked on sections 3.4.1, 3.4.2, and 3.5, and made optimizations to the tokenizer and index builder. |
 | MA ZIWEN  | Prepared the Yelp dataset, compared tokenizers, conducted Zipf’s and Heaps’ law analyses, and wrote the corresponding report sections. |
 | ZHAO YIFAN | Mainly worked on section 3.1.1, built up the custom regex tokenizer from scratch, and generated the vocabulary files for downstream tasks. |
-|           |                                                                                                                                                                                                          |
-|           |                                                                                                                                                                                                          |
+| YANG WEI | Implemented persistent indexing, TF-IDF cosine and BM25 ranking, conducted query comparisons and parameter experiments, and contributed to writing the Group B report section. |
+| SUN SIJIE | Defined the search input schema and interface requirements, assisted with testing and result verification, and contributed to writing the Group B report section. |
 |           |                                                                                                                                                                                                          |
 
 ## 1. Data and System Design
