@@ -20,6 +20,7 @@ vocabulary_path = "data/processed/vocabulary-full.sqlite"
 
 [index]
 output_dir = "artifacts/indexes/full"
+workers = 4
 
 [search]
 top_k = 10
@@ -28,16 +29,54 @@ top_k = 10
 k1 = 1.5
 b = 0.75
 
+[analysis.search]
+expected_documents = 6990280
+queries = [
+  "good service",
+  "cheap Italian restaurant",
+  "family friendly atmosphere",
+  "slow delivery",
+  "best coffee and breakfast",
+  "not worth the price",
+]
+output_dir = "artifacts/search_engine/full"
+manifest_path = "artifacts/search_engine/full/run_manifest.json"
+repeats = 1
+
+[analysis.zipf]
+output_dir = "artifacts/zipf"
+
 [analysis.heaps]
 sample_fractions = [0.10, 0.30, 0.50, 1.00]
+seed = 2026
+output_dir = "artifacts/heaps"
+keep_random_order = false
 
-[trends]
-sector_a = "Italian Restaurants"
-sector_b = "Fast Food"
+[analysis.tokenizers]
+sample_size = 50000
+seed = 42
+benchmark_reviews = 500
+benchmark_repeats = 5
+output_dir = "artifacts/tokenizer_comparison"
+
+[trends.sentiment]
 time_granularity = "year"
+confidence_level = 0.95
+output_dir = "artifacts/sentiment"
+
+[[trends.sentiment.sectors]]
+name = "Italian Restaurants"
+categories = ["Italian", "Restaurants"]
+
+[[trends.sentiment.sectors]]
+name = "Fast Food"
+categories = ["Fast Food"]
 
 [trends.pmi]
 target_term = "service"
 window_size = 5
 top_n = 20
 min_cooccurrence = 10
+min_cooccurrence_rate = 0.001
+time_granularity = "year"
+output_dir = "artifacts/pmi"

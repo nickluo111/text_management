@@ -29,6 +29,11 @@ artifacts/notebooks/*
 artifacts/zipf/*
 artifacts/heaps/*
 artifacts/tokenizer_comparison/*
+artifacts/sentiment/*
+artifacts/pmi/*
+artifacts/search_engine/*
+artifacts/analysis_backups/*
+artifacts/pytest-*/
 !artifacts/**/.gitkeep
 !artifacts/README.md
 

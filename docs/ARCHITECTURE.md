@@ -61,7 +61,11 @@ yelptext index build --config tests/fixtures/fixture.toml
 
 The search command identifies itself to the resolver as `consumer="search_engine"`. Switching the config to `real` changes only the upstream resolution to `yelptext.interface.data_corpus_analysis`; the search algorithm and dependency calls remain unchanged.
 
-Dependencies are declared per work unit rather than per pair. In particular, trend/application has three different input paths: sentiment consumes complete prepared-review text without the shared tokenizer, PMI consumes prepared reviews plus the shared tokenizer, and the comparison application consumes original text with sentence segmentation owned inside that feature. The detailed dependency register is maintained in `docs/TEAM_WORKFLOW.md`.
+Dependencies are declared per work unit rather than per pair. In particular,
+sentiment consumes complete prepared-review text without the shared tokenizer,
+PMI consumes prepared reviews plus the shared tokenizer, and the comparison
+application consumes original text with sentence segmentation owned inside that
+feature.
 
 ## Test layout
 

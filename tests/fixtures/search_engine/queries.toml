@@ -1,0 +1,3 @@
+# Synthetic queries exercise algebra and edges, not real retrieval quality.
+queries = ["apple banana", "carrot", "apple apple", "unknown", "!!!"]
+

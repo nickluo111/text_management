@@ -1,1 +1,0 @@
-"""Report-ready visualization helpers."""

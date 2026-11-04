@@ -95,7 +95,7 @@ Neither resource is downloaded by library imports.
 
 ## Audit and comparison
 
-The completed review evidence is recorded in `docs/TOKENIZER_AUDIT.md`. Audit
-notebooks were removed so that `notebooks/` remains dedicated to report
-visualization. The old Group A candidate scripts were removed after promotion;
-production consumers use the formal interface and CLI instead.
+The reproducible comparison is exposed by `python -m yelptext analyze tokenizers`
+and presented by `notebooks/03_tokenizer_comparison.ipynb`. Historical audit
+notebooks and candidate implementations are intentionally absent from the
+submission; production consumers use the formal interface and CLI.

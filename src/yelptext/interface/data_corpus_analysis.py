@@ -16,6 +16,15 @@ from yelptext.implementation.data_corpus_analysis.reviewer import (
 from yelptext.implementation.data_corpus_analysis.sampling import (
     sample_reviews as _sample_reviews,
 )
+from yelptext.implementation.data_corpus_analysis.zipf import (
+    analyze_zipf as _analyze_zipf,
+)
+from yelptext.implementation.data_corpus_analysis.heaps import (
+    analyze_heaps as _analyze_heaps,
+)
+from yelptext.implementation.data_corpus_analysis.tokenizer_comparison import (
+    compare_tokenizers as _compare_tokenizers,
+)
 from yelptext.implementation.data_corpus_analysis.tokenizer import (
     POS_TAGS,
     RegexTokenizer,
@@ -125,13 +134,75 @@ def build_vocabulary(
     )
 
 
+def analyze_zipf(
+    vocabulary_path: str | Path,
+    output_dir: str | Path,
+    *,
+    backup_root: str | Path | None = None,
+) -> dict[str, Any]:
+    """Analyze rank-frequency behavior from the persisted full vocabulary."""
+    return _analyze_zipf(
+        vocabulary_path,
+        create_tokenizer(),
+        output_dir,
+        backup_root=backup_root,
+    )
+
+
+def analyze_heaps(
+    prepared_path: str | Path,
+    vocabulary_path: str | Path,
+    output_dir: str | Path,
+    *,
+    seed: int = 2026,
+    keep_random_order: bool = False,
+    backup_root: str | Path | None = None,
+) -> dict[str, Any]:
+    """Fit and validate Heaps' Law under deterministic randomized order."""
+    return _analyze_heaps(
+        prepared_path,
+        vocabulary_path,
+        create_review_reader(prepared_path),
+        create_tokenizer(),
+        output_dir,
+        seed=seed,
+        keep_random_order=keep_random_order,
+        backup_root=backup_root,
+    )
+
+
+def compare_tokenizers(
+    sample_path: str | Path,
+    output_dir: str | Path,
+    *,
+    expected_reviews: int = 50_000,
+    seed: int = 42,
+    benchmark_reviews: int = 500,
+    benchmark_repeats: int = 5,
+) -> dict[str, Any]:
+    """Compare the shared tokenizer with controlled NLTK baselines."""
+    return _compare_tokenizers(
+        create_review_reader(sample_path),
+        create_tokenizer(),
+        sample_path,
+        output_dir,
+        expected_reviews=expected_reviews,
+        seed=seed,
+        benchmark_reviews=benchmark_reviews,
+        benchmark_repeats=benchmark_repeats,
+    )
+
+
 __all__ = [
     "AnalyzedToken",
     "Tokenizer",
     "TokenizerPipeline",
     "YelpDataError",
     "available_token_types",
+    "analyze_heaps",
+    "analyze_zipf",
     "build_vocabulary",
+    "compare_tokenizers",
     "create_review_reader",
     "create_tokenizer",
     "create_tokenizer_pipeline",

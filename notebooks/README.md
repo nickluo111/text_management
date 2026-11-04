@@ -1,37 +1,39 @@
 # Notebooks
 
-This directory contains only report analysis and visualization notebooks. Code
-review, interface debugging, and tokenizer audit evidence belong in source or
-Markdown documentation rather than in this directory.
+Notebooks are the presentation layer for report artifacts. Core sampling,
+tokenization, fitting, indexing, ranking, sentiment scoring, and PMI counting
+run in registered commands or the search experiment driver.
 
-The notebooks use the formal reviewer/tokenizer interfaces and generated
-vocabulary rather than candidate Group A scripts.
+## Generate artifacts first
 
-Recommended execution order:
-
-1. `01_zipf.ipynb` — reads vocabulary CF; no review rescan
-2. `02_heaps.ipynb` — streams/tokenizes prepared reviews for growth points
-3. `03_tokenizer_comparison.ipynb` — compares the custom tokenizer with two NLTK baselines on the shared seed-42 sample
-4. `04_search_engine.ipynb`
-5. `05_sentiment_and_pmi.ipynb`
-6. `06_application_demo.ipynb`
-
-When opened directly, the analysis notebooks locate the repository root
-automatically and default to `configs/full.toml`. Use `configs/sample.toml`
-while developing by executing through the CLI with an explicit config; the CLI
-selection overrides the notebook default:
+Sections 3.1 and 3.3 use the full prepared corpus; search uses the retained
+50,000-review sample:
 
 ```powershell
-yelptext analyze zipf --config configs/full.toml
-yelptext analyze heaps --config configs/sample.toml
-yelptext analyze heaps --config configs/full.toml
-yelptext analyze tokenizers --config configs/full.toml
+python -m yelptext analyze zipf --config configs/full.toml
+python -m yelptext analyze heaps --config configs/full.toml
+python -m yelptext analyze tokenizers --config configs/full.toml
+python scripts/run_search_experiment.py --config configs/sample.toml
+python -m yelptext trend sentiment --config configs/full.toml
+python -m yelptext trend pmi --config configs/full.toml
 ```
 
-Executed notebooks are written under `artifacts/notebooks/`. Each experiment
-writes figures and tables directly under `artifacts/<experiment-name>/`, for
-example `artifacts/zipf/`, `artifacts/heaps/`, and
-`artifacts/tokenizer_comparison/`. Heaps streams reviews and must not load the
-full review file into a pandas dataframe.
+## Presentation order
 
-Before submission, restart each notebook, run it in order where practical, and clear any very large outputs.
+1. `01_zipf.ipynb` reads `artifacts/zipf/`.
+2. `02_heaps.ipynb` reads `artifacts/heaps/`.
+3. `03_tokenizer_comparison.ipynb` reads `artifacts/tokenizer_comparison/`.
+4. `04_search_engine.ipynb` reads `artifacts/search_engine/sample/`.
+5. `05_sentiment_and_pmi.ipynb` reads the full-data artifacts under
+   `artifacts/sentiment/` and `artifacts/pmi/` and creates report-oriented
+   visualizations from those aggregate tables.
+6. `06_application_demo.ipynb` remains a placeholder until the application is
+   implemented.
+
+The first four notebooks do not build or refit their underlying analyses.
+Notebook 05 may reshape aggregate CSV tables and save presentation figures, but
+does not rescan reviews, rerun VADER, or recompute PMI events.
+
+The source notebooks intentionally keep outputs small or empty. Before final
+submission, open them after artifacts have been generated and verify that all
+tables and figures render legibly.

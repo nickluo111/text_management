@@ -6,7 +6,6 @@ import argparse
 from collections.abc import Sequence
 
 from yelptext.cli import data_corpus_analysis, search_engine, trend_application
-from yelptext.cli._common import add_config_argument, use_placeholder
 
 
 COMMAND_MODULES = (data_corpus_analysis, search_engine, trend_application)
@@ -21,9 +20,6 @@ def build_parser() -> argparse.ArgumentParser:
     for command_module in COMMAND_MODULES:
         command_module.register(commands)
 
-    run_all = commands.add_parser("run-all", help="Reproduce all report artifacts")
-    add_config_argument(run_all)
-    use_placeholder(run_all, "run-all")
     return parser
 
 

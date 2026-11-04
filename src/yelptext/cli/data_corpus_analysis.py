@@ -7,10 +7,12 @@ from pathlib import Path
 
 from yelptext.cli._common import add_config_argument
 from yelptext.command.data_corpus_analysis import (
-    run_analysis_notebook,
+    run_heaps_analysis,
     run_build_vocabulary,
     run_prepare,
     run_sample,
+    run_tokenizer_comparison,
+    run_zipf_analysis,
 )
 
 
@@ -66,19 +68,25 @@ def register(subparsers: argparse._SubParsersAction) -> None:
         "analyze", help="Run corpus-analysis experiments"
     )
     analyses = analyze.add_subparsers(dest="analysis", required=True)
-    for name, help_text in (
-        ("zipf", "Execute the Zipf analysis notebook"),
-        ("heaps", "Execute the Heaps analysis notebook"),
-        ("tokenizers", "Compare custom and baseline tokenizers"),
-    ):
-        child = analyses.add_parser(name, help=help_text)
-        add_config_argument(child)
-        child.add_argument(
-            "--output-dir",
-            default="artifacts/notebooks",
-            help="Directory for the executed notebook",
-        )
-        child.set_defaults(
-            handler=run_analysis_notebook,
-            command_path=["analyze", name],
-        )
+
+    zipf = analyses.add_parser("zipf", help="Generate Zipf analysis artifacts")
+    add_config_argument(zipf)
+    zipf.add_argument("--output-dir", type=Path, help="Override [analysis.zipf].output_dir")
+    zipf.set_defaults(handler=run_zipf_analysis, command_path=["analyze", "zipf"])
+
+    heaps = analyses.add_parser("heaps", help="Generate randomized-order Heaps artifacts")
+    add_config_argument(heaps)
+    heaps.add_argument("--output-dir", type=Path, help="Override [analysis.heaps].output_dir")
+    heaps.add_argument("--seed", type=int, help="Override [analysis.heaps].seed")
+    heaps.add_argument("--keep-random-order", action="store_true")
+    heaps.set_defaults(handler=run_heaps_analysis, command_path=["analyze", "heaps"])
+
+    tokenizers = analyses.add_parser("tokenizers", help="Compare custom and baseline tokenizers")
+    add_config_argument(tokenizers)
+    tokenizers.add_argument(
+        "--output-dir", type=Path, help="Override [analysis.tokenizers].output_dir"
+    )
+    tokenizers.set_defaults(
+        handler=run_tokenizer_comparison,
+        command_path=["analyze", "tokenizers"],
+    )

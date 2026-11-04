@@ -1,18 +1,97 @@
 {
-  "config": "F:\\1_graduates\\text_management\\group\\configs\\full.toml",
-  "vocabulary_path": "F:\\1_graduates\\text_management\\group\\data\\processed\\vocabulary-full.sqlite",
-  "observed_lexical_types": 685120,
-  "total_lexical_tokens": 734871222,
-  "fit_rank_min": 1,
-  "fit_rank_max": 1000,
-  "slope": -1.0411635474455752,
-  "alpha": 1.0411635474455752,
-  "K": 116130761.78813152,
-  "observed_rank_1_cf": 36808193,
-  "r_squared_log_space": 0.9927813634438776,
-  "slope_within_0.20_of_minus_one": true,
-  "tail_rank_min": 1000,
-  "tail_rank_max": 100000,
-  "tail_slope": -2.0610466044027165,
-  "method": "OLS on ln(CF) vs ln(rank); descriptive, not a power-law goodness-of-fit test"
+  "status": "COMPLETED",
+  "observed_types": 685120,
+  "total_tokens": 734871222,
+  "hapax_types": 365917,
+  "punctuation_filter": [
+    "!",
+    "?",
+    "#"
+  ],
+  "vocabulary_sha256": "b0ee954632b91bff70258137fad2c6fd33365710a183cf01cca304d834578284",
+  "vocabulary_metadata": {
+    "status": "COMPLETED",
+    "schema_version": "1.0",
+    "document_count": 6990280,
+    "total_tokens": 745364150,
+    "vocabulary_size_including_unk": 685124,
+    "min_cf": 1,
+    "min_df": 1,
+    "skip_types": [],
+    "pos_tagging_enabled": false,
+    "unk_statistics_semantics": "reserved runtime OOV only; rare terms are not aggregated",
+    "elapsed_seconds": 1576.547,
+    "input_file": "data\\raw\\yelp_academic_dataset_review.json",
+    "input_nonempty_lines": 6990280,
+    "bad_lines": 0,
+    "vocabulary_id": "sqlite-vocabulary-v1.0-d6990280-n745364150-v685124",
+    "tokenizer_fingerprint": "regex-tokenizer|{\"config\":{\"lowercase\":true,\"normalize_apostrophes\":true,\"normalize_unicode\":true,\"normalize_width_punctuation\":true},\"version\":\"2.0.0\"}"
+  },
+  "tokenizer": {
+    "fingerprint": "regex-tokenizer|{\"config\":{\"lowercase\":true,\"normalize_apostrophes\":true,\"normalize_unicode\":true,\"normalize_width_punctuation\":true},\"version\":\"2.0.0\"}",
+    "source_sha256": "7a24b36a925b6a275988dd2821bda0676fd774c96def752c86e0282d430ebf4c"
+  },
+  "fits": [
+    {
+      "fit": "all_ranks",
+      "rank_min": 1,
+      "rank_max": 685120,
+      "types": 685120,
+      "slope": -1.7920667194624236,
+      "zipf_s": 1.7920667194624236,
+      "K": 14542328491.839405,
+      "r_squared_log_space": 0.9615585811004225
+    },
+    {
+      "fit": "rank_1_500",
+      "rank_min": 1,
+      "rank_max": 500,
+      "types": 500,
+      "slope": -0.9674464662646699,
+      "zipf_s": 0.9674464662646699,
+      "K": 82525635.139969,
+      "r_squared_log_space": 0.9959606528762139
+    },
+    {
+      "fit": "rank_1_1000",
+      "rank_min": 1,
+      "rank_max": 1000,
+      "types": 1000,
+      "slope": -1.0411635474455752,
+      "zipf_s": 1.0411635474455752,
+      "K": 116130761.78813152,
+      "r_squared_log_space": 0.9927813634438776
+    },
+    {
+      "fit": "rank_1_5000",
+      "rank_min": 1,
+      "rank_max": 5000,
+      "types": 5000,
+      "slope": -1.28034480862758,
+      "zipf_s": 1.28034480862758,
+      "K": 463073814.1225866,
+      "r_squared_log_space": 0.987343654057766
+    },
+    {
+      "fit": "rank_1000_100000",
+      "rank_min": 1000,
+      "rank_max": 100000,
+      "types": 99001,
+      "slope": -2.0610466044027165,
+      "zipf_s": 2.0610466044027165,
+      "K": 318630673816.7205,
+      "r_squared_log_space": 0.995677795490142
+    },
+    {
+      "fit": "frequency_at_least_5",
+      "rank_min": 1,
+      "rank_max": 173341,
+      "types": 173341,
+      "slope": -2.037601926000662,
+      "zipf_s": 2.037601926000662,
+      "K": 230962976127.83557,
+      "r_squared_log_space": 0.9910953645696683
+    }
+  ],
+  "method": "Descriptive OLS on log CF vs log rank; no formal goodness-of-fit test."
 }
